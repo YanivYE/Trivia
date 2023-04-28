@@ -15,7 +15,7 @@ int main()
 
 	try
 	{
-		std::thread t_connector(&Server::run, std::ref(myServer));
+		std::thread t_connector(&Server::run, std::ref(myServer), PORT);
 
 		t_connector.detach();
 	}

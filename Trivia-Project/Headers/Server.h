@@ -5,10 +5,10 @@
 class Server
 {
 public:
-	Server();
-	~Server();
+	Server(); // constructor for server
+	~Server(); // desturctor for server
 
-	void run(int port);
+	void run(int port); // run server
 
 private:
 	Communicator m_communicator;

@@ -12,17 +12,17 @@
 class Communicator
 {
 public:
-	Communicator();
-	~Communicator();
+	Communicator(); // contructor
+	~Communicator(); // desstructor
 
-	void startHandleRequests(int port);
-	void bindAndListen(int port);
-	void handleNewClient(SOCKET m_clientSocket);
-	void acceptClient();
+	void startHandleRequests(int port); // start handling requests to connect from client
+	void bindAndListen(int port); // bind and listen server to port
+	void handleNewClient(SOCKET m_clientSocket); // handle new client
+	void acceptClient(); // accept new client
 private:
 	SOCKET m_serverSocket;
 	std::map<SOCKET, IRequestHandler*> m_clients;
-
-	void write(const SOCKET sc, const std::string message);
-	std::string read(const SOCKET sc, const int bytesNum, const int flags);
+	
+	void write(const SOCKET sc, const std::string message); // write messages to client
+	std::string read(const SOCKET sc, const int bytesNum, const int flags); // read messages from client
 };

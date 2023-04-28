@@ -3,6 +3,7 @@
 #include <WinSock2.h>
 #include <iostream>
 #include <map>
+#include <string>
 #include <exception>
 #include <thread>
 #include "LoginRequestHandler.h"
@@ -23,4 +24,5 @@ private:
 	std::map<SOCKET, IRequestHandler*> m_clients;
 
 	void write(const SOCKET sc, const std::string message);
+	std::string read(const SOCKET sc, const int bytesNum, const int flags);
 };

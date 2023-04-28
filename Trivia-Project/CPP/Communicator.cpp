@@ -58,6 +58,8 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 	
 	// read / write
 	write(m_clientSocket, "Hello");
+	read(m_clientSocket, 5, 0);
+
 }
 
 void Communicator::write(const SOCKET sc, const std::string message)
@@ -68,7 +70,31 @@ void Communicator::write(const SOCKET sc, const std::string message)
 	{
 		throw std::exception("Error while sending message to client");
 	}
+	std::cout << "Sent a message: " + message + "\n";
 }
+
+std::string Communicator::read(const SOCKET sc, const int bytesNum, const int flags)
+{
+	if (bytesNum == 0)
+	{
+		return "";
+	}
+
+	char* data = new char[bytesNum + 1];
+	int res = recv(sc, data, bytesNum, flags);
+	if (res == INVALID_SOCKET)
+	{
+		std::string s = "Error while recieving from socket: ";
+		s += std::to_string(sc);
+		throw std::exception(s.c_str());
+	}
+	data[bytesNum] = 0;
+	std::string received(data);
+	delete[] data;
+	std::cout << "Received a message: " + received + "\n";
+	return received;
+}
+
 
 void Communicator::acceptClient()
 {
@@ -79,6 +105,7 @@ void Communicator::acceptClient()
 	if (client_socket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__);
 
+	std::cout << "Client accepted. Server and client can speak" << std::endl;
 
 	// the function that handle the conversation with the client
 	std::thread handleThread(&Communicator::handleNewClient, this, client_socket);

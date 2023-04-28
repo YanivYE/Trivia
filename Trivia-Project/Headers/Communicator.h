@@ -3,15 +3,24 @@
 #include <WinSock2.h>
 #include <iostream>
 #include <map>
-#include "IRequestHandler.h"
+#include <exception>
+#include <thread>
+#include "LoginRequestHandler.h"
+
 
 class Communicator
 {
 public:
-	void startHandleRequests();
+	Communicator();
+	~Communicator();
+
+	void startHandleRequests(int port);
 	void bindAndListen(int port);
-	void handleNewClient(SOCKET m_serverSocket);
+	void handleNewClient(SOCKET m_clientSocket);
+	void acceptClient();
 private:
 	SOCKET m_serverSocket;
 	std::map<SOCKET, IRequestHandler*> m_clients;
+
+	void write(const SOCKET sc, const std::string message);
 };

@@ -1,7 +1,10 @@
+#pragma comment (lib, "ws2_32.lib")
+
 #include <iostream>
 #include <exception>
 #include <thread>
-#include "..\\Headers\Server.h"
+#include "../Headers/Server.h"
+#include "../Headers/WSAInitializer.h"
 #include <map>
 #include <string>
 
@@ -10,14 +13,13 @@
 
 int main()
 {
+	WSAInitializer wsaInit;
 	Server myServer;
 	std::string input;
 
 	try
 	{
-		std::thread t_connector(&Server::run, std::ref(myServer), PORT);
-
-		t_connector.detach();
+		myServer.run(PORT);
 	}
 	catch (std::exception& e)
 	{

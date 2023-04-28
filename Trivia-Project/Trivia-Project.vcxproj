@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Headers\Communicator.h" />
     <ClInclude Include="Headers\IRequestHandler.h" />
     <ClInclude Include="Headers\LoginRequestHandler.h" />
+    <ClInclude Include="Headers\Server.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CPP\Source.cpp" />
+    <ClCompile Include="Headers\Communicator.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

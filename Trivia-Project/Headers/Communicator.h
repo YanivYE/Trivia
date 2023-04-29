@@ -19,6 +19,7 @@ public:
 	void bindAndListen(int port); // bind and listen server to port
 	void handleNewClient(SOCKET m_clientSocket); // handle new client
 	void acceptClient(); // accept new client
+
 private:
 	SOCKET m_serverSocket;
 	std::map<SOCKET, IRequestHandler*> m_clients;

@@ -7,7 +7,7 @@
 #include <exception>
 #include <thread>
 #include "LoginRequestHandler.h"
-
+#include "JsonResponsePacketSerializer.h"
 
 class Communicator
 {

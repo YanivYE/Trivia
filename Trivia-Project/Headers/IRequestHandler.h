@@ -25,6 +25,8 @@ struct RequestResult
 	Buffer response;
 };
 
+enum code{Login = 1, SignUp, Error};
+
 class IRequestHandler
 {
 public:

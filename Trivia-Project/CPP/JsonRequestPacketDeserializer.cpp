@@ -2,25 +2,14 @@
 
 LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(Buffer buffer)
 {
-	RequestInfo* info = bufferToRequestInfo(buffer);
+	// TODO: by yaniv serialization deserialize buffer 
+
 	return LoginRequest();
 }
 
 SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(Buffer buffer)
 {
+	// TODO: by yaniv serialization deserialize buffer 
+
 	return SignupRequest();
-}
-
-RequestInfo* JsonRequestPacketDeserializer::bufferToRequestInfo(Buffer buffer)
-{
-	std::vector<unsigned char> msgBuffer = buffer.bytes;
-
-	std::vector<unsigned char> subBuffer(msgBuffer.begin() + MSG_OFFSET, msgBuffer.end());
-
-	RequestInfo* info = new RequestInfo;
-
-	info->requestId = buffer.bytes[CODE_INDEX];
-	info->receivalTime = time(nullptr);
-
-	info->buffer.bytes = subBuffer;
 }

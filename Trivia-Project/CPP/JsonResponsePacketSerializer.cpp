@@ -55,13 +55,11 @@ std::vector<unsigned char> JsonResponsePacketSerializer::convertJsonToBytes(json
 
 std::vector<unsigned char> JsonResponsePacketSerializer::convertMessageToBuffer(Message message)
 {
-    std::vector<unsigned char> code = convertIntToBytes(message._code);
     std::vector<unsigned char> dataLength = convertIntToBytes(message._dataLength);
     std::vector<unsigned char> data = convertJsonToBytes(message._data);
 
     std::vector<unsigned char> buffer;
-    buffer.reserve(code.size() + dataLength.size() + data.size());
-    buffer.insert(buffer.end(), code.begin(), code.end());
+    buffer.insert(buffer.end(), message._code);
     buffer.insert(buffer.end(), dataLength.begin(), dataLength.end());
     buffer.insert(buffer.end(), data.begin(), data.end());
 

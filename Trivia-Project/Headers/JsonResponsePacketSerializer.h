@@ -6,6 +6,8 @@
 #include <cstring>
 #include "..\Headers\json.hpp"
 
+#define CODE_SIZE 1
+
 using json = nlohmann::json;
 
 enum responseCode{Login = 0x01, SignUp, Error};

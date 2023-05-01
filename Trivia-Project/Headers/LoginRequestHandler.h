@@ -1,5 +1,6 @@
 #pragma once
 #include "IRequestHandler.h"
+#include <fstream>
 
 class LoginRequestHandler : public IRequestHandler
 {

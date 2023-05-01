@@ -7,6 +7,9 @@
 #include "../Headers/WSAInitializer.h"
 #include <map>
 #include <string>
+#include "../Headers/json.hpp"
+
+using json = nlohmann::json;
 
 #define PORT 8200
 #define EXIT "EXIT"

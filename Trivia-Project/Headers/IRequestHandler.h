@@ -4,6 +4,8 @@
 #include <vector>
 #include <ctime>
 
+#define MESSAGE_OFFSET 5
+
 // Forward declaration of IRequestHandler
 class IRequestHandler;
 
@@ -25,7 +27,7 @@ struct RequestResult
 	Buffer response;
 };
 
-enum code{Login = 1, SignUp, Error};
+enum code{Login = 0x01, SignUp, Error};
 
 class IRequestHandler
 {

@@ -4,7 +4,9 @@
 #include <string>
 #include <vector>
 #include "IRequestHandler.h"
+#include "json.hpp"
 
+using json = nlohmann::json;
 using std::string;
 
 struct LoginRequest
@@ -20,6 +22,13 @@ struct SignupRequest
 	string email;
 } typedef SignupRequest;
 
+struct Message
+{
+	code _code;
+	int _dataLength;
+	json _data;
+}typedef Message;
+
 struct Buffer
 {
 	std::vector<unsigned char> bytes;
@@ -34,5 +43,5 @@ public:
 	LoginRequest deserializeLoginRequest(Buffer buffer);
 	SignupRequest deserializeSignupRequest(Buffer buffer);
 private:
-	RequestInfo bufferToRequestInfo(Buffer buffer);
+	nlohmann::json convertBytesToJson(const std::vector<unsigned char>& bytes);
 };	

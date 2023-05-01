@@ -7,6 +7,18 @@ bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 
 RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 {
-	// TODO: SERIALIZE
-	return RequestResult();
+	RequestResult result = RequestResult();
+	std::vector<unsigned char> bufBytes;
+	Buffer buf = Buffer();
+
+	bufBytes.push_back(info.requestId);
+	bufBytes.push_back(info.buffer.bytes.size());
+	bufBytes.insert(bufBytes.end(), info.buffer.bytes.begin(), info.buffer.bytes.end());
+	
+	buf.bytes = bufBytes;
+
+	result.response = buf;
+	result.newHandler = nullptr;
+
+	return result;
 }

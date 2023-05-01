@@ -2,14 +2,33 @@
 
 LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(Buffer buffer)
 {
-	// TODO: by yaniv serialization deserialize buffer 
+	LoginRequest loginRequest = LoginRequest();
+	std::vector<unsigned char> bytes(buffer.bytes.begin() + MESSAGE_OFFSET, buffer.bytes.end());
 
-	return LoginRequest();
+	json data = convertBytesToJson(bytes);
+
+	loginRequest.username = data["username"];
+	loginRequest.password = data["password"];
+
+	return loginRequest;
 }
 
 SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(Buffer buffer)
 {
-	// TODO: by yaniv serialization deserialize buffer 
+	SignupRequest signUpRequest = SignupRequest();
+	std::vector<unsigned char> bytes(buffer.bytes.begin() + MESSAGE_OFFSET, buffer.bytes.end());
 
-	return SignupRequest();
+	json data = convertBytesToJson(bytes);
+
+	signUpRequest.username = data["username"];
+	signUpRequest.password = data["password"];
+	signUpRequest.email = data["email"];
+
+	return signUpRequest;
+}
+
+nlohmann::json JsonRequestPacketDeserializer::convertBytesToJson(const std::vector<unsigned char>& bytes)
+{
+    std::string json_str(bytes.begin(), bytes.end());
+    return nlohmann::json::parse(json_str);
 }

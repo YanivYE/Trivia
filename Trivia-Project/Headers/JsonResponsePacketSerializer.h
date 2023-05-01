@@ -4,10 +4,11 @@
 #include <vector>
 #include <cstdint>
 #include <cstring>
-//#include "nlohmann/json.hpp"
-//using json = nlohmann::json;
+#include "..\Headers\json.hpp"
 
-enum responseCode{Login = 1, SignUp, Error};
+using json = nlohmann::json;
+
+enum responseCode{Login = 0x01, SignUp, Error};
 
 struct Buffer
 {
@@ -16,9 +17,9 @@ struct Buffer
 
 struct Message
 {
-	int _code;
+	responseCode _code;
 	int _dataLength;
-	// json _data;
+	json _data;
 }typedef Message;
 
 struct LoginResponse
@@ -44,6 +45,6 @@ public:
 	Buffer serializeResponse(ErrorResponse response);
 private:
 	std::vector<unsigned char> convertIntToBytes(int32_t value);
-	// std::vector<unsigned char> convertJsonToBytes(json value);
+	std::vector<unsigned char> convertJsonToBytes(json value);
 	std::vector<unsigned char> convertMessageToBuffer(Message message);
 };

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -21,14 +21,20 @@
   <ItemGroup>
     <ClInclude Include="Headers\Communicator.h" />
     <ClInclude Include="Headers\IRequestHandler.h" />
+ Trivia-Project/Trivia-Project.vcxproj
     <ClInclude Include="Headers\JsonResponsePacketSerializer.h" />
+    <ClInclude Include="Headers\JsonRequestPacketDeserializer.h" />
     <ClInclude Include="Headers\LoginRequestHandler.h" />
     <ClInclude Include="Headers\Server.h" />
     <ClInclude Include="Headers\WSAInitializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPP\Communicator.cpp" />
+ Trivia-Project/Trivia-Project.vcxproj
     <ClCompile Include="CPP\JsonResponsePacketSerializer.cpp" />
+    <ClCompile Include="CPP\JsonRequestPacketDeserializer.cpp" />
+    <ClCompile Include="CPP\LoginRequestHandler.cpp" />
+ Trivia-Project/Trivia-Project.vcxproj
     <ClCompile Include="CPP\Server.cpp" />
     <ClCompile Include="CPP\Source.cpp" />
     <ClCompile Include="CPP\WSAInitializer.cpp" />

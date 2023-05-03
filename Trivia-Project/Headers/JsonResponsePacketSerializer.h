@@ -5,24 +5,18 @@
 #include <cstdint>
 #include <cstring>
 #include "..\Headers\json.hpp"
+#include "..\Headers\Structs.h"
 
 #define CODE_SIZE 1
 
 using json = nlohmann::json;
 
-enum responseCode{Login = 0x01, SignUp, Error};
-
-struct Buffer
+enum responseCode
 {
-	std::vector<unsigned char> _bytes;
-}typedef Buffer;
-
-struct Message
-{
-	responseCode _code;
-	int _dataLength;
-	json _data;
-}typedef Message;
+	loginCode = 0x01,
+	sigUpCode,
+	errorCode
+};
 
 struct LoginResponse
 {

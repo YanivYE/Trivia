@@ -79,13 +79,35 @@ void Communicator::bindAndListen(int port)
 */
 void Communicator::handleNewClient(SOCKET m_clientSocket)
 {
-	// add client to map of clients
-	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(m_clientSocket, new LoginRequestHandler()));
-	
-	// read / write hello
-	write(m_clientSocket, "Hello");
-	read(m_clientSocket, 5, 0);
+	LoginRequestHandler* loginRequestHandler = new LoginRequestHandler();
+	RequestInfo info;
+	JsonResponsePacketSerializer seralizer;
+	JsonRequestPacketDeserializer deseralizer;
+	Buffer buffer;
+	std::string loginRequest;
 
+	// add client to map of clients
+	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(m_clientSocket, loginRequestHandler));
+	
+	info.requestId = read(m_clientSocket, 1, 0)[0] - ZERO_ASCII;
+
+	if (loginRequestHandler->isRequestRelevant(info))
+	{
+		loginRequest = read(m_clientSocket, MAX_READ - 1, 0);
+		buffer._bytes = std::vector<unsigned char>(loginRequest.begin(), loginRequest.end());
+
+		LoginRequest loginRequest = deseralizer.deserializeLoginRequest(buffer);
+
+		std::cout << loginRequest.username << std::endl;
+		std::cout << loginRequest.password << std::endl;
+	}
+	else
+	{
+		ErrorResponse errorResponse;
+		errorResponse._data = "Error! Code not login request.";
+
+		seralizer.serializeResponse(errorResponse);
+	}
 }
 
 /*

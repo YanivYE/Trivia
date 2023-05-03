@@ -3,7 +3,7 @@
 LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(Buffer buffer)
 {
 	LoginRequest loginRequest = LoginRequest();
-	std::vector<unsigned char> bytes(buffer.bytes.begin() + MESSAGE_OFFSET, buffer.bytes.end());
+	std::vector<unsigned char> bytes(buffer._bytes.begin() + MESSAGE_OFFSET, buffer._bytes.end());
 
 	json data = convertBytesToJson(bytes);
 
@@ -16,7 +16,7 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(Buffer buffe
 SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(Buffer buffer)
 {
 	SignupRequest signUpRequest = SignupRequest();
-	std::vector<unsigned char> bytes(buffer.bytes.begin() + MESSAGE_OFFSET, buffer.bytes.end());
+	std::vector<unsigned char> bytes(buffer._bytes.begin() + MESSAGE_OFFSET, buffer._bytes.end());
 
 	json data = convertBytesToJson(bytes);
 

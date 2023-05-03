@@ -5,6 +5,7 @@
 #include <vector>
 #include "IRequestHandler.h"
 #include "json.hpp"
+#include "..\Headers\Structs.h"
 
 using json = nlohmann::json;
 using std::string;
@@ -21,18 +22,6 @@ struct SignupRequest
 	string password;
 	string email;
 } typedef SignupRequest;
-
-struct Message
-{
-	code _code;
-	int _dataLength;
-	json _data;
-}typedef Message;
-
-struct Buffer
-{
-	std::vector<unsigned char> bytes;
-} typedef Buffer;
 
 static class JsonRequestPacketDeserializer
 {

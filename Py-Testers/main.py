@@ -4,8 +4,10 @@ import struct
 
 PORT = 8200
 MESSAGE = 'Hello'
-Login = 1
-SignUp = 2
+Login = '1'
+SignUp = '2'
+
+get_bin = lambda x: format(x, 'b')
 
 
 def connect():
@@ -21,13 +23,11 @@ def connect():
 
 
 def get_message_type_code():
-    message_code = 0
     message_type = input("Choose a message type:\n1. Login\n2. SignUp\n ")
     if message_type == Login:
-        message_code = Login
+        return int(Login)
     if message_type == SignUp:
-        message_code = SignUp
-    return message_code
+        return int(SignUp)
 
 
 def get_user_details(code):
@@ -49,9 +49,13 @@ def get_user_details(code):
     return data
 
 
-def send_message(socket):
+def send_message(socket, code, size, buffer):
     # send a message to the server
-    message = MESSAGE
+    print(get_bin(code))
+    print(get_bin(int(size)))
+    print((str(to_bytes(buffer))))
+
+    message = get_bin(code) + get_bin(int(size)) + str(to_bytes(buffer))
     socket.send(message.encode())
     print("Sent message: " + message)
 
@@ -88,15 +92,11 @@ def main():
     # Serialize the JSON object to a string
     json_string = json.dumps(data)
     # Get the size of the JSON string
-    data_size = len(json_string)
+    data_size = (str(len(json_string))).zfill(5)
 
     print(code, data_size, json_string)
 
-    print(to_bytes(code))
-    print(to_bytes(data_size))
-    print(to_bytes(json_string))
-
-    send_message(socket)
+    send_message(socket, code, data_size, data)
     get_message(socket)
 
     # close the socket

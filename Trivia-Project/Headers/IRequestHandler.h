@@ -3,16 +3,12 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
+#include "..\Headers\Structs.h"
 
 #define MESSAGE_OFFSET 5
 
 // Forward declaration of IRequestHandler
 class IRequestHandler;
-
-struct Buffer
-{
-	std::vector<unsigned char> bytes;
-};
 
 struct RequestInfo
 {
@@ -26,8 +22,6 @@ struct RequestResult
 	IRequestHandler* newHandler;
 	Buffer response;
 };
-
-enum code{Login = 0x01, SignUp, Error};
 
 class IRequestHandler
 {

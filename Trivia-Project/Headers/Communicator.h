@@ -8,6 +8,10 @@
 #include <thread>
 #include "LoginRequestHandler.h"
 #include "JsonResponsePacketSerializer.h"
+#include "JsonRequestPacketDeserializer.h"
+
+#define MAX_READ 1024
+#define ZERO_ASCII '0'
 
 class Communicator
 {

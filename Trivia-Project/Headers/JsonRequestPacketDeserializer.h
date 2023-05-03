@@ -37,9 +37,6 @@ struct Buffer
 static class JsonRequestPacketDeserializer
 {
 public:
-	JsonRequestPacketDeserializer();
-	~JsonRequestPacketDeserializer();
-
 	LoginRequest deserializeLoginRequest(Buffer buffer);
 	SignupRequest deserializeSignupRequest(Buffer buffer);
 private:

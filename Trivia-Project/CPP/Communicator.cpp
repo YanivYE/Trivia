@@ -84,7 +84,7 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 	JsonResponsePacketSerializer seralizer;
 	JsonRequestPacketDeserializer deseralizer;
 	Buffer buffer;
-	std::string loginRequest;
+	std::string loginRequestSize, loginRequest;
 
 	// add client to map of clients
 	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(m_clientSocket, loginRequestHandler));
@@ -93,7 +93,11 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 
 	if (loginRequestHandler->isRequestRelevant(info))
 	{
-		loginRequest = read(m_clientSocket, MAX_READ - 1, 0);
+		loginRequestSize = read(m_clientSocket, DATA_LENGTH, 0);
+		int loginRequestSizeInt = stoi(loginRequestSize);
+
+		loginRequest = read(m_clientSocket, loginRequestSizeInt + END_OF_STRING_LEN, 0);
+
 		buffer._bytes = std::vector<unsigned char>(loginRequest.begin(), loginRequest.end());
 
 		LoginRequest loginRequest = deseralizer.deserializeLoginRequest(buffer);

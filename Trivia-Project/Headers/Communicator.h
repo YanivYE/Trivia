@@ -12,6 +12,9 @@
 
 #define MAX_READ 1024
 #define ZERO_ASCII '0'
+#define DATA_LENGTH 4
+#define END_OF_STRING_LEN 1
+#define END_OF_STRING '\0'
 
 class Communicator
 {

@@ -51,11 +51,11 @@ def get_user_details(code):
 
 def send_message(socket, code, size, buffer):
     # send a message to the server
-    print(get_bin(code))
-    print(get_bin(int(size)))
-    print((str(to_bytes(buffer))))
+    print(str(pad_binary_string(code, 1)))
+    print(str(pad_binary_string(int(size), 4)))
+    print((str(pad_binary_string(str(buffer), int(size)))))
 
-    message = get_bin(code) + get_bin(int(size)) + str(to_bytes(buffer))
+    message = str(pad_binary_string(code, 1)) + str(pad_binary_string(int(size), 4)) + str(pad_binary_string(str(buffer), int(size)))
     socket.send(message.encode())
     print("Sent message: " + message)
 
@@ -66,21 +66,43 @@ def get_message(socket):
     print("Message received: " + response)
 
 
-def to_bytes(value):
-    # Convert the value to bytes
-    if isinstance(value, bytes):
-        byte_string = value
-    elif isinstance(value, str):
-        byte_string = value.encode('utf-8')
-    else:
-        byte_string = bytes(str(value), 'utf-8')
-
-    # Create the binary representation of the value
-    binary = ''.join(format(byte, '08b') for byte in byte_string)
-
-    # Return the byte string and the binary representation
+def decimal_to_binary(decimal_num):
+    if decimal_num == 0:
+        return '0'
+    binary = ''
+    while decimal_num > 0:
+        remainder = decimal_num % 2
+        binary = str(remainder) + binary
+        decimal_num = decimal_num // 2
     return binary
 
+
+def char_to_binary(char):
+    """Convert a character from an ASCII table to binary"""
+    decimal = char
+    print(ord(char), char)
+    binary = decimal_to_binary(decimal).zfill(8)
+    return binary
+
+
+def str_to_binary_string(s):
+    """Convert a string to a binary string."""
+    binary_string = ''
+    for c in str(s):
+        binary_string += char_to_binary(c)
+    return binary_string
+
+
+def pad_binary_string(value, num_bytes):
+    binary_string = str_to_binary_string(value)
+    """Pad a binary string with leading zeros to a specified number of bytes."""
+    # Calculate the number of bits required to represent the desired number of bytes
+    num_bits = num_bytes * 8
+    # Calculate the number of zeros to pad with
+    num_zeros = num_bits - len(binary_string)
+    # Construct the padded binary string
+    padded_binary_string = '0' * num_zeros + binary_string
+    return padded_binary_string
 
 
 def main():

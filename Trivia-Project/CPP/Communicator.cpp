@@ -89,15 +89,15 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 	// add client to map of clients
 	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(m_clientSocket, loginRequestHandler));
 	
-	info.requestId = read(m_clientSocket, 1, 0)[0] - ZERO_ASCII;
+	info.requestId = binaryToDecimal(stoi(read(m_clientSocket, BYTE_BIT_LENGTH, 0)));
 
 	if (loginRequestHandler->isRequestRelevant(info))
 	{
-		loginRequestSize = read(m_clientSocket, DATA_LENGTH, 0);
-		int loginRequestSizeInt = stoi(loginRequestSize);
+		loginRequestSize = read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0);
+		int loginRequestSizeInt = binaryToDecimal(stoi(loginRequestSize));
 
-		loginRequest = read(m_clientSocket, loginRequestSizeInt + END_OF_STRING_LEN, 0);
-
+		loginRequest = read(m_clientSocket, BYTE_BIT_LENGTH * loginRequestSizeInt, 0);
+		
 		buffer._bytes = std::vector<unsigned char>(loginRequest.begin(), loginRequest.end());
 
 		LoginRequest loginRequest = deseralizer.deserializeLoginRequest(buffer);
@@ -191,4 +191,25 @@ void Communicator::acceptClient()
 	std::thread handleThread(&Communicator::handleNewClient, this, client_socket);
 
 	handleThread.detach();
+}
+
+int Communicator::binaryToDecimal(int n)
+{
+	int num = n;
+	int dec_value = 0;
+
+	// Initializing base value to 1, i.e 2^0
+	int base = 1;
+
+	int temp = num;
+	while (temp) {
+		int last_digit = temp % 10;
+		temp = temp / 10;
+
+		dec_value += last_digit * base;
+
+		base = base * 2;
+	}
+
+	return dec_value;
 }

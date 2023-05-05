@@ -5,8 +5,6 @@
 #include <ctime>
 #include "..\Headers\Structs.h"
 
-#define MESSAGE_OFFSET 5
-
 // Forward declaration of IRequestHandler
 class IRequestHandler;
 

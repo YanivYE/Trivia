@@ -11,13 +11,6 @@
 
 using json = nlohmann::json;
 
-enum responseCode
-{
-	loginCode = 0x01,
-	sigUpCode,
-	errorCode
-};
-
 struct LoginResponse
 {
 	unsigned int _status;

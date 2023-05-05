@@ -15,6 +15,7 @@
 #define DATA_LENGTH 4
 #define END_OF_STRING_LEN 1
 #define END_OF_STRING '\0'
+#define BYTE_BIT_LENGTH 8
 
 class Communicator
 {
@@ -31,6 +32,7 @@ private:
 	SOCKET m_serverSocket;
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	
+	int binaryToDecimal(int n);
 	void write(const SOCKET sc, const std::string message); // write messages to client
 	std::string read(const SOCKET sc, const int bytesNum, const int flags); // read messages from client
 };

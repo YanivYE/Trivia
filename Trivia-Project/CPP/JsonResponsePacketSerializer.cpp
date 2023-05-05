@@ -6,7 +6,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(LoginResponse response)
     Message message;
     json data;
     data["status"] = response._status;
-    message._code = loginCode;
+    message._code = Login;
     message._data = data;
     message._dataLength = data.size();
     buffer._bytes = convertMessageToBuffer(message);
@@ -19,7 +19,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(SignUpResponse response)
     Message message;
     json data;
     data["status"] = response._status;
-    message._code = sigUpCode;
+    message._code = SignUp;
     message._data = data;
     message._dataLength = data.size();
     buffer._bytes = convertMessageToBuffer(message);
@@ -32,7 +32,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(ErrorResponse response)
     Message message;
     json data;
     data["message"] = response._data;
-    message._code = errorCode;
+    message._code = Error;
     message._data = data;
     message._dataLength = data.size();
     buffer._bytes = convertMessageToBuffer(message);

@@ -6,6 +6,7 @@
 #include "IRequestHandler.h"
 #include "json.hpp"
 #include "..\Headers\Structs.h"
+#include <bitset>
 
 using json = nlohmann::json;
 using std::string;
@@ -30,4 +31,5 @@ public:
 	SignupRequest deserializeSignupRequest(Buffer buffer);
 private:
 	nlohmann::json convertBytesToJson(const std::vector<unsigned char>& bytes);
+	std::string binary_to_ascii(const std::vector<unsigned char>& bytes);
 };	

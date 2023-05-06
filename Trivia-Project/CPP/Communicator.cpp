@@ -89,12 +89,13 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 	// add client to map of clients
 	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(m_clientSocket, loginRequestHandler));
 	
-	info.requestId = binaryToDecimal(stoi(read(m_clientSocket, BYTE_BIT_LENGTH, 0)));
+	info.requestId = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH, 0)));
 
 	if (loginRequestHandler->isRequestRelevant(info))
 	{
 		loginRequestSize = read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0);
-		int loginRequestSizeInt = binaryToDecimal(stoi(loginRequestSize));
+		loginRequestSize = binaryToAsciiInt(loginRequestSize);
+		int loginRequestSizeInt = stoi(loginRequestSize);
 
 		loginRequest = read(m_clientSocket, BYTE_BIT_LENGTH * loginRequestSizeInt, 0);
 		
@@ -110,7 +111,10 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 		ErrorResponse errorResponse;
 		errorResponse._data = "Error! Code not login request.";
 
-		seralizer.serializeResponse(errorResponse);
+		Buffer buffer = seralizer.serializeResponse(errorResponse);
+		std::string bufferString(buffer._bytes.begin(), buffer._bytes.end());
+
+		send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
 	}
 }
 
@@ -193,23 +197,28 @@ void Communicator::acceptClient()
 	handleThread.detach();
 }
 
-int Communicator::binaryToDecimal(int n)
+std::string Communicator::binaryToAsciiInt(std::string binary_string)
 {
-	int num = n;
-	int dec_value = 0;
-
-	// Initializing base value to 1, i.e 2^0
-	int base = 1;
-
-	int temp = num;
-	while (temp) {
-		int last_digit = temp % 10;
-		temp = temp / 10;
-
-		dec_value += last_digit * base;
-
-		base = base * 2;
+	// Split the binary string into groups of 8 bits
+	std::vector<std::bitset<8>> bit_groups;
+	for (size_t i = 0; i < binary_string.length(); i += 8) 
+	{
+		std::string bit_group_str = binary_string.substr(i, 8);
+		std::bitset<8> bit_group(bit_group_str);
+		bit_groups.push_back(bit_group);
 	}
 
-	return dec_value;
+	// Convert each group of 8 bits to a character and concatenate them into a string
+	std::string ascii_string = "";
+	for (std::bitset<8> bit_group : bit_groups) {
+		char ascii_char = static_cast<char>(bit_group.to_ulong());
+		if(ascii_char != END_OF_STRING)
+		{ 
+			ascii_string += ascii_char;
+		}
+	}
+
+	std::cout << ascii_string << std::endl;
+
+	return ascii_string;
 }

@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <exception>
+#include <sstream>
 #include <thread>
 #include "LoginRequestHandler.h"
 #include "JsonResponsePacketSerializer.h"
@@ -32,7 +33,7 @@ private:
 	SOCKET m_serverSocket;
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	
-	int binaryToDecimal(int n);
+	std::string binaryToAsciiInt(std::string binary_string);
 	void write(const SOCKET sc, const std::string message); // write messages to client
 	std::string read(const SOCKET sc, const int bytesNum, const int flags); // read messages from client
 };

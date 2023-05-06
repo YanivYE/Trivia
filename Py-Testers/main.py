@@ -26,14 +26,17 @@ def get_message_type_code():
     message_type = input("Choose a message type:\n1. Login\n2. SignUp\n ")
     if message_type == Login:
         return int(Login)
-    if message_type == SignUp:
+    elif message_type == SignUp:
         return int(SignUp)
+    else:
+        return 0
 
 
 def get_user_details(code):
+    print(code)
     username = input("Enter a user name: ")
     password = input("Enter a password: ")
-    if code == SignUp:
+    if code == int(SignUp):
         mail = input("Enter a mail: ")
         data = {
             "username": username,
@@ -66,35 +69,22 @@ def get_message(socket):
     print("Message received: " + response)
 
 
-def decimal_to_binary(decimal_num):
-    if decimal_num == 0:
-        return '0'
-    binary = ''
-    while decimal_num > 0:
-        remainder = decimal_num % 2
-        binary = str(remainder) + binary
-        decimal_num = decimal_num // 2
-    return binary
-
-
-def char_to_binary(char):
-    """Convert a character from an ASCII table to binary"""
-    decimal = char
-    print(ord(char), char)
-    binary = decimal_to_binary(decimal).zfill(8)
-    return binary
-
-
-def str_to_binary_string(s):
-    """Convert a string to a binary string."""
-    binary_string = ''
-    for c in str(s):
-        binary_string += char_to_binary(c)
-    return binary_string
+def to_binary_string(value):
+    """Convert an integer or string to a binary string."""
+    if isinstance(value, int):
+        # Use the built-in `bin` function to convert an integer to a binary string
+        binary_string = bin(value)[2:]
+    elif isinstance(value, str):
+        # Use the built-in `ord` function to convert a character to its ASCII code
+        # Then convert the ASCII code to a binary string using the built-in `bin` function
+        binary_string = ''.join(format(ord(char), '08b') for char in value)
+    else:
+        raise TypeError('Value must be an integer or string.')
+    return binary_string.replace("00100111", "00100010")
 
 
 def pad_binary_string(value, num_bytes):
-    binary_string = str_to_binary_string(value)
+    binary_string = to_binary_string(str(value))
     """Pad a binary string with leading zeros to a specified number of bytes."""
     # Calculate the number of bits required to represent the desired number of bytes
     num_bits = num_bytes * 8

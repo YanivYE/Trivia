@@ -111,8 +111,9 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 		ErrorResponse errorResponse;
 		errorResponse._data = "Error! Code not login request.";
 
-		Buffer buffer = seralizer.serializeResponse(errorResponse);
+		buffer = seralizer.serializeResponse(errorResponse);
 		std::string bufferString(buffer._bytes.begin(), buffer._bytes.end());
+		std::cout << bufferString;
 
 		send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
 	}

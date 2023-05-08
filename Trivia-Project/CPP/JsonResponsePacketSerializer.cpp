@@ -40,9 +40,29 @@ Buffer JsonResponsePacketSerializer::serializeResponse(ErrorResponse response)
     return buffer;
 }
 
-std::string JsonResponsePacketSerializer::convertIntToBinaryString(int32_t value)
+std::string JsonResponsePacketSerializer::convertIntToBinaryString(int value) 
 {
-    return std::bitset<8>(value).to_string();
+    std::vector<int> reverse, linear;
+    std::string bits;
+
+    while (value != 0)
+    {
+        reverse.push_back(value % 10);
+        value /= 10;
+    }
+
+
+    for (int i = reverse.size() - 1; i >= 0; i--)
+    {
+        linear.push_back(reverse[i]);
+    }
+
+    for (int i = 0; i < linear.size(); i++)
+    {
+        bits += std::bitset<8>(linear[i] + '0').to_string();
+    }
+
+    return bits;
 }
 
 std::string JsonResponsePacketSerializer::convertJsonToBinaryString(json value)
@@ -53,20 +73,7 @@ std::string JsonResponsePacketSerializer::convertJsonToBinaryString(json value)
         std::string binaryChar = std::bitset<8>(static_cast<unsigned char>(c)).to_string();
         binaryString += binaryChar;
     }
-
-    return replaceQuotes(binaryString);
-}
-
-std::string JsonResponsePacketSerializer::replaceQuotes(const std::string& binaryString) {
-    std::string replacedString = binaryString;
-    size_t pos = 0;
-
-    while ((pos = replacedString.find("00100111", pos)) != std::string::npos) {
-        replacedString.replace(pos, 8, "00100010");
-        pos += 6;  // Move past the replaced substring
-    }
-
-    return replacedString;
+    return binaryString;
 }
 
 std::string JsonResponsePacketSerializer::padBinaryString(const std::string& binaryString, int numBytes) {

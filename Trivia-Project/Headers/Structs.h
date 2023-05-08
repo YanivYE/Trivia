@@ -15,7 +15,7 @@ struct Buffer
 
 struct Message
 {
-	unsigned char _code;
+	int _code;
 	int _dataLength;
 	json _data;
 }typedef Message;

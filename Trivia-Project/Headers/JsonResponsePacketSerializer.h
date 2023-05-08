@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <cstring>
 #include <bitset>
+#include <sstream>
 
 #include "..\Headers\json.hpp"
 #include "..\Headers\Structs.h"
@@ -35,9 +36,8 @@ public:
 	Buffer serializeResponse(SignUpResponse response);
 	Buffer serializeResponse(ErrorResponse response);
 private:
-	std::string convertIntToBinaryString(int32_t value);
+	std::string convertIntToBinaryString(int value);
 	std::string convertJsonToBinaryString(json value);
-	std::string replaceQuotes(const std::string& binaryString);
 	std::string padBinaryString(const std::string& value, int numBytes);
 	std::vector<unsigned char> binaryStringToBits(const std::string& binaryString);
 	std::vector<unsigned char> convertMessageToBuffer(Message message);

@@ -67,6 +67,7 @@ def get_message(socket):
     # receive the server's response
     response = socket.recv(1024).decode()
     print("Message received: " + response)
+    return response
 
 
 def to_binary_string(value):
@@ -109,7 +110,9 @@ def main():
     print(code, data_size, json_string)
 
     send_message(socket, code, data_size, data)
-    get_message(socket)
+    response = int(get_message(socket), 2)
+
+    print(response.to_bytes((response.bit_length() + 7) // 8, 'big').decode())
 
     # close the socket
     socket.close()

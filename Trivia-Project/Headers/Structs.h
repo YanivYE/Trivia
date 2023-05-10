@@ -6,7 +6,8 @@
 
 using json = nlohmann::json;
 
-enum code { Login = 1, SignUp, Error };
+enum messageCode { Login = 1, SignUp, Error };
+enum statusCode {Fail = -1, Success = 0};
 
 struct Buffer
 {

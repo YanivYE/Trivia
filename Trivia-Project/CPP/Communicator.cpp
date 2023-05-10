@@ -1,5 +1,8 @@
 #include "..\\Headers\Communicator.h"
 
+JsonResponsePacketSerializer seralizer;
+JsonRequestPacketDeserializer deseralizer;
+
 /*
 * Function is a constructor for communicator
 * Input: none
@@ -81,10 +84,8 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 {
 	LoginRequestHandler* loginRequestHandler = new LoginRequestHandler();
 	RequestInfo info;
-	JsonResponsePacketSerializer seralizer;
-	JsonRequestPacketDeserializer deseralizer;
 	Buffer buffer;
-	std::string loginRequestSize, loginRequest;
+	
 
 	// add client to map of clients
 	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(m_clientSocket, loginRequestHandler));
@@ -93,30 +94,99 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 
 	if (loginRequestHandler->isRequestRelevant(info))
 	{
-		loginRequestSize = read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0);
-		loginRequestSize = binaryToAsciiInt(loginRequestSize);
-		int loginRequestSizeInt = stoi(loginRequestSize);
-
-		loginRequest = read(m_clientSocket, BYTE_BIT_LENGTH * loginRequestSizeInt, 0);
-		
-		buffer._bytes = std::vector<unsigned char>(loginRequest.begin(), loginRequest.end());
-
-		LoginRequest loginRequest = deseralizer.deserializeLoginRequest(buffer);
-
-		std::cout << loginRequest.username << std::endl;
-		std::cout << loginRequest.password << std::endl;
+		if (info.requestId = Login)
+		{
+			handleLoginRequest(m_clientSocket);
+		}
+		else
+		{
+			handleSignUpRequest(m_clientSocket);
+		}
 	}
 	else
 	{
-		ErrorResponse errorResponse;
-		errorResponse._data = "Error! Code not login request.";
-
-		buffer = seralizer.serializeResponse(errorResponse);
-		std::string bufferString(buffer._bytes.begin(), buffer._bytes.end());
-		std::cout << bufferString;
-
-		send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
+		sendErrorResponse(m_clientSocket);
 	}
+}
+
+void Communicator::handleLoginRequest(SOCKET m_clientSocket)
+{
+	std::string request;
+	int loginRequestSize = 0;
+	Buffer buffer;
+
+	loginRequestSize = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0)));
+
+	request = read(m_clientSocket, BYTE_BIT_LENGTH * loginRequestSize, 0);
+		
+	buffer._bytes = std::vector<unsigned char>(request.begin(), request.end());
+
+	LoginRequest loginRequest = deseralizer.deserializeLoginRequest(buffer);
+
+	std::cout << loginRequest.username << std::endl;
+	std::cout << loginRequest.password << std::endl;
+
+	sendLoginResponse(m_clientSocket);
+}
+
+void Communicator::sendLoginResponse(SOCKET m_clientSocket)
+{
+	LoginResponse loginResponse;
+	loginResponse._status = Success;
+	Buffer buffer;
+
+	buffer = seralizer.serializeResponse(loginResponse);
+	std::string bufferString(buffer._bytes.begin(), buffer._bytes.end());
+	std::cout << bufferString;
+
+	send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
+}
+
+void Communicator::handleSignUpRequest(SOCKET m_clientSocket)
+{
+	std::string request;
+	int signUpRequestSize = 0;
+	Buffer buffer;
+
+	signUpRequestSize = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0)));
+
+	request = read(m_clientSocket, BYTE_BIT_LENGTH * signUpRequestSize, 0);
+		
+	buffer._bytes = std::vector<unsigned char>(request.begin(), request.end());
+
+	SignupRequest signUpRequest = deseralizer.deserializeSignupRequest(buffer);
+
+	std::cout << signUpRequest.username << std::endl;
+	std::cout << signUpRequest.password << std::endl;
+	std::cout << signUpRequest.email << std::endl;
+
+	sendSignUpResponse(m_clientSocket);
+}
+
+void Communicator::sendSignUpResponse(SOCKET m_clientSocket)
+{
+	SignUpResponse signUpResponse;
+	signUpResponse._status = Success;
+	Buffer buffer;
+
+	buffer = seralizer.serializeResponse(signUpResponse);
+	std::string bufferString(buffer._bytes.begin(), buffer._bytes.end());
+	std::cout << bufferString;
+
+	send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
+}
+
+void Communicator::sendErrorResponse(SOCKET m_clientSocket)
+{
+	Buffer buffer;
+	ErrorResponse errorResponse;
+	errorResponse._data = "Error! Code not login request.";
+
+	buffer = seralizer.serializeResponse(errorResponse);
+	std::string bufferString(buffer._bytes.begin(), buffer._bytes.end());
+	std::cout << bufferString;
+
+	send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
 }
 
 /*

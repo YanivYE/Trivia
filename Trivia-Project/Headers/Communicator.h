@@ -32,6 +32,12 @@ public:
 private:
 	SOCKET m_serverSocket;
 	std::map<SOCKET, IRequestHandler*> m_clients;
+
+	void handleLoginRequest(SOCKET m_clientSocket);
+	void sendLoginResponse(SOCKET m_clientSocket);
+	void handleSignUpRequest(SOCKET m_clientSocket);
+	void sendSignUpResponse(SOCKET m_clientSocket);
+	void sendErrorResponse(SOCKET m_clientSocket);
 	
 	std::string binaryToAsciiInt(std::string binary_string);
 	void write(const SOCKET sc, const std::string message); // write messages to client

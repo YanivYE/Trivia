@@ -54,11 +54,9 @@ def get_user_details(code):
 
 def send_message(socket, code, size, buffer):
     # send a message to the server
-    print(str(pad_binary_string(code, 1)))
-    print(str(pad_binary_string(int(size), 4)))
-    print((str(pad_binary_string(str(buffer), int(size)))))
 
-    message = str(pad_binary_string(code, 1)) + str(pad_binary_string(int(size), 4)) + str(pad_binary_string(str(buffer), int(size)))
+    message = str(pad_binary_string(code, 1)) + str(pad_binary_string(int(size), 4)) + str(
+        pad_binary_string(str(buffer), int(size)))
     socket.send(message.encode())
     print("Sent message: " + message)
 
@@ -99,20 +97,19 @@ def pad_binary_string(value, num_bytes):
 def main():
     socket = connect()
 
-    code = get_message_type_code()
-    data = get_user_details(code)
+    while True:
+        code = get_message_type_code()
+        data = get_user_details(code)
 
-    # Serialize the JSON object to a string
-    json_string = json.dumps(data)
-    # Get the size of the JSON string
-    data_size = (str(len(json_string))).zfill(5)
+        # Serialize the JSON object to a string
+        json_string = json.dumps(data)
+        # Get the size of the JSON string
+        data_size = (str(len(json_string))).zfill(5)
 
-    print(code, data_size, json_string)
+        send_message(socket, code, data_size, data)
+        response = int(get_message(socket), 2)
 
-    send_message(socket, code, data_size, data)
-    response = int(get_message(socket), 2)
-
-    print(response.to_bytes((response.bit_length() + 7) // 8, 'big').decode())
+        print(response.to_bytes((response.bit_length() + 7) // 8, 'big').decode())
 
     # close the socket
     socket.close()

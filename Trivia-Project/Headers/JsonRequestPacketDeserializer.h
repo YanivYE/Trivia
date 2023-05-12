@@ -27,9 +27,9 @@ struct SignupRequest
 static class JsonRequestPacketDeserializer
 {
 public:
-	LoginRequest deserializeLoginRequest(Buffer buffer);
-	SignupRequest deserializeSignupRequest(Buffer buffer);
+	LoginRequest deserializeLoginRequest(Buffer buffer); // deserailize login request
+	SignupRequest deserializeSignupRequest(Buffer buffer); // deserialize sign up request
 private:
-	nlohmann::json convertBytesToJson(const std::vector<unsigned char>& bytes);
-	std::string binary_to_ascii(const std::vector<unsigned char>& bytes);
+	nlohmann::json convertBytesToJson(const std::vector<unsigned char>& bytes); // convert bytes vector to json
+	std::string binaryToAscii(const std::vector<unsigned char>& bytes); // convert bytes to ascii
 };	

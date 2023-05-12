@@ -7,7 +7,7 @@
 using json = nlohmann::json;
 
 enum messageCode { Login = 1, SignUp, Error };
-enum statusCode {Fail = -1, Success = 0};
+enum statusCode {Fail = -1, Success = 1};
 
 struct Buffer
 {

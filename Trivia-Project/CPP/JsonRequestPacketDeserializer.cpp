@@ -1,9 +1,14 @@
 #include "../Headers/JsonRequestPacketDeserializer.h"
 
+/*
+* Function gets a buffer and seserializes it to a login request
+* Input: buffer - the buffer to deserialize
+* Output: a login request
+*/
 LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(Buffer buffer)
 {
 	LoginRequest loginRequest = LoginRequest();
-	std::vector<unsigned char> bytes(buffer._bytes.begin(), buffer._bytes.end());
+	std::vector<unsigned char> bytes(buffer._bytes.begin(), buffer._bytes.end()); 
 
 	json data = convertBytesToJson(bytes);
 
@@ -13,6 +18,11 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(Buffer buffe
 	return loginRequest;
 }
 
+/*
+* Function gets a buffer and seserializes it to a sign up request
+* Input: buffer - the buffer to deserialize
+* Output: a sign up request
+*/
 SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(Buffer buffer)
 {
 	SignupRequest signUpRequest = SignupRequest();
@@ -27,15 +37,25 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(Buffer buf
 	return signUpRequest;
 }
 
+/*
+* Function gets a vector of bits and converts it to json
+* Input: bytes - a vector of bits
+* Output: json object 
+*/
 nlohmann::json JsonRequestPacketDeserializer::convertBytesToJson(const std::vector<unsigned char>& bytes)
 {
-    std::string jsonString = binary_to_ascii(bytes);
+    std::string jsonString = binaryToAscii(bytes);
     json j = json::parse(jsonString);
 
     return j;
 }
 
-std::string JsonRequestPacketDeserializer::binary_to_ascii(const std::vector<unsigned char>& bytes)
+/*
+* Function gets a vector of bits and converts it to a string in ascii
+* Input: bytes - a vector of bits
+* Output: a string in ascii
+*/
+std::string JsonRequestPacketDeserializer::binaryToAscii(const std::vector<unsigned char>& bytes)
 {
     std::string binary_string(bytes.begin(), bytes.end());
 
@@ -55,6 +75,5 @@ std::string JsonRequestPacketDeserializer::binary_to_ascii(const std::vector<uns
         ascii_string += ascii_char;
     }
 
-    std::cout << ascii_string << std::endl;
     return ascii_string;
 }

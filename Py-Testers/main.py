@@ -1,6 +1,5 @@
 import socket
 import json
-import struct
 
 PORT = 8200
 MESSAGE = 'Hello'
@@ -11,6 +10,7 @@ get_bin = lambda x: format(x, 'b')
 
 
 def connect():
+    """Connect to a socket by port on localhost"""
     # create a socket object
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -23,7 +23,9 @@ def connect():
 
 
 def get_message_type_code():
+    """Get message type from user"""
     message_type = input("Choose a message type:\n1. Login\n2. SignUp\n ")
+
     if message_type == Login:
         return int(Login)
     elif message_type == SignUp:
@@ -33,15 +35,17 @@ def get_message_type_code():
 
 
 def get_user_details(code):
-    print(code)
+    """Get user details by code"""
+
     username = input("Enter a user name: ")
     password = input("Enter a password: ")
+
     if code == int(SignUp):
         mail = input("Enter a mail: ")
         data = {
             "username": username,
             "password": password,
-            "mail": mail
+            "email": mail
         }
     else:
         data = {
@@ -53,8 +57,7 @@ def get_user_details(code):
 
 
 def send_message(socket, code, size, buffer):
-    # send a message to the server
-
+    """Send message to server"""
     message = str(pad_binary_string(code, 1)) + str(pad_binary_string(int(size), 4)) + str(
         pad_binary_string(str(buffer), int(size)))
     socket.send(message.encode())
@@ -62,6 +65,7 @@ def send_message(socket, code, size, buffer):
 
 
 def get_message(socket):
+    """Get message from socket"""
     # receive the server's response
     response = socket.recv(1024).decode()
     print("Message received: " + response)
@@ -83,8 +87,8 @@ def to_binary_string(value):
 
 
 def pad_binary_string(value, num_bytes):
-    binary_string = to_binary_string(str(value))
     """Pad a binary string with leading zeros to a specified number of bytes."""
+    binary_string = to_binary_string(str(value))
     # Calculate the number of bits required to represent the desired number of bytes
     num_bits = num_bytes * 8
     # Calculate the number of zeros to pad with
@@ -95,9 +99,9 @@ def pad_binary_string(value, num_bytes):
 
 
 def main():
-    socket = connect()
-
     while True:
+        socket = connect()
+
         code = get_message_type_code()
         data = get_user_details(code)
 
@@ -111,8 +115,8 @@ def main():
 
         print(response.to_bytes((response.bit_length() + 7) // 8, 'big').decode())
 
-    # close the socket
-    socket.close()
+        # close the socket
+        socket.close()
 
 
 if __name__ == "__main__":

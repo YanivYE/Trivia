@@ -11,5 +11,5 @@ public:
 	void run(int port); // run server
 
 private:
-	Communicator m_communicator;
+	Communicator m_communicator; // communicator object
 };

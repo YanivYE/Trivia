@@ -1,5 +1,8 @@
 #include "..\\Headers\Communicator.h"
 
+JsonResponsePacketSerializer seralizer;
+JsonRequestPacketDeserializer deseralizer;
+
 /*
 * Function is a constructor for communicator
 * Input: none
@@ -79,13 +82,143 @@ void Communicator::bindAndListen(int port)
 */
 void Communicator::handleNewClient(SOCKET m_clientSocket)
 {
-	// add client to map of clients
-	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(m_clientSocket, new LoginRequestHandler()));
+	LoginRequestHandler* loginRequestHandler = new LoginRequestHandler();
+	RequestInfo info;
+	Buffer buffer;
 	
-	// read / write hello
-	write(m_clientSocket, "Hello");
-	read(m_clientSocket, 5, 0);
 
+	// add client to map of clients
+	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(m_clientSocket, loginRequestHandler));
+	
+	// get request id from user
+	info.requestId = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH, 0)));
+
+	if (loginRequestHandler->isRequestRelevant(info))
+	{
+		if (info.requestId == Login)
+		{
+			handleLoginRequest(m_clientSocket);
+		}
+		else
+		{
+			handleSignUpRequest(m_clientSocket);
+		}
+	}
+	else
+	{
+		sendErrorResponse(m_clientSocket);
+	}
+}
+
+/*
+* Function gets a client socket and handles login request
+* Input: m_clientSocket - client socket
+* Output: none
+*/
+void Communicator::handleLoginRequest(SOCKET m_clientSocket)
+{
+	std::string request;
+	int loginRequestSize = 0;
+	Buffer buffer;
+
+	// check message size
+	loginRequestSize = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0)));
+
+	// get message
+	request = read(m_clientSocket, BYTE_BIT_LENGTH * loginRequestSize, 0);
+		
+	// convert message to bits
+	buffer._bytes = std::vector<unsigned char>(request.begin(), request.end());
+
+	LoginRequest loginRequest = deseralizer.deserializeLoginRequest(buffer);
+
+	std::cout << "USERNAME: " << loginRequest.username << std::endl;
+	std::cout << "PASSWORD: " << loginRequest.password << std::endl;
+
+	sendLoginResponse(m_clientSocket);
+}
+
+/*
+* Function gets a client socket and sends login response
+* Input: m_clientSocket - client socket
+* Output: none
+*/
+void Communicator::sendLoginResponse(SOCKET m_clientSocket)
+{
+	LoginResponse loginResponse;
+	loginResponse._status = Success;
+	Buffer buffer;
+
+	buffer = seralizer.serializeResponse(loginResponse);
+	std::string bufferString(buffer._bytes.begin(), buffer._bytes.end()); // convert buffer bits to string
+
+	// send login response
+	send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
+}
+
+/*
+* Function gets a client socket and handles sign up request
+* Input: m_clientSocket - client socket
+* Output: none
+*/
+void Communicator::handleSignUpRequest(SOCKET m_clientSocket)
+{
+	std::string request;
+	int signUpRequestSize = 0;
+	Buffer buffer;
+
+	// read size of message
+	signUpRequestSize = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0)));
+	
+	// read message
+	request = read(m_clientSocket, BYTE_BIT_LENGTH * signUpRequestSize, 0);
+		
+	// convert message to bits
+	buffer._bytes = std::vector<unsigned char>(request.begin(), request.end());
+
+	SignupRequest signUpRequest = deseralizer.deserializeSignupRequest(buffer);
+
+	std::cout << "USERNAME: " << signUpRequest.username << std::endl;
+	std::cout << "PASSWORD: " << signUpRequest.password << std::endl;
+	std::cout << "EMAIL: " << signUpRequest.email << std::endl;
+
+	sendSignUpResponse(m_clientSocket);
+}
+
+/*
+* Function gets a client socket and sends sign up response
+* Input: m_clientSocket - client socket
+* Output: none
+*/
+void Communicator::sendSignUpResponse(SOCKET m_clientSocket)
+{
+	SignUpResponse signUpResponse;
+	signUpResponse._status = Success;
+	Buffer buffer;
+
+	buffer = seralizer.serializeResponse(signUpResponse);
+	std::string bufferString(buffer._bytes.begin(), buffer._bytes.end()); // converts bits vector to buffer string
+
+	// send string of bits
+	send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
+}
+
+/*
+* Function gets a client socket and sends error response
+* Input: m_clientSocket - client socket
+* Output: none
+*/
+void Communicator::sendErrorResponse(SOCKET m_clientSocket)
+{
+	Buffer buffer;
+	ErrorResponse errorResponse;
+	errorResponse._data = "ERROR";
+
+	buffer = seralizer.serializeResponse(errorResponse);
+	std::string bufferString(buffer._bytes.begin(), buffer._bytes.end()); // converts bits vector to buffer string 
+
+	// send string of bits
+	send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
 }
 
 /*
@@ -165,4 +298,30 @@ void Communicator::acceptClient()
 	std::thread handleThread(&Communicator::handleNewClient, this, client_socket);
 
 	handleThread.detach();
+}
+
+std::string Communicator::binaryToAsciiInt(std::string binary_string)
+{
+	std::vector<std::bitset<8>> bit_groups;
+	std::string ascii_string = "";
+
+	// split the binary string into groups of 8 bits
+	for (size_t i = 0; i < binary_string.length(); i += 8) 
+	{
+		std::string bit_group_str = binary_string.substr(i, 8);
+		std::bitset<8> bit_group(bit_group_str);
+		bit_groups.push_back(bit_group);
+	}
+
+	// convert each group of 8 bits to a character and concatenate them into a string
+	for (std::bitset<8> bit_group : bit_groups)
+	{
+		char ascii_char = static_cast<char>(bit_group.to_ulong());
+		if(ascii_char != END_OF_STRING)
+		{ 
+			ascii_string += ascii_char;
+		}
+	}
+
+	return ascii_string;
 }

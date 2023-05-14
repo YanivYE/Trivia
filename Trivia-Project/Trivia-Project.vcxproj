@@ -20,12 +20,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\Communicator.h" />
+    <ClInclude Include="Headers\IDataBase.h" />
     <ClInclude Include="Headers\IRequestHandler.h" />
     <ClInclude Include="Headers\json.hpp" />
     <ClInclude Include="Headers\JsonRequestPacketDeserializer.h" />
     <ClInclude Include="Headers\JsonResponsePacketSerializer.h" />
     <ClInclude Include="Headers\LoginRequestHandler.h" />
     <ClInclude Include="Headers\Server.h" />
+    <ClInclude Include="Headers\sqlite3.h" />
+    <ClInclude Include="Headers\SqliteDatabase.h" />
     <ClInclude Include="Headers\Structs.h" />
     <ClInclude Include="Headers\WSAInitializer.h" />
   </ItemGroup>
@@ -36,6 +39,8 @@
     <ClCompile Include="CPP\LoginRequestHandler.cpp" />
     <ClCompile Include="CPP\Server.cpp" />
     <ClCompile Include="CPP\Source.cpp" />
+    <ClCompile Include="CPP\sqlite3.c" />
+    <ClCompile Include="CPP\SqliteDatabase.cpp" />
     <ClCompile Include="CPP\WSAInitializer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

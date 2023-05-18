@@ -12,9 +12,9 @@ class IDataBase
 public:
 	virtual bool open() = 0;
 	virtual bool close() = 0;
-	virtual int doesUserExist(std::string name) = 0;
-	virtual int doesPasswordMatch(std::string originalPassword, std::string password) = 0;
-	virtual int addNewUser(std::string name, std::string password, std::string mail) = 0;
+	virtual int doesUserExist(std::string username) = 0;
+	virtual int doesPasswordMatch(std::string username, std::string password) = 0;
+	virtual int addNewUser(std::string username, std::string password, std::string mail) = 0;
 
 	sqlite3* db;
 };

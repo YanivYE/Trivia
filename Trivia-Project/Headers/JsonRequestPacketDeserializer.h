@@ -11,19 +11,6 @@
 using json = nlohmann::json;
 using std::string;
 
-struct LoginRequest
-{
-	string username;
-	string password;
-} typedef LoginRequest;
-
-struct SignupRequest
-{
-	string username;
-	string password;
-	string email;
-} typedef SignupRequest;
-
 static class JsonRequestPacketDeserializer
 {
 public:

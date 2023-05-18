@@ -14,21 +14,6 @@
 
 using json = nlohmann::json;
 
-struct LoginResponse
-{
-	unsigned int _status;
-}typedef LoginResponse;
-
-struct SignUpResponse
-{
-	unsigned int _status;
-}typedef SignUpResponse;
-
-struct ErrorResponse
-{
-	std::string _data;
-}typedef ErrorResponse;
-
 static class JsonResponsePacketSerializer
 {
 public:

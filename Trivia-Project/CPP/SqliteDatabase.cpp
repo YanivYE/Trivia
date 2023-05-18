@@ -1,5 +1,9 @@
 #include "../Headers/SqliteDatabase.h"
 
+SqliteDatabase::SqliteDatabase()
+{
+}
+
 bool SqliteDatabase::open()
 {
 	std::string dbFileName = DB_NAME;
@@ -32,8 +36,10 @@ void SqliteDatabase::createTable()
 
 bool SqliteDatabase::close()
 {
-    sqlite3_close(db);
+    int res = sqlite3_close(db);
     db = nullptr;
+
+	return res;
 }
 
 int userExistsCallback(void* existsPtr, int argc, char** argv, char** azColName)

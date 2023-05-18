@@ -6,6 +6,8 @@
 class SqliteDatabase : public IDataBase
 {
 public:
+	SqliteDatabase();
+
 	bool open() override;
 	bool close() override;
 	int doesUserExist(std::string username) override;

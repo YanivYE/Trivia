@@ -39,13 +39,13 @@ struct Message
 
 struct LoginRequest
 {
-	string username;
-	string password;
+	std::string username;
+	std::string password;
 } typedef LoginRequest;
 
 struct SignupRequest
 {
-	string username;
-	string password;
-	string email;
+	std::string username;
+	std::string password;
+	std::string email;
 } typedef SignupRequest;

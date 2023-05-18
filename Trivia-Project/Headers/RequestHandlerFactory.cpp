@@ -1,9 +1,9 @@
 #include "RequestHandlerFactory.h"
 
-RequestHandlerFactory::RequestHandlerFactory(LoginManager loginManager, IDataBase* database)
+RequestHandlerFactory::RequestHandlerFactory(IDataBase* database) : m_loginManager(database)
 {
-    m_loginManager = loginManager;
-    m_database = database;
+    this->m_database = database;
+    this->m_database->open();
 }
 
 LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandlers()

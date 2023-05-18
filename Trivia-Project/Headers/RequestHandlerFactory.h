@@ -5,13 +5,17 @@
 #include "IDataBase.h"
 #include "LoginManager.h"
 
+class LoginRequestHandler;
+class MenuRequestHandler;
+
 class RequestHandlerFactory
 {
 public:
-	RequestHandlerFactory(LoginManager loginManager, IDataBase* database);
+	RequestHandlerFactory(IDataBase* database);
 
 	LoginRequestHandler* createLoginRequestHandlers();
 	MenuRequestHandler* createMenuRequestHandlers();
+
 	LoginManager& getLoginManager();
 private:
 	LoginManager m_loginManager;

@@ -8,11 +8,12 @@ JsonRequestPacketDeserializer deseralizer;
 * Input: none
 * Output: none
 */
-Communicator::Communicator()
+Communicator::Communicator(RequestHandlerFactory* factory)
 {
 	// this server use TCP. that why SOCK_STREAM & IPPROTO_TCP
 	// if the server use UDP we will use: SOCK_DGRAM & IPPROTO_UDP
 	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	m_handlerFactory = factory;
 
 	if (m_serverSocket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__ " - socket");
@@ -82,7 +83,7 @@ void Communicator::bindAndListen(int port)
 */
 void Communicator::handleNewClient(SOCKET m_clientSocket)
 {
-	LoginRequestHandler* loginRequestHandler = new LoginRequestHandler();
+	LoginRequestHandler* loginRequestHandler = new LoginRequestHandler(this->m_handlerFactory);
 	RequestInfo info;
 	Buffer buffer;
 	
@@ -95,14 +96,7 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 
 	if (loginRequestHandler->isRequestRelevant(info))
 	{
-		if (info.requestId == Login)
-		{
-			handleLoginRequest(m_clientSocket);
-		}
-		else
-		{
-			handleSignUpRequest(m_clientSocket);
-		}
+		loginRequestHandler->handleRequest(info);
 	}
 	else
 	{

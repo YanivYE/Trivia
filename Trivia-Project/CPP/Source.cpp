@@ -25,6 +25,10 @@ int main()
 	{
 		std::cout << "Error occured: " << e.what() << std::endl;
 	}
+	catch (...)
+	{
+		std::cout << "Unkown error occured" << std::endl;
+	}
 
 	// get input and check if exit
 	while (std::getline(std::cin, input) && input != EXIT);

@@ -1,5 +1,9 @@
 #include "../Headers/LoginRequestHandler.h"
 
+LoginRequestHandler::LoginRequestHandler()
+{
+}
+
 /*
 * Function is a ctor for login request handler
 * Input: none
@@ -7,7 +11,7 @@
 */
 LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory* factory)
 {
-	this->m_handlerFactory = *factory;
+	this->m_handlerFactory = factory;
 }
 
 /*
@@ -63,14 +67,14 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
 	try
 	{
 		int returnCode;
-		returnCode = this->m_handlerFactory.getLoginManager().login(loginRequest.username, loginRequest.password);
+		returnCode = this->m_handlerFactory->getLoginManager().login(loginRequest.username, loginRequest.password);
 		if (returnCode == Success)
 		{
-			result.newHandler = this->m_handlerFactory.createMenuRequestHandlers();
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers();
 		}
 		else
 		{
-			result.newHandler = this->m_handlerFactory.createLoginRequestHandlers();
+			result.newHandler = this->m_handlerFactory->createLoginRequestHandlers();
 		}
 
 		LoginResponse loginResponse;
@@ -80,7 +84,7 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
 	}
 	catch (std::exception& e)
 	{
-		result.newHandler = this->m_handlerFactory.createLoginRequestHandlers();
+		result.newHandler = this->m_handlerFactory->createLoginRequestHandlers();
 
 		ErrorResponse errResponse;
 		errResponse._data = "Error! Couldn't log user to server";
@@ -113,15 +117,15 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
 	try
 	{
 		int returnCode;
-		returnCode = this->m_handlerFactory.getLoginManager().signup(signupRequest.username, signupRequest.password, signupRequest.email);
+		returnCode = this->m_handlerFactory->getLoginManager().signup(signupRequest.username, signupRequest.password, signupRequest.email);
 		
 		if (returnCode == Success)
 		{
-			result.newHandler = this->m_handlerFactory.createMenuRequestHandlers();
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers();
 		}
 		else
 		{
-			result.newHandler = this->m_handlerFactory.createLoginRequestHandlers();
+			result.newHandler = this->m_handlerFactory->createLoginRequestHandlers();
 		}
 
 		SignUpResponse signUpResponse;
@@ -130,7 +134,7 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
 	}
 	catch (std::exception& e)
 	{
-		result.newHandler = this->m_handlerFactory.createLoginRequestHandlers();
+		result.newHandler = this->m_handlerFactory->createLoginRequestHandlers();
 
 		ErrorResponse errResponse;
 		errResponse._data = "Error! Couldn't sign up user to server";

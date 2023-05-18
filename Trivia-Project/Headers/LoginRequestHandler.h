@@ -9,9 +9,12 @@
 #include <iostream>
 #include <vector>
 
+class RequestHandlerFactory;
+
 class LoginRequestHandler : public IRequestHandler
 {
 public:
+	LoginRequestHandler();
 	LoginRequestHandler(RequestHandlerFactory* factory);
 
     bool isRequestRelevant(RequestInfo info) override; // is login request 
@@ -20,5 +23,5 @@ public:
 	RequestResult login(RequestInfo info);
 	RequestResult signup(RequestInfo info);
 private:
-	RequestHandlerFactory& m_handlerFactory;
+	RequestHandlerFactory* m_handlerFactory;
 };

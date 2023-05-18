@@ -8,6 +8,7 @@ using json = nlohmann::json;
 
 enum messageCode { Login = 1, SignUp, Error };
 enum statusCode {Fail = -1, Success = 1};
+enum boolVal {False, True };
 
 struct LoginResponse
 {

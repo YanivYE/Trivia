@@ -1,17 +1,16 @@
 #pragma once
 
 #include "IDataBase.h"
-
-enum boolVal{FALSE, TRUE};
+#include "Structs.h"
 
 class SqliteDatabase : public IDataBase
 {
 public:
 	bool open() override;
 	bool close() override;
-	int doesUserExist(std::string name) override;
-	int doesPasswordMatch(std::string name, std::string password) override;
-	int addNewUser(std::string name, std::string password, std::string mail) override;
+	int doesUserExist(std::string username) override;
+	int doesPasswordMatch(std::string username, std::string password) override;
+	int addNewUser(std::string username, std::string password, std::string mail) override;
 private:
 	void createTable();
 };

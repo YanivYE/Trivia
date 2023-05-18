@@ -1,6 +1,11 @@
 #include "../Headers/LoggedUser.h"
 
+LoggedUser::LoggedUser(std::string username)
+{
+	this->m_username = username;
+}
+
 std::string LoggedUser::getUsername()
 {
-	return std::string();
+	return this->m_username;
 }

@@ -5,8 +5,9 @@
 * Input: none
 * Output: none
 */
-LoginRequestHandler::LoginRequestHandler()
+LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory* factory)
 {
+	this->m_handlerFactory = *factory;
 }
 
 /*
@@ -26,18 +27,116 @@ bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 */
 RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 {
-	RequestResult result = RequestResult();
-	std::vector<unsigned char> bufBytes;
-	Buffer buf = Buffer();
+	RequestResult requestResult;
 
-	bufBytes.push_back(info.requestId);
-	bufBytes.push_back(info.buffer._bytes.size());
-	bufBytes.insert(bufBytes.end(), info.buffer._bytes.begin(), info.buffer._bytes.end()); // add bytes from info
-	
-	buf._bytes = bufBytes;
+	if (info.requestId == Login)
+	{
+		requestResult = this->login(info);
+	}
+	else
+	{
+		requestResult = this->signup(info);
+	}
 
-	result.response = buf;
-	result.newHandler = nullptr; // handler null for now
+	return requestResult;
+}
+
+RequestResult LoginRequestHandler::login(RequestInfo info)
+{
+	LoginRequest loginRequest;
+	RequestResult result;
+	JsonRequestPacketDeserializer deserializer;
+	JsonResponsePacketSerializer serializer;
+
+	try
+	{
+		loginRequest = deserializer.deserializeLoginRequest(info.buffer);
+	}
+	catch (...)
+	{
+		ErrorResponse errResponse;
+		errResponse._data = "Error! Couldn't parse login request";
+		result.response = serializer.serializeResponse(errResponse);
+		return result;
+	}
+
+	try
+	{
+		int returnCode;
+		returnCode = this->m_handlerFactory.getLoginManager().login(loginRequest.username, loginRequest.password);
+		if (returnCode == Success)
+		{
+			result.newHandler = this->m_handlerFactory.createMenuRequestHandlers();
+		}
+		else
+		{
+			result.newHandler = this->m_handlerFactory.createLoginRequestHandlers();
+		}
+
+		LoginResponse loginResponse;
+		loginResponse._status = returnCode;
+
+		result.response = serializer.serializeResponse(loginResponse);
+	}
+	catch (std::exception& e)
+	{
+		result.newHandler = this->m_handlerFactory.createLoginRequestHandlers();
+
+		ErrorResponse errResponse;
+		errResponse._data = "Error! Couldn't log user to server";
+
+		result.response = serializer.serializeResponse(errResponse);
+	}
+
+	return result;
+}
+
+RequestResult LoginRequestHandler::signup(RequestInfo info)
+{
+	SignupRequest signupRequest;
+	RequestResult result;
+	JsonRequestPacketDeserializer deserializer;
+	JsonResponsePacketSerializer serializer;
+
+	try
+	{
+		signupRequest = deserializer.deserializeSignupRequest(info.buffer);
+	}
+	catch (...)
+	{
+		ErrorResponse errResponse;
+		errResponse._data = "Error! Couldn't parse signup request";
+		result.response = serializer.serializeResponse(errResponse);
+		return result;
+	}
+
+	try
+	{
+		int returnCode;
+		returnCode = this->m_handlerFactory.getLoginManager().signup(signupRequest.username, signupRequest.password, signupRequest.email);
+		
+		if (returnCode == Success)
+		{
+			result.newHandler = this->m_handlerFactory.createMenuRequestHandlers();
+		}
+		else
+		{
+			result.newHandler = this->m_handlerFactory.createLoginRequestHandlers();
+		}
+
+		SignUpResponse signUpResponse;
+		signUpResponse._status = returnCode;
+		result.response = serializer.serializeResponse(signUpResponse);
+	}
+	catch (std::exception& e)
+	{
+		result.newHandler = this->m_handlerFactory.createLoginRequestHandlers();
+
+		ErrorResponse errResponse;
+		errResponse._data = "Error! Couldn't sign up user to server";
+
+		result.response = serializer.serializeResponse(errResponse);
+	}
 
 	return result;
 }

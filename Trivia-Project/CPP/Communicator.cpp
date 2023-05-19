@@ -86,13 +86,26 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 	LoginRequestHandler* loginRequestHandler = new LoginRequestHandler(this->m_handlerFactory);
 	RequestInfo info;
 	Buffer buffer;
-	
+	std::string request;
+	int requestSize = 0;
+
 
 	// add client to map of clients
 	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(m_clientSocket, loginRequestHandler));
 	
 	// get request id from user
 	info.requestId = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH, 0)));
+	
+	// check message size
+	requestSize = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0)));
+
+	// get message
+	request = read(m_clientSocket, BYTE_BIT_LENGTH * requestSize, 0);
+
+	// convert message to bits
+	buffer._bytes = std::vector<unsigned char>(request.begin(), request.end());
+
+	info.buffer = buffer;
 
 	if (loginRequestHandler->isRequestRelevant(info))
 	{

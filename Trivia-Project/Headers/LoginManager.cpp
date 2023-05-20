@@ -11,17 +11,32 @@ LoginManager::LoginManager(IDataBase* database)
 
 int LoginManager::signup(std::string username, std::string password, std::string mail)
 {
-	return this->m_database->addNewUser(username, password, mail);
+	if (!isValidUsername(username))
+	{
+		return invalidUserName;
+	}
+	if (!this->m_database->doesUserExist(username))
+	{
+		return this->m_database->addNewUser(username, password, mail);
+	}
+	return userNameExist;
 }
 
 int LoginManager::login(std::string username, std::string password)
 {
+	if (!isValidUsername(username))
+	{
+		return invalidUserName;
+	}
 	if (this->m_database->doesUserExist(username) && this->m_database->doesPasswordMatch(username, password))
 	{
-		this->m_loggedUsers.push_back(LoggedUser(username));
-		return True;
+		if (!(std::find(this->m_loggedUsers.begin(), this->m_loggedUsers.end(), LoggedUser(username)) != this->m_loggedUsers.end()))
+		{
+			this->m_loggedUsers.push_back(LoggedUser(username));
+		}
+		return userAlreadyLogedIn;
 	}
-	return False;
+	return userNotExist;
 }
 
 int LoginManager::logout(std::string username)
@@ -35,4 +50,18 @@ int LoginManager::logout(std::string username)
 		}
 	}
 	return False;
+}
+
+bool isValidUsername(const std::string& username) {
+	if (username.length() < 3) {
+		return false;
+	}
+
+	for (char c : username) {
+		if (!std::isalnum(c)) {
+			return false;
+		}
+	}
+
+	return true;
 }

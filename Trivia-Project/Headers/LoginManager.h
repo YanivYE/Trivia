@@ -2,7 +2,7 @@
 
 #include "IDataBase.h"
 #include "LoggedUser.h"
-#include "Structs.h"
+#include "Utils.h"
 #include <vector>
 
 class LoginManager

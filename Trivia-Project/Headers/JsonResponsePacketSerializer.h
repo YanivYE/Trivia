@@ -8,7 +8,7 @@
 #include <sstream>
 
 #include "..\Headers\json.hpp"
-#include "..\Headers\Structs.h"
+#include "..\Headers\Utils.h"
 
 #define CODE_SIZE 1
 

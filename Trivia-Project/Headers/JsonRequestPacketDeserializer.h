@@ -5,7 +5,7 @@
 #include <vector>
 #include "IRequestHandler.h"
 #include "json.hpp"
-#include "..\Headers\Structs.h"
+#include "..\Headers\Utils.h"
 #include <bitset>
 
 using json = nlohmann::json;

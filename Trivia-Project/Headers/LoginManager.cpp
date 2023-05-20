@@ -46,19 +46,23 @@ int LoginManager::logout(std::string username)
 		if ((*user).getUsername() == username)
 		{
 			this->m_loggedUsers.erase(user);
-			return True;
+			return true;
 		}
 	}
-	return False;
+	return false;
 }
 
-bool isValidUsername(const std::string& username) {
-	if (username.length() < 3) {
+bool LoginManager::isValidUsername(const std::string& username)
+{
+	if (username.length() < 3) 
+	{
 		return false;
 	}
 
-	for (char c : username) {
-		if (!std::isalnum(c)) {
+	for (char c : username) 
+	{
+		if (!std::isalnum(c)) 
+		{
 			return false;
 		}
 	}

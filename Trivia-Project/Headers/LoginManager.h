@@ -16,6 +16,7 @@ public:
 	int logout(std::string username);
 
 private:
+	bool isValidUsername(const std::string& username);
 	IDataBase* m_database;
 	std::vector<LoggedUser> m_loggedUsers;
 };

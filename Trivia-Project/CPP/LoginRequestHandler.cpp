@@ -1,5 +1,10 @@
 #include "../Headers/LoginRequestHandler.h"
 
+/*
+* Function is an empty ctor for LoginRequestHandler
+* Input: none
+* Output: none
+*/
 LoginRequestHandler::LoginRequestHandler()
 {
 }
@@ -25,9 +30,9 @@ bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 }
 
 /*
-* Function gets a request info and checks if request is relevant
+* Function gets a request info and handles request
 * Input: info - info of request
-* Output: is request relevant
+* Output: request handle result
 */
 RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 {
@@ -45,29 +50,39 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 	return requestResult;
 }
 
+/*
+* Function gets a request info and logins 
+* Input: info - info of request
+* Output: request result of login
+*/
 RequestResult LoginRequestHandler::login(RequestInfo info)
 {
 	LoginRequest loginRequest;
 	RequestResult result;
 	JsonRequestPacketDeserializer deserializer;
 	JsonResponsePacketSerializer serializer;
+	int returnCode = 0;
 
+	// try to get login request
 	try
 	{
+		// deserialize login request
 		loginRequest = deserializer.deserializeLoginRequest(info.buffer);
 	}
 	catch (...)
 	{
 		ErrorResponse errResponse;
 		errResponse._data = "Error! Couldn't parse login request";
+
 		result.response = serializer.serializeResponse(errResponse);
 		return result;
 	}
 
 	try
 	{
-		int returnCode;
+		// try to login
 		returnCode = this->m_handlerFactory->getLoginManager().login(loginRequest.username, loginRequest.password);
+
 		if (returnCode == Success)
 		{
 			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers();
@@ -100,13 +115,20 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
 	return result;
 }
 
+/*
+* Function gets a request info and sign ups
+* Input: info - info of request
+* Output: request result of sign up
+*/
 RequestResult LoginRequestHandler::signup(RequestInfo info)
 {
 	SignupRequest signupRequest;
 	RequestResult result;
 	JsonRequestPacketDeserializer deserializer;
 	JsonResponsePacketSerializer serializer;
+	int returnCode = 0;
 
+	// try to get sign up request
 	try
 	{
 		signupRequest = deserializer.deserializeSignupRequest(info.buffer);
@@ -121,7 +143,7 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
 
 	try
 	{
-		int returnCode;
+		// try to sign up
 		returnCode = this->m_handlerFactory->getLoginManager().signup(signupRequest.username, signupRequest.password, signupRequest.email);
 		
 		if (returnCode == Success)

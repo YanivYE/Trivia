@@ -8,6 +8,7 @@
 #include <sstream>
 #include <thread>
 #include "LoginRequestHandler.h"
+#include "RequestHandlerFactory.h"
 #include "JsonResponsePacketSerializer.h"
 #include "JsonRequestPacketDeserializer.h"
 
@@ -21,7 +22,7 @@
 class Communicator
 {
 public:
-	Communicator(); // contructor
+	Communicator(RequestHandlerFactory* factory); // contructor
 	~Communicator(); // desstructor
 
 	void startHandleRequests(int port); // start handling requests to connect from client
@@ -32,13 +33,16 @@ public:
 private:
 	SOCKET m_serverSocket; // server socket
 	std::map<SOCKET, IRequestHandler*> m_clients; // clients sockets and handlers
+	RequestHandlerFactory* m_handlerFactory;
 
 	void handleLoginRequest(SOCKET m_clientSocket); // handle login request
 	void sendLoginResponse(SOCKET m_clientSocket); // send login response
 	void handleSignUpRequest(SOCKET m_clientSocket); // handle sign up request
 	void sendSignUpResponse(SOCKET m_clientSocket); // send signup response
-	void sendErrorResponse(SOCKET m_clientSocket); // send error response
-	
+	void sendErrorResponse(SOCKET m_clientSocket, ErrorResponse errorResponse); // send error response
+
+	RequestInfo getInfo(SOCKET m_clientSocket);
+
 	std::string binaryToAsciiInt(std::string binary_string); // convert binrary string to int by ascii
 	void write(const SOCKET sc, const std::string message); // write messages to client
 	std::string read(const SOCKET sc, const int bytesNum, const int flags); // read messages from client

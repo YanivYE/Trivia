@@ -8,26 +8,11 @@
 #include <sstream>
 
 #include "..\Headers\json.hpp"
-#include "..\Headers\Structs.h"
+#include "..\Headers\Utilities.h"
 
 #define CODE_SIZE 1
 
 using json = nlohmann::json;
-
-struct LoginResponse
-{
-	unsigned int _status;
-}typedef LoginResponse;
-
-struct SignUpResponse
-{
-	unsigned int _status;
-}typedef SignUpResponse;
-
-struct ErrorResponse
-{
-	std::string _data;
-}typedef ErrorResponse;
 
 static class JsonResponsePacketSerializer
 {

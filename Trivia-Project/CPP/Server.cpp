@@ -7,7 +7,9 @@
 */
 Server::Server()
 {
-
+	m_database = new SqliteDatabase();
+	m_handlerFactory = new RequestHandlerFactory(this->m_database);
+	m_communicator = new Communicator(this->m_handlerFactory);
 }
 
 /*
@@ -17,6 +19,7 @@ Server::Server()
 */
 Server::~Server()
 {
+	delete(this->m_communicator);
 }
 
 /*
@@ -26,7 +29,7 @@ Server::~Server()
 */
 void Server::run(int port)
 {
-	std::thread t_connector(&Communicator::startHandleRequests, std::ref(m_communicator), port);
+	std::thread t_connector(&Communicator::startHandleRequests, this->m_communicator, port);
 
 	t_connector.detach();
 }

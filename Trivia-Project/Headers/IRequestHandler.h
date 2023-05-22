@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
-#include "..\Headers\Structs.h"
+#include "..\Headers\Utilities.h"
 
 // Forward declaration of IRequestHandler
 class IRequestHandler;

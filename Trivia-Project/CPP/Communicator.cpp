@@ -8,11 +8,12 @@ JsonRequestPacketDeserializer deseralizer;
 * Input: none
 * Output: none
 */
-Communicator::Communicator()
+Communicator::Communicator(RequestHandlerFactory* factory)
 {
 	// this server use TCP. that why SOCK_STREAM & IPPROTO_TCP
 	// if the server use UDP we will use: SOCK_DGRAM & IPPROTO_UDP
 	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	m_handlerFactory = factory;
 
 	if (m_serverSocket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__ " - socket");
@@ -82,32 +83,64 @@ void Communicator::bindAndListen(int port)
 */
 void Communicator::handleNewClient(SOCKET m_clientSocket)
 {
-	LoginRequestHandler* loginRequestHandler = new LoginRequestHandler();
+	LoginRequestHandler* loginRequestHandler = new LoginRequestHandler(this->m_handlerFactory);
 	RequestInfo info;
-	Buffer buffer;
-	
+	int requestSize = 0;
+
 
 	// add client to map of clients
 	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(m_clientSocket, loginRequestHandler));
 	
-	// get request id from user
-	info.requestId = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH, 0)));
+	// get info from client
+	info = getInfo(m_clientSocket);
 
 	if (loginRequestHandler->isRequestRelevant(info))
 	{
-		if (info.requestId == Login)
-		{
-			handleLoginRequest(m_clientSocket);
-		}
-		else
-		{
-			handleSignUpRequest(m_clientSocket);
-		}
+		// get request result
+		RequestResult result = loginRequestHandler->handleRequest(info);
+
+		// get buffer string
+		string bufferString(result.response._bytes.begin(), result.response._bytes.end());
+		
+		// send buffer string
+		send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
 	}
 	else
 	{
-		sendErrorResponse(m_clientSocket);
+		ErrorResponse errorResponse;
+
+		errorResponse._data = "Error!";
+
+		sendErrorResponse(m_clientSocket, errorResponse);
 	}
+}
+
+/*
+* Function gets a socket(client) and gets info of a new request
+* Input: m_clientSocket - the client socket
+* Output: the info of a new request
+*/
+RequestInfo Communicator::getInfo(SOCKET m_clientSocket)
+{
+	RequestInfo info;
+	std::string request;
+	Buffer buffer;
+
+	// get request id from user
+	info.requestId = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH, 0)));
+
+	// check message size
+	int requestSize = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0)));
+
+	// get message
+	request = read(m_clientSocket, BYTE_BIT_LENGTH * requestSize, 0);
+
+	// convert message to bits
+	buffer._bytes = std::vector<unsigned char>(request.begin(), request.end());
+
+	info.buffer = buffer;
+
+	return info;
 }
 
 /*
@@ -208,11 +241,9 @@ void Communicator::sendSignUpResponse(SOCKET m_clientSocket)
 * Input: m_clientSocket - client socket
 * Output: none
 */
-void Communicator::sendErrorResponse(SOCKET m_clientSocket)
+void Communicator::sendErrorResponse(SOCKET m_clientSocket, ErrorResponse errorResponse)
 {
 	Buffer buffer;
-	ErrorResponse errorResponse;
-	errorResponse._data = "ERROR";
 
 	buffer = seralizer.serializeResponse(errorResponse);
 	std::string bufferString(buffer._bytes.begin(), buffer._bytes.end()); // converts bits vector to buffer string 
@@ -300,15 +331,20 @@ void Communicator::acceptClient()
 	handleThread.detach();
 }
 
-std::string Communicator::binaryToAsciiInt(std::string binary_string)
+/*
+* Function gets a binrary string and converts it to ascii string
+* Input: binaryString - binrary string
+* Output: ascii string
+*/
+std::string Communicator::binaryToAsciiInt(std::string binaryString)
 {
 	std::vector<std::bitset<8>> bit_groups;
 	std::string ascii_string = "";
 
 	// split the binary string into groups of 8 bits
-	for (size_t i = 0; i < binary_string.length(); i += 8) 
+	for (size_t i = 0; i < binaryString.length(); i += 8)
 	{
-		std::string bit_group_str = binary_string.substr(i, 8);
+		std::string bit_group_str = binaryString.substr(i, 8);
 		std::bitset<8> bit_group(bit_group_str);
 		bit_groups.push_back(bit_group);
 	}

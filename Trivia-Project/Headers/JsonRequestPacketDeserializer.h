@@ -5,24 +5,11 @@
 #include <vector>
 #include "IRequestHandler.h"
 #include "json.hpp"
-#include "..\Headers\Structs.h"
+#include "..\Headers\Utilities.h"
 #include <bitset>
 
 using json = nlohmann::json;
 using std::string;
-
-struct LoginRequest
-{
-	string username;
-	string password;
-} typedef LoginRequest;
-
-struct SignupRequest
-{
-	string username;
-	string password;
-	string email;
-} typedef SignupRequest;
 
 static class JsonRequestPacketDeserializer
 {

@@ -33,6 +33,8 @@ int LoginManager::login(std::string username, std::string password)
 		if (!(std::find(this->m_loggedUsers.begin(), this->m_loggedUsers.end(), LoggedUser(username)) != this->m_loggedUsers.end()))
 		{
 			this->m_loggedUsers.push_back(LoggedUser(username));
+
+			return Success;
 		}
 		return userAlreadyLogedIn;
 	}

@@ -75,6 +75,11 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
 		else
 		{
 			result.newHandler = this->m_handlerFactory->createLoginRequestHandlers();
+
+			ErrorResponse errResponse;
+			errResponse._data = "Error! Username doesn't exist!";
+
+			result.response = serializer.serializeResponse(errResponse);
 		}
 
 		LoginResponse loginResponse;

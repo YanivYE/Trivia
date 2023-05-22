@@ -39,8 +39,8 @@ private:
 	void sendLoginResponse(SOCKET m_clientSocket); // send login response
 	void handleSignUpRequest(SOCKET m_clientSocket); // handle sign up request
 	void sendSignUpResponse(SOCKET m_clientSocket); // send signup response
-	void sendErrorResponse(SOCKET m_clientSocket); // send error response
-	
+	void sendErrorResponse(SOCKET m_clientSocket, ErrorResponse errorResponse); // send error response
+
 	std::string binaryToAsciiInt(std::string binary_string); // convert binrary string to int by ascii
 	void write(const SOCKET sc, const std::string message); // write messages to client
 	std::string read(const SOCKET sc, const int bytesNum, const int flags); // read messages from client

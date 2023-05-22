@@ -109,11 +109,18 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 
 	if (loginRequestHandler->isRequestRelevant(info))
 	{
-		loginRequestHandler->handleRequest(info);
+		RequestResult result = loginRequestHandler->handleRequest(info);
+		string bufferString(result.response._bytes.begin(), result.response._bytes.end());
+
+		send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
 	}
 	else
 	{
-		sendErrorResponse(m_clientSocket);
+		ErrorResponse errorResponse;
+
+		errorResponse._data = "Error!";
+
+		sendErrorResponse(m_clientSocket, errorResponse);
 	}
 }
 
@@ -215,11 +222,9 @@ void Communicator::sendSignUpResponse(SOCKET m_clientSocket)
 * Input: m_clientSocket - client socket
 * Output: none
 */
-void Communicator::sendErrorResponse(SOCKET m_clientSocket)
+void Communicator::sendErrorResponse(SOCKET m_clientSocket, ErrorResponse errorResponse)
 {
 	Buffer buffer;
-	ErrorResponse errorResponse;
-	errorResponse._data = "ERROR";
 
 	buffer = seralizer.serializeResponse(errorResponse);
 	std::string bufferString(buffer._bytes.begin(), buffer._bytes.end()); // converts bits vector to buffer string 

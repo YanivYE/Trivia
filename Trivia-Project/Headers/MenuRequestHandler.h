@@ -5,10 +5,10 @@
 class MenuRequestHandler : public IRequestHandler
 {
 public:
-	MenuRequestHandler();
+	MenuRequestHandler(); // ctor
 
-	bool isRequestRelevant(RequestInfo info) override;
-	RequestResult handleRequest(RequestInfo info) override;
+	bool isRequestRelevant(RequestInfo info) override; // is request relevant
+	RequestResult handleRequest(RequestInfo info) override; // hand request
 
 private:
 

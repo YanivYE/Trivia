@@ -14,6 +14,6 @@ public:
 
 private:
 	Communicator* m_communicator; // communicator object
-	IDataBase* m_database;
-	RequestHandlerFactory* m_handlerFactory;
+	IDataBase* m_database; // data base object
+	RequestHandlerFactory* m_handlerFactory; // request handler factory object
 };

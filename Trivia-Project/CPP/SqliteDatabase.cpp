@@ -51,7 +51,7 @@ int userExistsCallback(void* existsPtr, int argc, char** argv, char** azColName)
 
 int SqliteDatabase::doesUserExist(std::string name)
 {
-	int exists = False;
+	int exists = false;
 	std::string query = "SELECT * FROM users WHERE username = '" + name + "';";
 
 	char* errMessage = nullptr;
@@ -59,7 +59,7 @@ int SqliteDatabase::doesUserExist(std::string name)
 	if (res != SQLITE_OK)
 	{
 		std::cerr << errMessage;
-		return False;
+		return false;
 	}
 		
 	return exists;
@@ -84,14 +84,14 @@ int SqliteDatabase::doesPasswordMatch(std::string name, std::string password)
 		if (res != SQLITE_OK)
 		{
 			std::cerr << errMessage;
-			return False;
+			return false;
 		}
 		return password == userPassword;
 	}
 	else
 	{
 		std::cerr << "User doesnt exist";
-		return False;
+		return false;
 	}
 }
 
@@ -103,8 +103,8 @@ int SqliteDatabase::addNewUser(std::string name, std::string password, std::stri
 	if (res != SQLITE_OK)
 	{
 		std::cerr << errMessage;
-		return False;
+		return false;
 	}
-	return True;
+	return true;
 }
  

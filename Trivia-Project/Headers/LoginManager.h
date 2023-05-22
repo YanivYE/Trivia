@@ -2,7 +2,7 @@
 
 #include "IDataBase.h"
 #include "LoggedUser.h"
-#include "Structs.h"
+#include "Utils.h"
 #include <vector>
 
 class LoginManager
@@ -16,6 +16,7 @@ public:
 	int logout(std::string username);
 
 private:
+	bool isValidUsername(const std::string& username);
 	IDataBase* m_database;
 	std::vector<LoggedUser> m_loggedUsers;
 };

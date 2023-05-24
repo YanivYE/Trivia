@@ -1,25 +1,6 @@
 #include "LoginManager.h"
 
 /*
-* Function is an empty ctor for login manager
-* Input: none 
-* Output: none
-*/
-LoginManager::LoginManager()
-{
-}
-
-/*
-* Function is a ctor for login manager and gets a db
-* Input: database - the db for login manager
-* Output: none
-*/
-LoginManager::LoginManager(IDataBase* database)
-{
-	this->m_database = database;
-}
-
-/*
 * Function gets an username, password, mail and signs up 
 * Input: username, password, mail
 * Output: code for signup result

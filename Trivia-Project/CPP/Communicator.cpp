@@ -4,38 +4,6 @@ JsonResponsePacketSerializer seralizer;
 JsonRequestPacketDeserializer deseralizer;
 
 /*
-* Function is a constructor for communicator
-* Input: none
-* Output: none
-*/
-Communicator::Communicator(RequestHandlerFactory* factory)
-{
-	// this server use TCP. that why SOCK_STREAM & IPPROTO_TCP
-	// if the server use UDP we will use: SOCK_DGRAM & IPPROTO_UDP
-	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	m_handlerFactory = factory;
-
-	if (m_serverSocket == INVALID_SOCKET)
-		throw std::exception(__FUNCTION__ " - socket");
-}
-
-/*
-* Function is a destructor for communicator
-* Input: none
-* Output: none
-*/
-Communicator::~Communicator()
-{
-	try
-	{
-		// the only use of the destructor should be for freeing 
-		// resources that was allocated in the constructor
-		closesocket(m_serverSocket);
-	}
-	catch (...) {}
-}
-
-/*
 * Function gets a port and starts a new handle requests
 * Input: port - the port to listen to
 * Output: none

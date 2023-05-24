@@ -14,7 +14,7 @@
 int main()
 {
 	WSAInitializer wsaInit;
-	Server myServer;
+	Server& myServer = Server::getInstance();;
 	std::string input;
 
 	try

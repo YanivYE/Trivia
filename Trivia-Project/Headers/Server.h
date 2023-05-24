@@ -17,15 +17,13 @@ public:
 private:
 	Server() {
 		// Private constructor to prevent direct instantiation
-		m_database = new SqliteDatabase();
-		m_handlerFactory = new RequestHandlerFactory(this->m_database);
-		m_communicator = new Communicator(this->m_handlerFactory);
+		m_database = &(SqliteDatabase::getInstance());
+		m_handlerFactory = &(RequestHandlerFactory::getInstance(this->m_database));
+		m_communicator = &(Communicator::getInstance(this->m_handlerFactory));
 	}
 
 	~Server() {
-		delete m_communicator;
 		delete m_database;
-		delete m_handlerFactory;
 	}
 
 	Communicator* m_communicator; // communicator object

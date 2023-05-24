@@ -11,13 +11,35 @@ class MenuRequestHandler;
 class RequestHandlerFactory
 {
 public:
-	RequestHandlerFactory(IDataBase* database); // ctor for request handler factory
+	static RequestHandlerFactory& getInstance(IDataBase* database)
+	{
+		static RequestHandlerFactory instance(database);
+		return instance;
+	}
 
-	LoginRequestHandler* createLoginRequestHandlers(); // create login request handlers
-	MenuRequestHandler* createMenuRequestHandlers(); // create menu request handlers
+	static void destroyInstance() {
+		RequestHandlerFactory& instance = getInstance(nullptr);
+		delete& instance;
+	}
 
-	LoginManager& getLoginManager(); // return login manager
+	LoginRequestHandler* createLoginRequestHandlers();
+	MenuRequestHandler* createMenuRequestHandlers();
+	LoginManager& getLoginManager();
+
 private:
-	LoginManager m_loginManager; // login manager
-	IDataBase* m_database; // db
+	RequestHandlerFactory(IDataBase* database) : m_loginManager()
+	{
+		this->m_database = database;
+		this->m_database->open();
+		this->m_loginManager = &(LoginManager::getInstance(m_database));
+	}
+
+	~RequestHandlerFactory()
+	{
+		destroyInstance();
+		this->m_database->close();
+	}
+
+	LoginManager* m_loginManager;
+	IDataBase* m_database;
 };

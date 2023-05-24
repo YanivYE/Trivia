@@ -1,10 +1,5 @@
 #include "../Headers/SqliteDatabase.h"
 
-// DB C'tor
-SqliteDatabase::SqliteDatabase()
-{
-}
-
 /*
 * Function opens a data base for the program
 * Output: data base opened or not

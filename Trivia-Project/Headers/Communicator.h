@@ -22,8 +22,15 @@
 class Communicator
 {
 public:
-	Communicator(RequestHandlerFactory* factory); // contructor
-	~Communicator(); // desstructor
+	static Communicator& getInstance(RequestHandlerFactory* factory) {
+		static Communicator instance(factory);
+		return instance;
+	}
+
+	static void destroyInstance() {
+		Communicator& instance = getInstance(nullptr);
+		delete& instance;
+	}
 
 	void startHandleRequests(int port); // start handling requests to connect from client
 	void bindAndListen(int port); // bind and listen server to port
@@ -34,6 +41,30 @@ private:
 	SOCKET m_serverSocket; // server socket
 	std::map<SOCKET, IRequestHandler*> m_clients; // clients sockets and handlers
 	RequestHandlerFactory* m_handlerFactory;
+
+	Communicator(RequestHandlerFactory* factory)
+		: m_handlerFactory(factory)
+	{
+		// this server use TCP. that why SOCK_STREAM & IPPROTO_TCP
+		// if the server use UDP we will use: SOCK_DGRAM & IPPROTO_UDP
+		m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+		m_handlerFactory = factory;
+
+		if (m_serverSocket == INVALID_SOCKET)
+			throw std::exception(__FUNCTION__ " - socket");
+	}
+
+	~Communicator()
+	{
+		destroyInstance();
+		try
+		{
+			// the only use of the destructor should be for freeing 
+			// resources that was allocated in the constructor
+			closesocket(m_serverSocket);
+		}
+		catch (...) {}
+	}
 
 	void handleLoginRequest(SOCKET m_clientSocket); // handle login request
 	void sendLoginResponse(SOCKET m_clientSocket); // send login response

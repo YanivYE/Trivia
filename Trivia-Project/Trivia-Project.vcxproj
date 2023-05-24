@@ -17,7 +17,39 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Headers\Communicator.h" />
+    <ClInclude Include="Headers\IDataBase.h" />
+    <ClInclude Include="Headers\IRequestHandler.h" />
+    <ClInclude Include="Headers\json.hpp" />
+    <ClInclude Include="Headers\JsonRequestPacketDeserializer.h" />
+    <ClInclude Include="Headers\JsonResponsePacketSerializer.h" />
+    <ClInclude Include="Headers\LoggedUser.h" />
+    <ClInclude Include="Headers\LoginManager.h" />
+    <ClInclude Include="Headers\LoginRequestHandler.h" />
+    <ClInclude Include="Headers\MenuRequestHandler.h" />
+    <ClInclude Include="Headers\RequestHandlerFactory.h" />
+    <ClInclude Include="Headers\Server.h" />
+    <ClInclude Include="Headers\sqlite3.h" />
+    <ClInclude Include="Headers\SqliteDatabase.h" />
+    <ClInclude Include="Headers\Utilities.h" />
+    <ClInclude Include="Headers\WSAInitializer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CPP\Communicator.cpp" />
+    <ClCompile Include="CPP\JsonRequestPacketDeserializer.cpp" />
+    <ClCompile Include="CPP\JsonResponsePacketSerializer.cpp" />
+    <ClCompile Include="CPP\LoggedUser.cpp" />
+    <ClCompile Include="CPP\LoginRequestHandler.cpp" />
+    <ClCompile Include="CPP\MenuRequestHandler.cpp" />
+    <ClCompile Include="CPP\Server.cpp" />
+    <ClCompile Include="CPP\Source.cpp" />
+    <ClCompile Include="CPP\sqlite3.c" />
+    <ClCompile Include="CPP\SqliteDatabase.cpp" />
+    <ClCompile Include="CPP\WSAInitializer.cpp" />
+    <ClCompile Include="Headers\RequestHandlerFactory.cpp" />
+    <ClCompile Include="Headers\LoginManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -53,27 +85,24 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="Shared" >
+  <ImportGroup Label="Shared">
   </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -130,8 +159,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-
-  <ItemGroup></ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

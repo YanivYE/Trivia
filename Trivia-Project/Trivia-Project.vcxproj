@@ -30,6 +30,8 @@
     <ClInclude Include="Headers\LoginRequestHandler.h" />
     <ClInclude Include="Headers\MenuRequestHandler.h" />
     <ClInclude Include="Headers\RequestHandlerFactory.h" />
+    <ClInclude Include="Headers\Room.h" />
+    <ClInclude Include="Headers\RoomManager.h" />
     <ClInclude Include="Headers\Server.h" />
     <ClInclude Include="Headers\sqlite3.h" />
     <ClInclude Include="Headers\SqliteDatabase.h" />
@@ -41,15 +43,16 @@
     <ClCompile Include="CPP\JsonRequestPacketDeserializer.cpp" />
     <ClCompile Include="CPP\JsonResponsePacketSerializer.cpp" />
     <ClCompile Include="CPP\LoggedUser.cpp" />
+    <ClCompile Include="CPP\LoginManager.cpp" />
     <ClCompile Include="CPP\LoginRequestHandler.cpp" />
     <ClCompile Include="CPP\MenuRequestHandler.cpp" />
+    <ClCompile Include="CPP\RequestHandlerFactory.cpp" />
+    <ClCompile Include="CPP\Room.cpp" />
     <ClCompile Include="CPP\Server.cpp" />
     <ClCompile Include="CPP\Source.cpp" />
     <ClCompile Include="CPP\sqlite3.c" />
     <ClCompile Include="CPP\SqliteDatabase.cpp" />
     <ClCompile Include="CPP\WSAInitializer.cpp" />
-    <ClCompile Include="Headers\RequestHandlerFactory.cpp" />
-    <ClCompile Include="Headers\LoginManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

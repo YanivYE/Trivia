@@ -20,6 +20,14 @@ public:
 	Buffer serializeResponse(LoginResponse response); // serialize login response
 	Buffer serializeResponse(SignUpResponse response); // serialize sign up response
 	Buffer serializeResponse(ErrorResponse response); // serialize error response
+
+	Buffer serializeResponse(LogoutResponse response);
+	Buffer serializeResponse(GetRoomsResponse response);
+	Buffer serializeResponse(GetPlayersInRoomResponse response);
+	Buffer serializeResponse(JoinRoomResponse response);
+	Buffer serializeResponse(CreateRoomResponse response);
+	Buffer serializeResponse(getHighScoreResponse response);
+	Buffer serializeResponse(getPersonalStatsResponse response);
 private:
 	std::string convertIntToBinaryString(int value); // convert int to binrary string
 	std::string convertJsonToBinaryString(json value); // json to binrary string

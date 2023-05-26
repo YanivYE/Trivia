@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "..\Headers\json.hpp"
+#include "Room.h"
 
 using json = nlohmann::json;
 
@@ -25,6 +26,44 @@ struct ErrorResponse
 {
 	std::string _data;
 }typedef ErrorResponse;
+
+struct JoinRoomResponse
+{
+	unsigned int _status;
+}typedef JoinRoomResponse;
+
+struct CreateRoomResponse
+{
+	unsigned int _status;
+}typedef CreateRoomResponse;
+
+struct LogoutResponse
+{
+	unsigned int _status;
+}typedef LogoutResponse;
+
+struct GetRoomsResponse
+{
+	unsigned int _status;
+	std::vector<RoomData> _rooms;
+}typedef GetRoomsResponse;
+
+struct GetPlayersInRoomResponse
+{
+	std::vector<std::string> _players;
+}typedef GetPlayersInRoomResponse;
+
+struct getHighScoreResponse
+{
+	unsigned int _status;
+	std::vector<std::string> _statistics;
+}typedef getHighScoreResponse;
+
+struct getPersonalStatsResponse
+{
+	unsigned int _status;
+	std::vector<std::string> _statistics;
+}typedef getPersonalStatsResponse;
 
 struct Buffer
 {

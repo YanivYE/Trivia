@@ -9,6 +9,7 @@ using json = nlohmann::json;
 enum messageCode { Login = 1, SignUp, Error };
 enum statusCode {Fail = -1, Success = 1};
 enum errorCode{userNotExist = 100, userNameExist, userAlreadyLogedIn, invalidUserName};
+enum roomStatusCodes{inGame = 200, waitingToStart};
 
 struct LoginResponse
 {

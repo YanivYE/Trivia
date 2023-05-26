@@ -1,4 +1,4 @@
-#include "LoginManager.h"
+#include "../Headers/LoginManager.h"
 
 /*
 * Function gets an username, password, mail and signs up 

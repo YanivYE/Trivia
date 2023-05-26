@@ -21,7 +21,7 @@ bool SqliteDatabase::open()
 		// create DB table
 		createTable();
 	}
-    return true;
+	return true;
 }
 
 /*
@@ -40,13 +40,13 @@ void SqliteDatabase::createTable()
 }
 
 /*
-* Function closes the data base 
+* Function closes the data base
 * Output: data base closed or not
 */
 bool SqliteDatabase::close()
 {
-    int res = sqlite3_close(db);
-    db = nullptr;
+	int res = sqlite3_close(db);
+	db = nullptr;
 
 	return res;
 }
@@ -85,7 +85,7 @@ int SqliteDatabase::doesUserExist(std::string name)
 		std::cerr << errMessage;
 		return false;
 	}
-		
+
 	return exists;
 }
 
@@ -156,4 +156,3 @@ int SqliteDatabase::addNewUser(std::string name, std::string password, std::stri
 	}
 	return true;
 }
- 

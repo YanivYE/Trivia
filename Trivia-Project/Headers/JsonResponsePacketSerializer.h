@@ -29,6 +29,9 @@ public:
 	Buffer serializeResponse(getHighScoreResponse response);
 	Buffer serializeResponse(getPersonalStatsResponse response);
 private:
+	Buffer serializeReponseStatus(int code, int status);
+	Buffer serializeResponseStats(int status, std::vector<std::string> statistics, std::string typeOfStats, int code);
+
 	std::string convertIntToBinaryString(int value); // convert int to binrary string
 	std::string convertJsonToBinaryString(json value); // json to binrary string
 	std::string padBinaryString(const std::string& value, int numBytes); // pad binrary string 

@@ -89,3 +89,21 @@ struct SignupRequest
 	std::string password;
 	std::string email;
 } typedef SignupRequest;
+
+struct GetPlayersInRoomRequest
+{
+	unsigned int roomId;
+} typedef GetPlayersInRoomRequest;
+
+struct JoinRoomRequest
+{
+	unsigned int roomId;
+} typedef JoinRoomRequest;
+
+struct CreateRoomRequest
+{
+	std::string roomName;
+	unsigned int maxUsers;
+	unsigned int questionCount;
+	unsigned int answerTimeout;
+} typedef CreateRoomRequest;

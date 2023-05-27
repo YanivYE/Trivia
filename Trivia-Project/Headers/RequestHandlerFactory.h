@@ -23,8 +23,11 @@ public:
 	}
 
 	LoginRequestHandler* createLoginRequestHandlers();
-	MenuRequestHandler* createMenuRequestHandlers();
+	MenuRequestHandler* createMenuRequestHandlers(LoggedUser user);
+
 	LoginManager& getLoginManager();
+	RoomManager& getRoomManager();
+	StatisticsManager& getStatisticsManager();
 
 private:
 	RequestHandlerFactory(IDataBase* database) : m_loginManager()
@@ -42,4 +45,6 @@ private:
 
 	LoginManager* m_loginManager;
 	IDataBase* m_database;
+	RoomManager* m_roomManager;
+	StatisticsManager* m_statisticsManager;
 };

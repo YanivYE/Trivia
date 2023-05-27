@@ -35,6 +35,7 @@
     <ClInclude Include="Headers\Server.h" />
     <ClInclude Include="Headers\sqlite3.h" />
     <ClInclude Include="Headers\SqliteDatabase.h" />
+    <ClInclude Include="Headers\StatisticsManager.h" />
     <ClInclude Include="Headers\Utilities.h" />
     <ClInclude Include="Headers\WSAInitializer.h" />
   </ItemGroup>

@@ -19,16 +19,22 @@ bool SqliteDatabase::open()
 	if (file_exist != 0)
 	{
 		// create DB table
-		createTable();
+		createDBTables();
 	}
 	return true;
+}
+
+void SqliteDatabase::createDBTables()
+{
+	createUsersTable();
+	createQuestionsTable();
 }
 
 /*
 * Function opens a data base for the program
 * Output: data base opened or not
 */
-void SqliteDatabase::createTable()
+void SqliteDatabase::createUsersTable()
 {
 	const char* usersTableQuery = "CREATE TABLE users (username TEXT NOT NULL, password TEXT NOT NULL, mail TEXT NOT NULL);";
 
@@ -37,6 +43,26 @@ void SqliteDatabase::createTable()
 	int res = sqlite3_exec(db, usersTableQuery, nullptr, nullptr, &errMessage);
 	if (res != SQLITE_OK)
 		std::cerr << errMessage;
+}
+
+void SqliteDatabase::createQuestionsTable()
+{
+	const char* questionsTableQuery = "CREATE TABLE questions (question TEXT NOT NULL, correctAnswer TEXT NOT NULL, wrongAnswer1 TEXT NOT NULL, wrongAnswer2 TEXT NOT NULL, wrongAnswer3 TEXT NOT NULL);";
+						
+	char* errMessage = nullptr;
+	// execute query
+	int res = sqlite3_exec(db, questionsTableQuery, nullptr, nullptr, &errMessage);
+	if (res != SQLITE_OK)
+		std::cerr << errMessage;
+	insertQuestions();
+}
+
+void SqliteDatabase::insertQuestions()
+{
+	std::string pythonCommand = "python insertDBquestions.py";
+
+	// Run the Python script
+	int result = system(pythonCommand.c_str());
 }
 
 /*

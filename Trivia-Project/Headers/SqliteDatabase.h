@@ -27,5 +27,8 @@ private:
 		this->close();
 	}
 
-	void createTable(); // create db table
+	void createDBTables();
+	void createUsersTable(); // create db table
+	void createQuestionsTable();
+	void insertQuestions();
 };

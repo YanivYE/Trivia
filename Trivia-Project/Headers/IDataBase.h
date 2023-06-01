@@ -1,10 +1,13 @@
 #pragma once
 #include <string>
-#include "sqlite3.h"
-
-#define DB_NAME "MyDB.sqlite"
 #include <iostream>
 #include <io.h>
+#include <stdio.h>
+#include <cstdlib>
+#include "sqlite3.h"
+
+
+#define DB_NAME "MyDB.sqlite"
 
 
 class IDataBase

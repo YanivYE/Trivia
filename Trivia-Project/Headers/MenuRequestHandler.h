@@ -4,6 +4,7 @@
 #include "RoomManager.h";
 #include "StatisticsManager.h";
 #include "RequestHandlerFactory.h";
+#include "Utilities.h"
 
 class RequestHandlerFactory;
 
@@ -23,6 +24,8 @@ public:
 	RequestResult joinRoom(RequestInfo info); // join room request
 	RequestResult createRoom(RequestInfo info); // create room request
 private:
+	RequestResult returnError(RequestResult& result, std::string errorMsg, JsonResponsePacketSerializer serializer);
+
 	LoggedUser m_user;
 	RoomManager* m_roomManager;
 	StatisticsManager* m_statisticsManager;

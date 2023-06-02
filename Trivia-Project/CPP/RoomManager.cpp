@@ -4,16 +4,25 @@
 * Function creates a new rooms with a user and by room data
 * Input: user - the user that created the room
 *		 roomData - the room data
-* Output: none
+* Output: if creating room was successful
 */
-void RoomManager::createRoom(LoggedUser user, RoomData roomData)
+int RoomManager::createRoom(LoggedUser user, RoomData roomData)
 {
-	Room room(roomData.name, roomData.maxPlayers, roomData.timePerQuestion);
+	try
+	{
+		Room room(roomData.name, roomData.maxPlayers, roomData.timePerQuestion, roomData.numOfQuestionsInGame);
 
-	room.addUser(user);
+		room.addUser(user);
 
-	// add new room to map
-	m_rooms.insert(std::pair<int, Room>(roomData.id, room));
+		// add new room to map
+		m_rooms.insert(std::pair<int, Room>(roomData.id, room));
+
+		return Success;
+	}
+	catch (...)
+	{
+		return Error
+	}
 }
 
 /*

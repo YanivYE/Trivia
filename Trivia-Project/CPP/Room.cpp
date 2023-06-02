@@ -7,9 +7,10 @@ int Room::count = 0;
 * Input: name - the name of the room
 *		 maxPlayers - the max players for the room
 *		 timePerQuestion - how much time per question
+*		 numOfQuestionsInGame - number of questions in game
 * Output: none
 */
-Room::Room(std::string name, unsigned int maxPlayers, unsigned int timePerQuestion)
+Room::Room(std::string name, unsigned int maxPlayers, unsigned int timePerQuestion, unsigned int numOfQuestionsInGame)
 {
 	this->m_metadata.id = ++count; // set id as num of instances
 
@@ -17,7 +18,7 @@ Room::Room(std::string name, unsigned int maxPlayers, unsigned int timePerQuesti
 
 	this->m_metadata.maxPlayers = maxPlayers;
 	this->m_metadata.name = name;
-	this->m_metadata.numOfQuestionsInGame = NUM_OF_QUESTIONS;
+	this->m_metadata.numOfQuestionsInGame = numOfQuestionsInGame;
 	this->m_metadata.timePerQuestion = timePerQuestion;
 }
 

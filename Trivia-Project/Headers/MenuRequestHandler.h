@@ -3,11 +3,14 @@
 #include "IRequestHandler.h";
 #include "RoomManager.h";
 #include "StatisticsManager.h";
+#include "RequestHandlerFactory.h";
+
+class RequestHandlerFactory;
 
 class MenuRequestHandler : public IRequestHandler
 {
 public:
-	MenuRequestHandler(); // ctor
+	MenuRequestHandler(RequestHandlerFactory* factory, LoggedUser user); // ctor
 
 	bool isRequestRelevant(RequestInfo info) override; // is request relevant
 	RequestResult handleRequest(RequestInfo info) override; // handle request
@@ -21,7 +24,7 @@ public:
 	RequestResult createRoom(RequestInfo info); // create room request
 private:
 	LoggedUser m_user;
-	RoomManager& m_roomManager;
-	StatisticsManager& m_statisticsManager;
-	RequestHandlerFactory& m_handlerFactory;
+	RoomManager* m_roomManager;
+	StatisticsManager* m_statisticsManager;
+	RequestHandlerFactory* m_handlerFactory;
 };

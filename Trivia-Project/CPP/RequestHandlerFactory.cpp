@@ -15,9 +15,9 @@ LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandlers()
 * Input: none
 * Output: pointer to new menu requeest handlers
 */
-MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandlers()
+MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandlers(LoggedUser user)
 {
-    return new MenuRequestHandler();
+    return new MenuRequestHandler(this, user);
 }
 
 /*
@@ -28,4 +28,14 @@ MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandlers()
 LoginManager& RequestHandlerFactory::getLoginManager()
 {
     return *m_loginManager;
+}
+
+RoomManager& RequestHandlerFactory::getRoomManager()
+{
+    return *m_roomManager;
+}
+
+StatisticsManager& RequestHandlerFactory::getStatisticsManager()
+{
+    return *m_statisticsManager;
 }

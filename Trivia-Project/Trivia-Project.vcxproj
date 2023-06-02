@@ -53,6 +53,7 @@
     <ClCompile Include="CPP\Source.cpp" />
     <ClCompile Include="CPP\sqlite3.c" />
     <ClCompile Include="CPP\SqliteDatabase.cpp" />
+    <ClCompile Include="CPP\StatisticsManager.cpp" />
     <ClCompile Include="CPP\WSAInitializer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

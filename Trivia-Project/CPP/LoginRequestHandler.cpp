@@ -85,7 +85,7 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
 
 		if (returnCode == Success)
 		{
-			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers();
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(loginRequest.username));
 		}
 		else
 		{
@@ -148,7 +148,7 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
 		
 		if (returnCode == Success)
 		{
-			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers();
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(signupRequest.username));
 		}
 		else
 		{

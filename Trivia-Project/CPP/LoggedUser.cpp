@@ -1,5 +1,10 @@
 #include "../Headers/LoggedUser.h"
 
+
+LoggedUser::LoggedUser()
+{
+}
+
 /*
 * Function is a ctor for logged user and gets a username to set as field
 * Input: username - the logged user

@@ -35,6 +35,8 @@ private:
 		this->m_database = database;
 		this->m_database->open();
 		this->m_loginManager = &(LoginManager::getInstance(m_database));
+		this->m_statisticsManager = new StatisticsManager(m_database);
+		this->m_roomManager = new RoomManager();
 	}
 
 	~RequestHandlerFactory()

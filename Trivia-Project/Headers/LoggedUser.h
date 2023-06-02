@@ -5,6 +5,7 @@
 class LoggedUser
 {
 public:
+	LoggedUser(); // logged user ctor
 	LoggedUser(std::string username); // logged user ctor
 	
 	std::string getUsername(); // get username of logged user

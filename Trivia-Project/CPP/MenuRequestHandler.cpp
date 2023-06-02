@@ -5,8 +5,12 @@
 * Input: none
 * Output: none
 */
-MenuRequestHandler::MenuRequestHandler()
+MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory* factory, LoggedUser user)
 {
+	this->m_user = user;
+	this->m_handlerFactory = factory;
+	this->m_roomManager = &(factory->getRoomManager());
+	this->m_statisticsManager = &(factory->getStatisticsManager());
 }
 
 /*

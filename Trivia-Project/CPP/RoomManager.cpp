@@ -21,7 +21,7 @@ int RoomManager::createRoom(LoggedUser user, RoomData roomData)
 	}
 	catch (...)
 	{
-		return Error
+		return Error;
 	}
 }
 

@@ -4,6 +4,8 @@
 #include <vector>
 #include "LoggedUser.h"
 
+#define SUCCESS 1
+#define FAIL -1
 
 struct RoomData
 {
@@ -18,9 +20,10 @@ struct RoomData
 class Room
 {
 public:
+	Room();
 	Room(std::string name, unsigned int maxPlayers, unsigned int timePerQuestion, unsigned int numOfQuestionsInGame); // ctor for room
 
-	void addUser(LoggedUser user); // add user to room
+	int addUser(LoggedUser user); // add user to room
 	void removeUser(LoggedUser user); // remove user from room
 
 	RoomData getRoomData(); // get room data

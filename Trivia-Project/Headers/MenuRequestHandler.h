@@ -6,6 +6,7 @@
 #include "RequestHandlerFactory.h";
 #include "Utilities.h"
 
+class JsonResponsePacketSerializer;
 class RequestHandlerFactory;
 
 class MenuRequestHandler : public IRequestHandler

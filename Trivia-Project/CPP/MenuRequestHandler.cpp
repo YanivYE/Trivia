@@ -39,23 +39,23 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 	}
 	else if (info.requestId == GetRooms)
 	{
-
+		return getRooms(info);
 	}
 	else if (info.requestId == GetPlayersInRoom)
 	{
-
+		return getPlayersInRoom(info);
 	}
 	else if (info.requestId == JoinRoom)
 	{
-
+		return joinRoom(info);
 	}
 	else if (info.requestId == GetPersonalStats)
 	{
-
+		return getPersonalStats(info);
 	}
 	else if (info.requestId == Logout)
 	{
-
+		return signout(info);
 	}
 	
 	return requestResult;
@@ -103,7 +103,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 
 		if (returnCode == Success)
 		{
-			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(loginRequest.username));
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
 		}
 		else
 		{
@@ -117,64 +117,223 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	}
 	catch (std::exception& e)
 	{
+		return returnError(result, "Error! Couldn't get rooms!", serializer);
+	}
+
+	return result;
+}
+
+RequestResult MenuRequestHandler::getRooms(RequestInfo info)
+{
+	RequestResult result;
+	int returnCode = 1;
+	JsonResponsePacketSerializer serializer;
+
+	try
+	{
+		GetRoomsResponse getRoomsResponse;
+
+		getRoomsResponse._rooms = this->m_handlerFactory->getRoomManager().getRooms();
+
+		if (returnCode == Success)
+		{
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
+		}
+		else
+		{
+			return returnError(result, "Error! Couldn't get rooms!", serializer);
+		}
+
+		getRoomsResponse._status = returnCode;
+
+		result.response = serializer.serializeResponse(getRoomsResponse);
+	}
+	catch (std::exception& e)
+	{
 		return returnError(result, "Error! User couldn't create room!", serializer);
 	}
 
 	return result;
 }
 
-/*
-* Function gets a request info and sign ups
-* Input: info - info of request
-* Output: request result of sign up
-*/
-RequestResult LoginRequestHandler::signup(RequestInfo info)
+RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 {
-	SignupRequest signupRequest;
+	GetPlayersInRoomRequest getPlayersInRoomRequest;
 	RequestResult result;
 	JsonRequestPacketDeserializer deserializer;
 	JsonResponsePacketSerializer serializer;
 	int returnCode = 0;
 
-	// try to get sign up request
+	// try to get players in room request
 	try
 	{
-		signupRequest = deserializer.deserializeSignupRequest(info.buffer);
+		// deserialize get players in room request
+		getPlayersInRoomRequest = deserializer.deserializeGetPlayersRequest(info.buffer);
 	}
 	catch (...)
 	{
-		ErrorResponse errResponse;
-		errResponse._data = "Error! Couldn't parse signup request";
-		result.response = serializer.serializeResponse(errResponse);
-		return result;
+		return returnError(result, "Error! Couldn't parse get players in room request", serializer);
 	}
 
 	try
 	{
-		// try to sign up
-		returnCode = this->m_handlerFactory->getLoginManager().signup(signupRequest.username, signupRequest.password, signupRequest.email);
+		GetPlayersInRoomResponse getPlayersInRoomResponse;
 
+		getPlayersInRoomResponse._players = this->m_handlerFactory->getRoomManager().getRoom(getPlayersInRoomRequest.roomId).getAllUsers();
+		
 		if (returnCode == Success)
 		{
-			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(signupRequest.username));
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
 		}
 		else
 		{
-			result.newHandler = this->m_handlerFactory->createLoginRequestHandlers();
+			return returnError(result, "Error! Couldn't get players in room!", serializer);
 		}
 
-		SignUpResponse signUpResponse;
-		signUpResponse._status = returnCode;
-		result.response = serializer.serializeResponse(signUpResponse);
+		result.response = serializer.serializeResponse(getPlayersInRoomResponse);
 	}
 	catch (std::exception& e)
 	{
-		result.newHandler = this->m_handlerFactory->createLoginRequestHandlers();
+		return returnError(result, "Error! Couldn't get players in room!", serializer);
+	}
 
-		ErrorResponse errResponse;
-		errResponse._data = "Error! Couldn't sign up user to server";
+	return result;
+}
 
-		result.response = serializer.serializeResponse(errResponse);
+RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
+{
+	RequestResult result;
+	JsonRequestPacketDeserializer deserializer;
+	JsonResponsePacketSerializer serializer;
+	int returnCode = 1;
+
+	try
+	{
+		GetPersonalStatsResponse getPersonalStatsResponse;
+
+		getPersonalStatsResponse._statistics = this->m_handlerFactory->getStatisticsManager().getUserStatistics(m_user.getUsername());
+
+		if (returnCode == Success)
+		{
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
+		}
+		else
+		{
+			return returnError(result, "Error! Couldn't get personal stats!", serializer);
+		}
+
+		result.response = serializer.serializeResponse(getPersonalStatsResponse);
+	}
+	catch (std::exception& e)
+	{
+		return returnError(result, "Error! Couldn't get user personal stats!", serializer);
+	}
+
+	return result;
+}
+
+RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
+{
+	RequestResult result;
+	JsonRequestPacketDeserializer deserializer;
+	JsonResponsePacketSerializer serializer;
+	int returnCode = 1;
+
+	try
+	{
+		GetHighScoreResponse getHighScoreResponse;
+
+		getHighScoreResponse._statistics = this->m_handlerFactory->getStatisticsManager().getHighScore();
+
+		if (returnCode == Success)
+		{
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
+		}
+		else
+		{
+			return returnError(result, "Error! Couldn't get high scorre stats!", serializer);
+		}
+
+		result.response = serializer.serializeResponse(getHighScoreResponse);
+	}
+	catch (std::exception& e)
+	{
+		return returnError(result, "Error! Couldn't get high scorre stats!", serializer);
+	}
+
+	return result;
+}
+
+RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
+{
+	JoinRoomRequest joinRoomRequest;
+	RequestResult result;
+	JsonRequestPacketDeserializer deserializer;
+	JsonResponsePacketSerializer serializer;
+	int returnCode = 0;
+
+	// try to join room request
+	try
+	{
+		// deserialize join in room request
+		joinRoomRequest = deserializer.deserializeJoinRoomRequest(info.buffer);
+	}
+	catch (...)
+	{
+		return returnError(result, "Error! Couldn't parse join room request", serializer);
+	}
+
+	try
+	{
+		JoinRoomResponse joinRoomResponse;
+
+		joinRoomResponse._status = this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest.roomId).addUser(m_user);
+
+		if (returnCode == Success)
+		{
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
+		}
+		else
+		{
+			return returnError(result, "Error! Couldn't join room!", serializer);
+		}
+
+		result.response = serializer.serializeResponse(joinRoomResponse);
+	}
+	catch (std::exception& e)
+	{
+		return returnError(result, "Error! User couldn't join room!", serializer);
+	}
+
+	return result;
+}
+
+RequestResult MenuRequestHandler::signout(RequestInfo info)
+{
+	RequestResult result;
+	int returnCode = 1;
+	JsonResponsePacketSerializer serializer;
+
+	try
+	{
+		LogoutResponse logoutResponse;
+
+		logoutResponse._status = this->m_handlerFactory->getLoginManager().logout(m_user.getUsername());
+
+		if (returnCode == Success)
+		{
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
+		}
+		else
+		{
+			return returnError(result, "Error! Couldn't signout!", serializer);
+		}
+
+		result.response = serializer.serializeResponse(logoutResponse);
+	}
+	catch (std::exception& e)
+	{
+		return returnError(result, "Error! User couldn't signout!", serializer);
 	}
 
 	return result;

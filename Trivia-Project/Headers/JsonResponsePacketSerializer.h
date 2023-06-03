@@ -26,8 +26,8 @@ public:
 	Buffer serializeResponse(GetPlayersInRoomResponse response);
 	Buffer serializeResponse(JoinRoomResponse response);
 	Buffer serializeResponse(CreateRoomResponse response);
-	Buffer serializeResponse(getHighScoreResponse response);
-	Buffer serializeResponse(getPersonalStatsResponse response);
+	Buffer serializeResponse(GetHighScoreResponse response);
+	Buffer serializeResponse(GetPersonalStatsResponse response);
 private:
 	Buffer serializeReponseStatus(int code, int status);
 	Buffer serializeResponseStats(int status, std::vector<std::string> statistics, std::string typeOfStats, int code);

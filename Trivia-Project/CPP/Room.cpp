@@ -2,6 +2,10 @@
 
 int Room::count = 0;
 
+Room::Room()
+{
+}
+
 /*
 * Function is a ctor for a room which gets a name, max players, and time per question.
 * Input: name - the name of the room
@@ -27,9 +31,18 @@ Room::Room(std::string name, unsigned int maxPlayers, unsigned int timePerQuesti
 * Input: user - logged user to add
 * Output: none
 */
-void Room::addUser(LoggedUser user)
+int Room::addUser(LoggedUser user)
 {
-	this->m_users.push_back(user);
+	try
+	{
+		this->m_users.push_back(user);
+
+		return SUCCESS;
+	}
+	catch (...)
+	{
+		return FAIL;
+	}
 }
 
 /*

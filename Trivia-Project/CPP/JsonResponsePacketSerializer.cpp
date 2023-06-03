@@ -74,7 +74,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse response
 
     data["Rooms"] = rooms.substr(0, rooms.size() - 1);
 
-    message._code = getRooms;
+    message._code = GetRooms;
     message._data = data;
     message._dataLength = data.dump().length(); // convert message to bytes
 
@@ -103,7 +103,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse 
 
     data["PlayersInRoom"] = players.substr(0, players.size() - 1);
 
-    message._code = getPlayersInRoom;
+    message._code = GetPlayersInRoom;
     message._data = data;
     message._dataLength = data.dump().length(); // convert message to bytes
 
@@ -119,7 +119,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse 
 */
 Buffer JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response)
 {
-    return serializeReponseStatus(joinRoom, response._status);
+    return serializeReponseStatus(JoinRoom, response._status);
 }
 
 /*
@@ -129,7 +129,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response
 */
 Buffer JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse response)
 {
-    return serializeReponseStatus(createRoom, response._status);
+    return serializeReponseStatus(CreateRoom, response._status);
 }
 
 /*
@@ -137,9 +137,9 @@ Buffer JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse respon
 * Input: response - the get high score reponse
 * Output: a buffer of the serialized response
 */
-Buffer JsonResponsePacketSerializer::serializeResponse(getHighScoreResponse response)
+Buffer JsonResponsePacketSerializer::serializeResponse(GetHighScoreResponse response)
 {
-    return serializeResponseStats(response._status, response._statistics, "HighScores", getPersonalStats);
+    return serializeResponseStats(response._status, response._statistics, "HighScores", GetPersonalStats);
 }
 
 /*
@@ -147,9 +147,9 @@ Buffer JsonResponsePacketSerializer::serializeResponse(getHighScoreResponse resp
 * Input: response - the get personal stats reponse
 * Output: a buffer of the serialized response
 */
-Buffer JsonResponsePacketSerializer::serializeResponse(getPersonalStatsResponse response)
+Buffer JsonResponsePacketSerializer::serializeResponse(GetPersonalStatsResponse response)
 {
-    return serializeResponseStats(response._status, response._statistics, "UserStatistics", getPersonalStats);
+    return serializeResponseStats(response._status, response._statistics, "UserStatistics", GetPersonalStats);
 }
 
 /*

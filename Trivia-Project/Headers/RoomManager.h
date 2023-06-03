@@ -7,7 +7,7 @@
 class RoomManager
 {
 public:
-	void createRoom(LoggedUser user, RoomData roomData); // create new room
+	int createRoom(LoggedUser user, RoomData roomData); // create new room
 	void deleteRoom(int ID); // delete room
 
 	unsigned int getRoomState(int ID); // is room in game or waiting for game

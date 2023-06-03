@@ -2,14 +2,19 @@
 
 int Room::count = 0;
 
+Room::Room()
+{
+}
+
 /*
 * Function is a ctor for a room which gets a name, max players, and time per question.
 * Input: name - the name of the room
 *		 maxPlayers - the max players for the room
 *		 timePerQuestion - how much time per question
+*		 numOfQuestionsInGame - number of questions in game
 * Output: none
 */
-Room::Room(std::string name, unsigned int maxPlayers, unsigned int timePerQuestion)
+Room::Room(std::string name, unsigned int maxPlayers, unsigned int timePerQuestion, unsigned int numOfQuestionsInGame)
 {
 	this->m_metadata.id = ++count; // set id as num of instances
 
@@ -17,7 +22,7 @@ Room::Room(std::string name, unsigned int maxPlayers, unsigned int timePerQuesti
 
 	this->m_metadata.maxPlayers = maxPlayers;
 	this->m_metadata.name = name;
-	this->m_metadata.numOfQuestionsInGame = NUM_OF_QUESTIONS;
+	this->m_metadata.numOfQuestionsInGame = numOfQuestionsInGame;
 	this->m_metadata.timePerQuestion = timePerQuestion;
 }
 
@@ -26,9 +31,18 @@ Room::Room(std::string name, unsigned int maxPlayers, unsigned int timePerQuesti
 * Input: user - logged user to add
 * Output: none
 */
-void Room::addUser(LoggedUser user)
+int Room::addUser(LoggedUser user)
 {
-	this->m_users.push_back(user);
+	try
+	{
+		this->m_users.push_back(user);
+
+		return SUCCESS;
+	}
+	catch (...)
+	{
+		return FAIL;
+	}
 }
 
 /*

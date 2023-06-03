@@ -7,6 +7,7 @@
 #include "sqlite3.h"
 #include <vector>
 #include <list>
+#include <map>
 
 #define DB_NAME "MyDB.sqlite"
 

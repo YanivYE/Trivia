@@ -286,7 +286,43 @@ int SqliteDatabase::getPlayerScore(std::string username)
 	return totalPlayerScore;
 }
 
+int usersScoresCallback(void* data, int argc, char** argv, char** azColName)
+{
+	std::string username = "";
+	int score = 0;
+	std::multimap<int, std::string>* scores = static_cast<std::multimap<int, std::string>*>(data);
+	for (int i = 0; i < argc; i++) {
+		if (std::string(azColName[i]) == "username") {
+			username = argv[i];
+		}
+		else if (std::string(azColName[i]) == "score") {
+			score = std::atoi(argv[i]);
+		}	
+	}
+	(*scores).insert(std::make_pair(score, username));
+
+	return 0;
+}
+
 std::vector<std::string> SqliteDatabase::getHighScores()
 {
-	return std::vector<std::string>();
+	std::multimap<int, std::string> usersScores;
+	std::string query = "SELECT * FROM statistics";
+	executeQuery(query, usersScoresCallback, &usersScores);
+
+	return getHighScoresTable(usersScores);
+}
+
+std::vector<std::string> getHighScoresTable(std::multimap<int, std::string> scores)
+{
+	std::vector<std::string> topUsers;
+	std::multimap<int, std::string>::iterator it;
+	for (it = scores.begin(); it != scores.end(); ++it) 
+	{
+		std::string userHighScore = it->second + ": " + std::to_string(it->first);
+		topUsers.push_back(userHighScore);
+		if (topUsers.size() == 5) 
+			break;
+	}
+	return topUsers;
 }

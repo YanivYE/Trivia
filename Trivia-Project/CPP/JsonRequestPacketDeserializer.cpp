@@ -12,8 +12,8 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(Buffer buffe
 
 	json data = convertBytesToJson(bytes);
 
-	loginRequest.username = data["username"];
-	loginRequest.password = data["password"];
+	loginRequest._username = data["username"];
+	loginRequest._password = data["password"];
 
 	return loginRequest;
 }
@@ -30,11 +30,74 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(Buffer buf
 
 	json data = convertBytesToJson(bytes);
 
-	signUpRequest.username = data["username"];
-	signUpRequest.password = data["password"];
-	signUpRequest.email = data["email"];
+	signUpRequest._username = data["username"];
+	signUpRequest._password = data["password"];
+	signUpRequest._email = data["email"];
 
 	return signUpRequest;
+}
+
+/*
+* Function gets a buffer and seserializes it to a get players in room request
+* Input: buffer - the buffer to deserialize
+* Output: a get players in room request
+*/
+GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersRequest(Buffer buffer)
+{
+    GetPlayersInRoomRequest getPlayersInRoomRequest = GetPlayersInRoomRequest();
+    std::vector<unsigned char> bytes(buffer._bytes.begin(), buffer._bytes.end());
+
+    json data = convertBytesToJson(bytes);
+
+    getPlayersInRoomRequest._roomId = data["roomId"];
+
+    return getPlayersInRoomRequest;
+}
+
+/*
+* Function gets a buffer and seserializes it to a join room request
+* Input: buffer - the buffer to deserialize
+* Output: a join room request
+*/
+JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(Buffer buffer)
+{
+    JoinRoomRequest joinRoomRequest = JoinRoomRequest();
+    std::vector<unsigned char> bytes(buffer._bytes.begin(), buffer._bytes.end());
+
+    json data = convertBytesToJson(bytes);
+
+    joinRoomRequest._roomId = data["roomId"];
+
+    return joinRoomRequest;
+}
+
+/*
+* Function gets a buffer and seserializes it to a create room request
+* Input: buffer - the buffer to deserialize
+* Output: a create room request
+*/
+CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(Buffer buffer)
+{
+    CreateRoomRequest createRoomRequest = CreateRoomRequest();
+    std::vector<unsigned char> bytes(buffer._bytes.begin(), buffer._bytes.end());
+
+    json data = convertBytesToJson(bytes);
+
+    createRoomRequest._roomName = data["roomName"];
+
+    // get max users and convert to int
+    std::string maxUsers = data["maxUsers"];
+    createRoomRequest._maxUsers = stoi(maxUsers);
+
+    // get question count and convert to int
+    std::string questionCount = data["questionCount"];
+    createRoomRequest._questionCount = stoi(questionCount);
+
+    // get answer timeout and convert to int
+    std::string answerTimeout = data["answerTimeout"];
+    createRoomRequest._answerTimeout = stoi(answerTimeout);
+
+    return createRoomRequest;
 }
 
 /*

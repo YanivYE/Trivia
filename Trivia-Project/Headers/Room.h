@@ -4,6 +4,8 @@
 #include <vector>
 #include "LoggedUser.h"
 
+#define SUCCESS 1
+#define FAIL -1
 
 struct RoomData
 {
@@ -15,15 +17,13 @@ struct RoomData
 	unsigned int isActive;
 } typedef RoomData;
 
-// TODO: check if should be define or acess from somewhere else
-#define NUM_OF_QUESTIONS 10
-
 class Room
 {
 public:
-	Room(std::string name, unsigned int maxPlayers, unsigned int timePerQuestion); // ctor for room
+	Room();
+	Room(std::string name, unsigned int maxPlayers, unsigned int timePerQuestion, unsigned int numOfQuestionsInGame); // ctor for room
 
-	void addUser(LoggedUser user); // add user to room
+	int addUser(LoggedUser user); // add user to room
 	void removeUser(LoggedUser user); // remove user from room
 
 	RoomData getRoomData(); // get room data

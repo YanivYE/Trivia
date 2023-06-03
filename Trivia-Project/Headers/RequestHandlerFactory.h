@@ -23,8 +23,11 @@ public:
 	}
 
 	LoginRequestHandler* createLoginRequestHandlers();
-	MenuRequestHandler* createMenuRequestHandlers();
+	MenuRequestHandler* createMenuRequestHandlers(LoggedUser user);
+
 	LoginManager& getLoginManager();
+	RoomManager& getRoomManager();
+	StatisticsManager& getStatisticsManager();
 
 private:
 	RequestHandlerFactory(IDataBase* database) : m_loginManager()
@@ -32,6 +35,8 @@ private:
 		this->m_database = database;
 		this->m_database->open();
 		this->m_loginManager = &(LoginManager::getInstance(m_database));
+		this->m_statisticsManager = new StatisticsManager(m_database);
+		this->m_roomManager = new RoomManager();
 	}
 
 	~RequestHandlerFactory()
@@ -42,4 +47,6 @@ private:
 
 	LoginManager* m_loginManager;
 	IDataBase* m_database;
+	RoomManager* m_roomManager;
+	StatisticsManager* m_statisticsManager;
 };

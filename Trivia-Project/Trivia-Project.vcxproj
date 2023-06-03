@@ -35,6 +35,7 @@
     <ClInclude Include="Headers\Server.h" />
     <ClInclude Include="Headers\sqlite3.h" />
     <ClInclude Include="Headers\SqliteDatabase.h" />
+    <ClInclude Include="Headers\StatisticsManager.h" />
     <ClInclude Include="Headers\Utilities.h" />
     <ClInclude Include="Headers\WSAInitializer.h" />
   </ItemGroup>
@@ -48,10 +49,12 @@
     <ClCompile Include="CPP\MenuRequestHandler.cpp" />
     <ClCompile Include="CPP\RequestHandlerFactory.cpp" />
     <ClCompile Include="CPP\Room.cpp" />
+    <ClCompile Include="CPP\RoomManager.cpp" />
     <ClCompile Include="CPP\Server.cpp" />
     <ClCompile Include="CPP\Source.cpp" />
     <ClCompile Include="CPP\sqlite3.c" />
     <ClCompile Include="CPP\SqliteDatabase.cpp" />
+    <ClCompile Include="CPP\StatisticsManager.cpp" />
     <ClCompile Include="CPP\WSAInitializer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

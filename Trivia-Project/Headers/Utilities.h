@@ -5,6 +5,8 @@
 #include "..\Headers\json.hpp"
 #include "Room.h"
 
+#define NUM_OF_QUESTIONS 10
+
 using json = nlohmann::json;
 
 enum messageCode { Login = 1, SignUp, Logout, GetRooms, GetPlayersInRoom, JoinRoom, CreateRoom, GetHighScore, GetPersonalStats, Error};

@@ -93,10 +93,10 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	{
 		RoomData roomData;
 
-		roomData.name = createRoomRequest.roomName;
-		roomData.maxPlayers = createRoomRequest.maxUsers;
-		roomData.numOfQuestionsInGame = createRoomRequest.questionCount;
-		roomData.timePerQuestion = createRoomRequest.answerTimeout;
+		roomData.name = createRoomRequest._roomName;
+		roomData.maxPlayers = createRoomRequest._maxUsers;
+		roomData.numOfQuestionsInGame = createRoomRequest._questionCount;
+		roomData.timePerQuestion = createRoomRequest._answerTimeout;
 		
 		// try to create room
 		returnCode = this->m_handlerFactory->getRoomManager().createRoom(this->m_user, roomData);
@@ -179,7 +179,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 	{
 		GetPlayersInRoomResponse getPlayersInRoomResponse;
 
-		getPlayersInRoomResponse._players = this->m_handlerFactory->getRoomManager().getRoom(getPlayersInRoomRequest.roomId).getAllUsers();
+		getPlayersInRoomResponse._players = this->m_handlerFactory->getRoomManager().getRoom(getPlayersInRoomRequest._roomId).getAllUsers();
 		
 		if (returnCode == Success)
 		{
@@ -287,7 +287,7 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 	{
 		JoinRoomResponse joinRoomResponse;
 
-		joinRoomResponse._status = this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest.roomId).addUser(m_user);
+		joinRoomResponse._status = this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest._roomId).addUser(m_user);
 
 		if (returnCode == Success)
 		{

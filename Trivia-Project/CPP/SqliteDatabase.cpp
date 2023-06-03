@@ -28,6 +28,7 @@ void SqliteDatabase::createDBTables()
 {
 	createUsersTable();
 	createQuestionsTable();
+	createStatisticsTable();
 }
 
 /*
@@ -45,25 +46,6 @@ void SqliteDatabase::createUsersTable()
 		std::cerr << errMessage;
 }
 
-void SqliteDatabase::createQuestionsTable()
-{
-	const char* questionsTableQuery = "CREATE TABLE questions (question TEXT NOT NULL, correctAnswer TEXT NOT NULL, wrongAnswer1 TEXT NOT NULL, wrongAnswer2 TEXT NOT NULL, wrongAnswer3 TEXT NOT NULL);";
-						
-	char* errMessage = nullptr;
-	// execute query
-	int res = sqlite3_exec(db, questionsTableQuery, nullptr, nullptr, &errMessage);
-	if (res != SQLITE_OK)
-		std::cerr << errMessage;
-	insertQuestions();
-}
-
-void SqliteDatabase::insertQuestions()
-{
-	std::string pythonCommand = "python insertDBquestions.py";
-
-	// Run the Python script
-	int result = system(pythonCommand.c_str());
-}
 
 /*
 * Function closes the data base
@@ -181,4 +163,70 @@ int SqliteDatabase::addNewUser(std::string name, std::string password, std::stri
 		return false;
 	}
 	return true;
+}
+
+void SqliteDatabase::createQuestionsTable()
+{
+	const char* questionsTableQuery = "CREATE TABLE questions (question TEXT NOT NULL, correct_answer TEXT NOT NULL, wrong_answer_1 TEXT NOT NULL, wrong_answer_2 TEXT NOT NULL, wrong_answer_3 TEXT NOT NULL);";
+
+	char* errMessage = nullptr;
+	// execute query
+	int res = sqlite3_exec(db, questionsTableQuery, nullptr, nullptr, &errMessage);
+	if (res != SQLITE_OK)
+		std::cerr << errMessage;
+	insertQuestions();
+}
+
+void SqliteDatabase::insertQuestions()
+{
+	std::string pythonCommand = "python insertDBquestions.py";
+
+	// Run the Python script
+	int result = system(pythonCommand.c_str());
+}
+
+void SqliteDatabase::createStatisticsTable()
+{
+	const char* statisticsTableQuery = "CREATE TABLE statistics (question TEXT NOT NULL, room_number INTEGER NOT NULL, username TEXT NOT NULL, time INTEGER NOT NULL, is_correct_answer INTEGER NOT NULL, score INTEGER NOT NULL);";
+
+	char* errMessage = nullptr;
+	// execute query
+	int res = sqlite3_exec(db, statisticsTableQuery, nullptr, nullptr, &errMessage);
+	if (res != SQLITE_OK)
+		std::cerr << errMessage;
+}
+
+std::list<std::string> SqliteDatabase::getQuestions(int amount)
+{
+	return std::list<std::string>();
+}
+
+float SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
+{
+	return 0.0f;
+}
+
+int SqliteDatabase::getNumOfCorrectAnswers(std::string uaername)
+{
+	return 0;
+}
+
+int SqliteDatabase::getNumOfTotalAnswers(std::string username)
+{
+	return 0;
+}
+
+int SqliteDatabase::getNumOfPlayerGames(std::string username)
+{
+	return 0;
+}
+
+int SqliteDatabase::getPlayerScore(std::string username)
+{
+	return 0;
+}
+
+std::vector<std::string> SqliteDatabase::getHighScores()
+{
+	return std::vector<std::string>();
 }

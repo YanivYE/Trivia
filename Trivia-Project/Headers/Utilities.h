@@ -9,8 +9,9 @@ using json = nlohmann::json;
 
 enum messageCode { Login = 1, SignUp, Logout, getRooms, getPlayersInRoom, joinRoom, createRoom, getHighScore, getPersonalStats, Error};
 enum statusCode {Fail = -1, Success = 1};
-enum errorCode{userNotExist = 100, userNameExist, userAlreadyLogedIn, invalidUserName};
-enum roomStatusCodes{inGame = 200, waitingToStart};
+enum errorCode {userNotExist = 100, userNameExist, userAlreadyLogedIn, invalidUserName};
+enum roomStatusCodes {inGame = 200, waitingToStart};
+enum checkAnswer {wrong, correct};
 
 struct LoginResponse
 {
@@ -79,31 +80,31 @@ struct Message
 
 struct LoginRequest
 {
-	std::string username;
-	std::string password;
+	std::string _username;
+	std::string _password;
 } typedef LoginRequest;
 
 struct SignupRequest
 {
-	std::string username;
-	std::string password;
-	std::string email;
+	std::string _username;
+	std::string _password;
+	std::string _email;
 } typedef SignupRequest;
 
 struct GetPlayersInRoomRequest
 {
-	unsigned int roomId;
+	unsigned int _roomId;
 } typedef GetPlayersInRoomRequest;
 
 struct JoinRoomRequest
 {
-	unsigned int roomId;
+	unsigned int _roomId;
 } typedef JoinRoomRequest;
 
 struct CreateRoomRequest
 {
-	std::string roomName;
-	unsigned int maxUsers;
-	unsigned int questionCount;
-	unsigned int answerTimeout;
+	std::string _roomName;
+	unsigned int _maxUsers;
+	unsigned int _questionCount;
+	unsigned int _answerTimeout;
 } typedef CreateRoomRequest;

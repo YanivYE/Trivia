@@ -5,7 +5,8 @@
 #include <stdio.h>
 #include <cstdlib>
 #include "sqlite3.h"
-
+#include <vector>
+#include <list>
 
 #define DB_NAME "MyDB.sqlite"
 

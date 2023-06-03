@@ -20,7 +20,7 @@ public:
 	// Statistics
 	std::list<std::string> getQuestions(int amount) override;
 	float getPlayerAverageAnswerTime(std::string username) override;
-	int getNumOfCorrectAnswers(std::string uaername) override;
+	int getNumOfCorrectAnswers(std::string username) override;
 	int getNumOfTotalAnswers(std::string username) override;
 	int getNumOfPlayerGames(std::string username) override;
 	int getPlayerScore(std::string username) override;
@@ -36,7 +36,7 @@ private:
 	{
 		this->close();
 	}
-
+	bool executeQuery(std::string query, int(*callback)(void*, int, char**, char**), void* data);
 	void createDBTables();
 	void createUsersTable(); // create db table
 	void createQuestionsTable();

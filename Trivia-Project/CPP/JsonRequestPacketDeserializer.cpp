@@ -12,8 +12,8 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(Buffer buffe
 
 	json data = convertBytesToJson(bytes);
 
-	loginRequest.username = data["username"];
-	loginRequest.password = data["password"];
+	loginRequest._username = data["username"];
+	loginRequest._password = data["password"];
 
 	return loginRequest;
 }
@@ -30,9 +30,9 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(Buffer buf
 
 	json data = convertBytesToJson(bytes);
 
-	signUpRequest.username = data["username"];
-	signUpRequest.password = data["password"];
-	signUpRequest.email = data["email"];
+	signUpRequest._username = data["username"];
+	signUpRequest._password = data["password"];
+	signUpRequest._email = data["email"];
 
 	return signUpRequest;
 }
@@ -49,7 +49,7 @@ GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersRequ
 
     json data = convertBytesToJson(bytes);
 
-    getPlayersInRoomRequest.roomId = data["roomId"];
+    getPlayersInRoomRequest._roomId = data["roomId"];
 
     return getPlayersInRoomRequest;
 }
@@ -66,7 +66,7 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(Buffer
 
     json data = convertBytesToJson(bytes);
 
-    joinRoomRequest.roomId = data["roomId"];
+    joinRoomRequest._roomId = data["roomId"];
 
     return joinRoomRequest;
 }
@@ -83,19 +83,19 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(Bu
 
     json data = convertBytesToJson(bytes);
 
-    createRoomRequest.roomName = data["roomName"];
+    createRoomRequest._roomName = data["roomName"];
 
     // get max users and convert to int
     std::string maxUsers = data["maxUsers"];
-    createRoomRequest.maxUsers = stoi(maxUsers);
+    createRoomRequest._maxUsers = stoi(maxUsers);
 
     // get question count and convert to int
     std::string questionCount = data["questionCount"];
-    createRoomRequest.questionCount = stoi(questionCount);
+    createRoomRequest._questionCount = stoi(questionCount);
 
     // get answer timeout and convert to int
     std::string answerTimeout = data["answerTimeout"];
-    createRoomRequest.answerTimeout = stoi(answerTimeout);
+    createRoomRequest._answerTimeout = stoi(answerTimeout);
 
     return createRoomRequest;
 }

@@ -81,11 +81,11 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
 	try
 	{
 		// try to login
-		returnCode = this->m_handlerFactory->getLoginManager().login(loginRequest.username, loginRequest.password);
+		returnCode = this->m_handlerFactory->getLoginManager().login(loginRequest._username, loginRequest._password);
 
 		if (returnCode == Success)
 		{
-			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(loginRequest.username));
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(loginRequest._username));
 		}
 		else
 		{
@@ -144,11 +144,11 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
 	try
 	{
 		// try to sign up
-		returnCode = this->m_handlerFactory->getLoginManager().signup(signupRequest.username, signupRequest.password, signupRequest.email);
+		returnCode = this->m_handlerFactory->getLoginManager().signup(signupRequest._username, signupRequest._password, signupRequest._email);
 		
 		if (returnCode == Success)
 		{
-			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(signupRequest.username));
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(signupRequest._username));
 		}
 		else
 		{

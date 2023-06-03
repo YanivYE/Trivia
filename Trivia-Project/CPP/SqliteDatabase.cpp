@@ -1,5 +1,19 @@
 #include "../Headers/SqliteDatabase.h"
 
+
+bool SqliteDatabase::executeQuery(std::string query, int(*callback)(void*, int, char**, char**), void* data)
+{
+	char* errMessage = nullptr;
+	// execute query
+	int res = sqlite3_exec(db, query.c_str(), callback, data, &errMessage);
+	if (res != SQLITE_OK)
+	{
+		std::cerr << errMessage;
+		return false;
+	}
+	return true;
+}
+
 /*
 * Function opens a data base for the program
 * Output: data base opened or not
@@ -28,6 +42,7 @@ void SqliteDatabase::createDBTables()
 {
 	createUsersTable();
 	createQuestionsTable();
+	createStatisticsTable();
 }
 
 /*
@@ -36,34 +51,10 @@ void SqliteDatabase::createDBTables()
 */
 void SqliteDatabase::createUsersTable()
 {
-	const char* usersTableQuery = "CREATE TABLE users (username TEXT NOT NULL, password TEXT NOT NULL, mail TEXT NOT NULL);";
-
-	char* errMessage = nullptr;
-	// execute query
-	int res = sqlite3_exec(db, usersTableQuery, nullptr, nullptr, &errMessage);
-	if (res != SQLITE_OK)
-		std::cerr << errMessage;
+	std::string usersTableQuery = "CREATE TABLE users (username TEXT NOT NULL, password TEXT NOT NULL, mail TEXT NOT NULL);";
+	executeQuery(usersTableQuery, nullptr, nullptr);
 }
 
-void SqliteDatabase::createQuestionsTable()
-{
-	const char* questionsTableQuery = "CREATE TABLE questions (question TEXT NOT NULL, correctAnswer TEXT NOT NULL, wrongAnswer1 TEXT NOT NULL, wrongAnswer2 TEXT NOT NULL, wrongAnswer3 TEXT NOT NULL);";
-						
-	char* errMessage = nullptr;
-	// execute query
-	int res = sqlite3_exec(db, questionsTableQuery, nullptr, nullptr, &errMessage);
-	if (res != SQLITE_OK)
-		std::cerr << errMessage;
-	insertQuestions();
-}
-
-void SqliteDatabase::insertQuestions()
-{
-	std::string pythonCommand = "python insertDBquestions.py";
-
-	// Run the Python script
-	int result = system(pythonCommand.c_str());
-}
 
 /*
 * Function closes the data base
@@ -101,14 +92,10 @@ int userExistsCallback(void* existsPtr, int argc, char** argv, char** azColName)
 int SqliteDatabase::doesUserExist(std::string name)
 {
 	int exists = false;
-	std::string query = "SELECT * FROM users WHERE username = '" + name + "';";
+	std::string userExistsQuery = "SELECT * FROM users WHERE username = '" + name + "';";
 
-	char* errMessage = nullptr;
-	// execute query
-	int res = sqlite3_exec(db, query.c_str(), userExistsCallback, &exists, &errMessage);
-	if (res != SQLITE_OK)
+	if (!executeQuery(userExistsQuery, userExistsCallback, &exists))
 	{
-		std::cerr << errMessage;
 		return false;
 	}
 
@@ -142,14 +129,10 @@ int SqliteDatabase::doesPasswordMatch(std::string name, std::string password)
 		// if the user exists
 	{
 		std::string userPassword = "";
-		std::string query = "SELECT password FROM users WHERE username = '" + name + "';";
+		std::string passwordsMatchQuery = "SELECT password FROM users WHERE username = '" + name + "';";
 
-		char* errMessage = nullptr;
-		// execute query
-		int res = sqlite3_exec(db, query.c_str(), userPasswordCallback, &userPassword, &errMessage);
-		if (res != SQLITE_OK)
+		if (!executeQuery(passwordsMatchQuery, userPasswordCallback, &userPassword))
 		{
-			std::cerr << errMessage;
 			return false;
 		}
 		// return if the passwords match
@@ -171,14 +154,175 @@ int SqliteDatabase::doesPasswordMatch(std::string name, std::string password)
 */
 int SqliteDatabase::addNewUser(std::string name, std::string password, std::string mail)
 {
-	char* errMessage = nullptr;
-	std::string query = "INSERT INTO users (username, password, mail) VALUES ('" + name + "','" + password + "','" + mail + "');";
-	// execute query
-	int res = sqlite3_exec(db, query.c_str(), nullptr, nullptr, &errMessage);
-	if (res != SQLITE_OK)
-	{
-		std::cerr << errMessage;
-		return false;
+	std::string addUserQuery = "INSERT INTO users (username, password, mail) VALUES ('" + name + "','" + password + "','" + mail + "');";
+	return executeQuery(addUserQuery, nullptr, nullptr);
+}
+
+void SqliteDatabase::createQuestionsTable()
+{
+	std::string questionsTableQuery = "CREATE TABLE questions (question TEXT NOT NULL, correct_answer TEXT NOT NULL, wrong_answer_1 TEXT NOT NULL, wrong_answer_2 TEXT NOT NULL, wrong_answer_3 TEXT NOT NULL);";
+	executeQuery(questionsTableQuery, nullptr, nullptr);
+	insertQuestions();
+}
+
+void SqliteDatabase::insertQuestions()
+{
+	std::string pythonCommand = "python insertDBquestions.py";
+
+	// Run the Python script
+	int result = system(pythonCommand.c_str());
+}
+
+void SqliteDatabase::createStatisticsTable()
+{
+	const char* statisticsTableQuery = "CREATE TABLE statistics (question TEXT NOT NULL, room_number INTEGER NOT NULL, username TEXT NOT NULL, time INTEGER NOT NULL, is_correct_answer INTEGER NOT NULL, score INTEGER NOT NULL);";
+	executeQuery(statisticsTableQuery, nullptr, nullptr);
+}
+
+int QuestionsCallback(void* data, int argc, char** argv, char** azColName)
+{
+	std::list<std::string>* list = static_cast<std::list<std::string>*>(data);
+	std::string question;
+	for (int i = 0; i < argc; i++) {
+		if (std::string(azColName[i]) == "question") {
+			question = argv[i];
+		}
 	}
-	return true;
+	list->push_back(question);
+
+	return 0;
+}
+
+
+std::list<std::string> SqliteDatabase::getQuestions(int amount)
+{
+	std::list<std::string> questions;
+	std::string getQuestionsQuery = "SELECT * FROM questions LIMIT " + std::to_string(amount) + "; ";
+	executeQuery(getQuestionsQuery, QuestionsCallback, &questions);
+	return questions;
+}
+
+int timeCallback(void* data, int argc, char** argv, char** azColName)
+{
+	float* time = static_cast<float*>(data);
+	for (int i = 0; i < argc; i++) {
+		if (std::string(azColName[i]) == "time") {
+			*time += std::atoi(argv[i]);
+		}
+	}
+	return 0;
+}
+
+int totalUserAnswersCallBAck(void* data, int argc, char** argv, char** azColName)
+{
+	float* amount = static_cast<float*>(data);
+	*amount = argc;
+	return 0;
+}
+
+float SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
+{
+	float totalTime = 0;
+	float amount = 0;
+	std::string query = "SELECT * FROM statistics WHERE username = '" + username + "'; ";
+	executeQuery(query, timeCallback, &totalTime);
+	executeQuery(query, totalUserAnswersCallBAck, &amount);
+
+	return totalTime / amount;
+}
+
+int correctAnswersCallback(void* data, int argc, char** argv, char** azColName)
+{
+	int* count = static_cast<int*>(data);
+	for (int i = 0; i < argc; i++) {
+		if (std::string(azColName[i]) == "is_correct_answer") {
+			if (std::atoi(argv[i]) == correct)
+			{
+				count++;
+			}
+		}
+	}
+	return 0;
+}
+
+int SqliteDatabase::getNumOfCorrectAnswers(std::string username)
+{
+	int correctAnswersCount = 0;
+	std::string getCorrectAnswersQuery = "SELECT * FROM statistics WHERE username = '" + username + "'; ";
+	executeQuery(getCorrectAnswersQuery, correctAnswersCallback, &correctAnswersCount);
+	return correctAnswersCount;
+}
+
+int SqliteDatabase::getNumOfTotalAnswers(std::string username)
+{
+	int amount = 0;
+	std::string query = "SELECT * FROM statistics WHERE username = '" + username + "'; ";
+	executeQuery(query, totalUserAnswersCallBAck, &amount);
+	return amount;
+}
+
+int SqliteDatabase::getNumOfPlayerGames(std::string username)
+{
+	return getNumOfTotalAnswers(username) / NUM_OF_QUESTIONS;
+}
+
+
+int scoreCallback(void* data, int argc, char** argv, char** azColName)
+{
+	int* score = static_cast<int*>(data);
+	for (int i = 0; i < argc; i++) {
+		if (std::string(azColName[i]) == "score") {
+			*score += std::atoi(argv[i]);
+		}
+	}
+	return 0;
+}
+
+int SqliteDatabase::getPlayerScore(std::string username)
+{
+	int totalPlayerScore = 0;
+	std::string query = "SELECT * FROM statistics WHERE username = '" + username + "'; ";
+	executeQuery(query, scoreCallback, &totalPlayerScore);
+	return totalPlayerScore;
+}
+
+int usersScoresCallback(void* data, int argc, char** argv, char** azColName)
+{
+	std::string username = "";
+	int score = 0;
+	std::multimap<int, std::string>* scores = static_cast<std::multimap<int, std::string>*>(data);
+	for (int i = 0; i < argc; i++) {
+		if (std::string(azColName[i]) == "username") {
+			username = argv[i];
+		}
+		else if (std::string(azColName[i]) == "score") {
+			score = std::atoi(argv[i]);
+		}	
+	}
+	(*scores).insert(std::make_pair(score, username));
+
+	return 0;
+}
+
+std::vector<std::string> SqliteDatabase::getHighScores()
+{
+	std::multimap<int, std::string> usersScores;
+	std::string query = "SELECT * FROM statistics";
+	executeQuery(query, usersScoresCallback, &usersScores);
+
+	return getHighScoresTable(usersScores);
+}
+
+std::vector<std::string> getHighScoresTable(std::multimap<int, std::string> scores)
+{
+	std::vector<std::string> topUsers;
+	std::multimap<int, std::string>::iterator it;
+	for (it = scores.begin(); it != scores.end(); ++it) 
+	{
+		std::string userHighScore = it->second + ": " + std::to_string(it->first);
+		topUsers.push_back(userHighScore);
+		if (topUsers.size() == 5) 
+			break;
+	}
+	return topUsers;
 }

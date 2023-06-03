@@ -313,7 +313,7 @@ std::vector<std::string> SqliteDatabase::getHighScores()
 	return getHighScoresTable(usersScores);
 }
 
-std::vector<std::string> getHighScoresTable(std::multimap<int, std::string> scores)
+std::vector<std::string> SqliteDatabase::getHighScoresTable(std::multimap<int, std::string> scores)
 {
 	std::vector<std::string> topUsers;
 	std::multimap<int, std::string>::iterator it;

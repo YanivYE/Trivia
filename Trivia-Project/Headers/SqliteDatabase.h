@@ -42,4 +42,5 @@ private:
 	void createQuestionsTable();
 	void insertQuestions();
 	void createStatisticsTable();
+	std::vector<std::string> getHighScoresTable(std::multimap<int, std::string> scores);
 };

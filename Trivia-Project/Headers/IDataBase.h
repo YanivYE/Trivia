@@ -14,7 +14,8 @@
 
 class IDataBase
 {
-public:
+public:	
+	// base data base funcs
 	virtual bool open() = 0;
 	virtual bool close() = 0; 
 	virtual int doesUserExist(std::string username) = 0;

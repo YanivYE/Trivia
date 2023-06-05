@@ -20,7 +20,7 @@ struct RoomData
 class Room
 {
 public:
-	Room();
+	Room(); // empty ctor
 	Room(std::string name, unsigned int maxPlayers, unsigned int timePerQuestion, unsigned int numOfQuestionsInGame); // ctor for room
 
 	int addUser(LoggedUser user); // add user to room

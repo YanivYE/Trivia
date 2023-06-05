@@ -1,6 +1,6 @@
 #include "../Headers/LoggedUser.h"
 
-
+// empty ctor
 LoggedUser::LoggedUser()
 {
 }

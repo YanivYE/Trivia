@@ -25,10 +25,11 @@ public:
 	RequestResult joinRoom(RequestInfo info); // join room request
 	RequestResult createRoom(RequestInfo info); // create room request
 private:
+	// return error 
 	RequestResult returnError(RequestResult& result, std::string errorMsg, JsonResponsePacketSerializer serializer);
 
-	LoggedUser m_user;
-	RoomManager* m_roomManager;
-	StatisticsManager* m_statisticsManager;
-	RequestHandlerFactory* m_handlerFactory;
+	LoggedUser m_user; // logged user
+	RoomManager* m_roomManager; // room manager 
+	StatisticsManager* m_statisticsManager; // stats manager
+	RequestHandlerFactory* m_handlerFactory; // request handler
 };

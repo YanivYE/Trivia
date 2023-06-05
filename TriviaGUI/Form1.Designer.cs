@@ -28,11 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
             button1 = new Button();
             button2 = new Button();
-            timer1 = new System.Windows.Forms.Timer(components);
             button3 = new Button();
             SuspendLayout();
             // 
@@ -63,11 +61,14 @@
             // 
             // button3
             // 
-            button3.BackColor = Color.Violet;
-            button3.Image = (Image)resources.GetObject("button3.Image");
-            button3.Location = new Point(12, 342);
+            button3.BackColor = Color.Transparent;
+            button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
+            button3.BackgroundImageLayout = ImageLayout.Stretch;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.ForeColor = SystemColors.ControlText;
+            button3.Location = new Point(17, 378);
             button3.Name = "button3";
-            button3.Size = new Size(66, 67);
+            button3.Size = new Size(44, 44);
             button3.TabIndex = 2;
             button3.UseVisualStyleBackColor = false;
             button3.Click += button3_Click;
@@ -96,7 +97,6 @@
 
         private Button button1;
         private Button button2;
-        private System.Windows.Forms.Timer timer1;
         private Button button3;
     }
 }

@@ -8,15 +8,18 @@
 int LoginManager::signup(std::string username, std::string password, std::string mail)
 {
 	if (!isValidUsername(username))
+		// username not valid
 	{
 		return invalidUserName;
 	}
 
 	if (!this->m_database->doesUserExist(username))
+		// user doesnt exists
 	{
 		return this->m_database->addNewUser(username, password, mail);
 	}
 
+	// user already exists
 	return userNameExist;
 }
 
@@ -28,6 +31,7 @@ int LoginManager::signup(std::string username, std::string password, std::string
 int LoginManager::login(std::string username, std::string password)
 {
 	if (!isValidUsername(username))
+		// username not valid
 	{
 		return invalidUserName;
 	}
@@ -37,13 +41,17 @@ int LoginManager::login(std::string username, std::string password)
 		// check if username is already logged in
 		if (!(std::find(this->m_loggedUsers.begin(), this->m_loggedUsers.end(), LoggedUser(username)) != this->m_loggedUsers.end()))
 		{
+			// connect user
 			this->m_loggedUsers.push_back(LoggedUser(username));
 
 			return Success;
 		}
 
+		// user already loged in
 		return userAlreadyLogedIn;
 	}
+
+	// user doesnt exists
 	return userNotExist;
 }
 

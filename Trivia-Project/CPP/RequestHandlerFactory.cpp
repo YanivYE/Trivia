@@ -30,11 +30,21 @@ LoginManager& RequestHandlerFactory::getLoginManager()
     return *m_loginManager;
 }
 
+/*
+* Function returns rerence to room manager
+* Input: none
+* Output: refrence to room manager
+*/
 RoomManager& RequestHandlerFactory::getRoomManager()
 {
     return *m_roomManager;
 }
 
+/*
+* Function returns rerence to statistics manager
+* Input: none
+* Output: refrence to statistics manager
+*/
 StatisticsManager& RequestHandlerFactory::getStatisticsManager()
 {
     return *m_statisticsManager;

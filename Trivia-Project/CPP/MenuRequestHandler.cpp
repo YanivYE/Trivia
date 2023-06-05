@@ -61,6 +61,13 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 	return requestResult;
 }
 
+/*
+* Function gets a request result, err msg, serializer and returns a serializer request result
+* Input: result - the current request result info
+*		 errorMsg - error msg
+*		 serializer - the serializer
+* Output: a get players in room request
+*/
 RequestResult MenuRequestHandler::returnError(RequestResult& result, std::string errorMsg, JsonResponsePacketSerializer serializer)
 {
 	ErrorResponse errResponse;
@@ -68,8 +75,13 @@ RequestResult MenuRequestHandler::returnError(RequestResult& result, std::string
 
 	result.response = serializer.serializeResponse(errResponse);
 	return result;
-}
+} 
 
+/*
+* Function gets a info to deserialize and returns a request result of creating a room
+* Input: info - the info to desializer to request result
+* Output: a create room request result
+*/
 RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 {
 	CreateRoomRequest createRoomRequest;
@@ -91,6 +103,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 
 	try
 	{
+		// get room data
 		RoomData roomData;
 
 		roomData.name = createRoomRequest._roomName;
@@ -101,6 +114,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 		// try to create room
 		returnCode = this->m_handlerFactory->getRoomManager().createRoom(this->m_user, roomData);
 
+		// create menu request handler for user if success
 		if (returnCode == Success)
 		{
 			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
@@ -123,6 +137,11 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	return result;
 }
 
+/*
+* Function gets a info to deserialize and returns a request result of get rooms
+* Input: info - the info to desializer to request result
+* Output: a get rooms request result
+*/
 RequestResult MenuRequestHandler::getRooms(RequestInfo info)
 {
 	RequestResult result;
@@ -131,10 +150,12 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo info)
 
 	try
 	{
+		// get rooms from room manager
 		GetRoomsResponse getRoomsResponse;
 
 		getRoomsResponse._rooms = this->m_handlerFactory->getRoomManager().getRooms();
 
+		// if success create menu request handlers
 		if (returnCode == Success)
 		{
 			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
@@ -156,6 +177,11 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo info)
 	return result;
 }
 
+/*
+* Function gets a info to deserialize and returns a request result of get players in room
+* Input: info - the info to desializer to request result
+* Output: a get players in room request result
+*/
 RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 {
 	GetPlayersInRoomRequest getPlayersInRoomRequest;
@@ -177,6 +203,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 
 	try
 	{
+		// get playser from room 
 		GetPlayersInRoomResponse getPlayersInRoomResponse;
 
 		getPlayersInRoomResponse._players = this->m_handlerFactory->getRoomManager().getRoom(getPlayersInRoomRequest._roomId).getAllUsers();
@@ -200,6 +227,11 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 	return result;
 }
 
+/*
+* Function gets a info to deserialize and returns a request result of get personal stats
+* Input: info - the info to desializer to request result
+* Output: a get personal stats request result
+*/
 RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 {
 	RequestResult result;
@@ -209,6 +241,7 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 
 	try
 	{
+		// get personal stats
 		GetPersonalStatsResponse getPersonalStatsResponse;
 
 		getPersonalStatsResponse._statistics = this->m_handlerFactory->getStatisticsManager().getUserStatistics(m_user.getUsername());
@@ -232,6 +265,11 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 	return result;
 }
 
+/*
+* Function gets a info to deserialize and returns a request result of get get high score
+* Input: info - the info to desializer to request result
+* Output: a get high score request result
+*/
 RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 {
 	RequestResult result;
@@ -241,6 +279,7 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 
 	try
 	{
+		// get high score
 		GetHighScoreResponse getHighScoreResponse;
 
 		getHighScoreResponse._statistics = this->m_handlerFactory->getStatisticsManager().getHighScore();
@@ -264,6 +303,11 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 	return result;
 }
 
+/*
+* Function gets a info to deserialize and returns a request result of get join room
+* Input: info - the info to desializer to request result
+* Output: a join room request result
+*/
 RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 {
 	JoinRoomRequest joinRoomRequest;
@@ -285,6 +329,7 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 
 	try
 	{
+		// join rooms 
 		JoinRoomResponse joinRoomResponse;
 
 		joinRoomResponse._status = this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest._roomId).addUser(m_user);
@@ -308,6 +353,11 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 	return result;
 }
 
+/*
+* Function gets a info to deserialize and returns a request result of signout
+* Input: info - the info to desializer to request result
+* Output: a signout request result
+*/
 RequestResult MenuRequestHandler::signout(RequestInfo info)
 {
 	RequestResult result;
@@ -316,6 +366,7 @@ RequestResult MenuRequestHandler::signout(RequestInfo info)
 
 	try
 	{
+		// logout
 		LogoutResponse logoutResponse;
 
 		logoutResponse._status = this->m_handlerFactory->getLoginManager().logout(m_user.getUsername());

@@ -11,25 +11,28 @@ class MenuRequestHandler;
 class RequestHandlerFactory
 {
 public:
+	// get instance of request handler factory
 	static RequestHandlerFactory& getInstance(IDataBase* database)
 	{
 		static RequestHandlerFactory instance(database);
 		return instance;
 	}
 
+	// destroy of request handler factory
 	static void destroyInstance() {
 		RequestHandlerFactory& instance = getInstance(nullptr);
 		delete& instance;
 	}
 
-	LoginRequestHandler* createLoginRequestHandlers();
-	MenuRequestHandler* createMenuRequestHandlers(LoggedUser user);
+	LoginRequestHandler* createLoginRequestHandlers(); // create login request handlers
+	MenuRequestHandler* createMenuRequestHandlers(LoggedUser user); // create menu reuqest handlers
 
-	LoginManager& getLoginManager();
-	RoomManager& getRoomManager();
-	StatisticsManager& getStatisticsManager();
+	LoginManager& getLoginManager(); // return login manager 
+	RoomManager& getRoomManager(); // return room manager
+	StatisticsManager& getStatisticsManager(); // return stats manager
 
 private:
+	// ctor
 	RequestHandlerFactory(IDataBase* database) : m_loginManager()
 	{
 		this->m_database = database;
@@ -39,6 +42,7 @@ private:
 		this->m_roomManager = new RoomManager();
 	}
 
+	// dtor
 	~RequestHandlerFactory()
 	{
 		destroyInstance();

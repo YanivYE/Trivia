@@ -10,8 +10,10 @@ int RoomManager::createRoom(LoggedUser user, RoomData roomData)
 {
 	try
 	{
+		// craete room
 		Room room(roomData.name, roomData.maxPlayers, roomData.timePerQuestion, roomData.numOfQuestionsInGame);
 
+		// add user to new room
 		room.addUser(user);
 
 		// add new room to map

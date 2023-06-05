@@ -6,6 +6,7 @@
 class SqliteDatabase : public IDataBase
 {
 public:
+	// get instance 
 	static SqliteDatabase& getInstance() {
 		static SqliteDatabase instance;
 		return instance;
@@ -27,20 +28,22 @@ public:
 	std::vector<std::string> getHighScores() override;
 
 private:
+	// ctor
 	SqliteDatabase()
 	{
 		this->open();
 	}
 
+	// dtor
 	~SqliteDatabase()
 	{
 		this->close();
 	}
-	bool executeQuery(std::string query, int(*callback)(void*, int, char**, char**), void* data);
-	void createDBTables();
-	void createUsersTable(); // create db table
-	void createQuestionsTable();
-	void insertQuestions();
-	void createStatisticsTable();
-	std::vector<std::string> getHighScoresTable(std::multimap<int, std::string> scores);
+	bool executeQuery(std::string query, int(*callback)(void*, int, char**, char**), void* data); // executr query
+	void createDBTables(); // create db tables
+	void createUsersTable(); // create user table
+	void createQuestionsTable(); // create question tables
+	void insertQuestions(); // insert queestions
+	void createStatisticsTable(); // create stats table
+	std::vector<std::string> getHighScoresTable(std::multimap<int, std::string> scores); // get high score table
 };

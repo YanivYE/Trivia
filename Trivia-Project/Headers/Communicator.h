@@ -22,11 +22,13 @@
 class Communicator
 {
 public:
+	// get instance of communicator
 	static Communicator& getInstance(RequestHandlerFactory* factory) {
 		static Communicator instance(factory);
 		return instance;
 	}
 
+	// destory instance of communicator
 	static void destroyInstance() {
 		Communicator& instance = getInstance(nullptr);
 		delete& instance;
@@ -40,8 +42,9 @@ public:
 private:
 	SOCKET m_serverSocket; // server socket
 	std::map<SOCKET, IRequestHandler*> m_clients; // clients sockets and handlers
-	RequestHandlerFactory* m_handlerFactory;
+	RequestHandlerFactory* m_handlerFactory; // request handler
 
+	// ctor
 	Communicator(RequestHandlerFactory* factory)
 		: m_handlerFactory(factory)
 	{
@@ -54,6 +57,7 @@ private:
 			throw std::exception(__FUNCTION__ " - socket");
 	}
 
+	// dtor
 	~Communicator()
 	{
 		destroyInstance();
@@ -72,7 +76,7 @@ private:
 	void sendSignUpResponse(SOCKET m_clientSocket); // send signup response
 	void sendErrorResponse(SOCKET m_clientSocket, ErrorResponse errorResponse); // send error response
 
-	RequestInfo getInfo(SOCKET m_clientSocket);
+	RequestInfo getInfo(SOCKET m_clientSocket); // get info from client
 
 	std::string binaryToAsciiInt(std::string binary_string); // convert binrary string to int by ascii
 	void write(const SOCKET sc, const std::string message); // write messages to client

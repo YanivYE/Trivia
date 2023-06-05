@@ -7,6 +7,7 @@
 class Server
 {
 public:
+	// get instance server
 	static Server& getInstance() {
 		static Server instance;
 		return instance;
@@ -22,6 +23,7 @@ private:
 		m_communicator = &(Communicator::getInstance(this->m_handlerFactory));
 	}
 
+	// dtor
 	~Server() {
 		delete m_database;
 	}

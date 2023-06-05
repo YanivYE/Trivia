@@ -20,6 +20,7 @@ Room::Room(std::string name, unsigned int maxPlayers, unsigned int timePerQuesti
 
 	this->m_metadata.isActive = true; // default active
 
+	// set fields
 	this->m_metadata.maxPlayers = maxPlayers;
 	this->m_metadata.name = name;
 	this->m_metadata.numOfQuestionsInGame = numOfQuestionsInGame;
@@ -35,6 +36,7 @@ int Room::addUser(LoggedUser user)
 {
 	try
 	{
+		// sdd user to users vector
 		this->m_users.push_back(user);
 
 		return SUCCESS;

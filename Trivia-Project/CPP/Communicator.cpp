@@ -51,6 +51,7 @@ void Communicator::bindAndListen(int port)
 */
 void Communicator::handleNewClient(SOCKET m_clientSocket)
 {
+	// create new login request handler
 	LoginRequestHandler* loginRequestHandler = new LoginRequestHandler(this->m_handlerFactory);
 	RequestInfo info;
 	int requestSize = 0;
@@ -75,6 +76,7 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 	}
 	else
 	{
+		// send error response
 		ErrorResponse errorResponse;
 
 		errorResponse._data = "Error!";

@@ -40,10 +40,12 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 
 	if (info.requestId == Login)
 	{
+		// set login request result
 		requestResult = this->login(info);
 	}
 	else
 	{
+		// set signup request result
 		requestResult = this->signup(info);
 	}
 
@@ -74,6 +76,7 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
 		ErrorResponse errResponse;
 		errResponse._data = "Error! Couldn't parse login request";
 
+		// serialize error response
 		result.response = serializer.serializeResponse(errResponse);
 		return result;
 	}

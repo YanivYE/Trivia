@@ -28,18 +28,49 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
             button1 = new Button();
+            button2 = new Button();
+            timer1 = new System.Windows.Forms.Timer(components);
+            button3 = new Button();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(365, 105);
+            button1.BackColor = Color.Gold;
+            button1.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
+            button1.ForeColor = Color.Black;
+            button1.Location = new Point(335, 104);
             button1.Name = "button1";
-            button1.Size = new Size(141, 37);
+            button1.Size = new Size(143, 51);
             button1.TabIndex = 0;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
+            button1.Text = "Sign In";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.Gold;
+            button2.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
+            button2.Location = new Point(335, 175);
+            button2.Name = "button2";
+            button2.Size = new Size(143, 51);
+            button2.TabIndex = 1;
+            button2.Text = "Sign Up";
+            button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
+            // 
+            // button3
+            // 
+            button3.BackColor = Color.Violet;
+            button3.Image = (Image)resources.GetObject("button3.Image");
+            button3.Location = new Point(12, 342);
+            button3.Name = "button3";
+            button3.Size = new Size(66, 67);
+            button3.TabIndex = 2;
+            button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
             // 
             // mainForm
             // 
@@ -48,6 +79,8 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
+            Controls.Add(button3);
+            Controls.Add(button2);
             Controls.Add(button1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -62,5 +95,8 @@
         #endregion
 
         private Button button1;
+        private Button button2;
+        private System.Windows.Forms.Timer timer1;
+        private Button button3;
     }
 }

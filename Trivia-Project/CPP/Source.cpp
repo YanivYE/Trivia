@@ -19,6 +19,7 @@ int main()
 
 	try
 	{
+		// run server
 		myServer.run(PORT);
 	}
 	catch (std::exception& e)

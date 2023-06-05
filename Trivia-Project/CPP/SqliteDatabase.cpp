@@ -1,6 +1,12 @@
 #include "../Headers/SqliteDatabase.h"
 
-
+/*
+* Function executes an SQL query 
+* Input: query - sql query
+* callback - callback function
+* data - callback function parameter
+* Output: query succesful or not
+*/
 bool SqliteDatabase::executeQuery(std::string query, int(*callback)(void*, int, char**, char**), void* data)
 {
 	char* errMessage = nullptr;
@@ -8,6 +14,7 @@ bool SqliteDatabase::executeQuery(std::string query, int(*callback)(void*, int, 
 	int res = sqlite3_exec(db, query.c_str(), callback, data, &errMessage);
 	if (res != SQLITE_OK)
 	{
+		// print error msg
 		std::cerr << errMessage;
 		return false;
 	}
@@ -104,7 +111,7 @@ int SqliteDatabase::doesUserExist(std::string name)
 
 /*
 * Function gets the user password
-* Input: data - additional passed data, in this case, an album list
+* Input: data - additional passed data
 * argc - number of collums
 * argv - array of strings that contains the values of the columns in the current row of the query result
 * azColName - array of strings that contains the names of the columns in the current row of the query result
@@ -158,27 +165,50 @@ int SqliteDatabase::addNewUser(std::string name, std::string password, std::stri
 	return executeQuery(addUserQuery, nullptr, nullptr);
 }
 
+/*
+* Function creates the questions table in data base
+* Output: none
+*/
 void SqliteDatabase::createQuestionsTable()
 {
 	std::string questionsTableQuery = "CREATE TABLE questions (question TEXT NOT NULL, correct_answer TEXT NOT NULL, wrong_answer_1 TEXT NOT NULL, wrong_answer_2 TEXT NOT NULL, wrong_answer_3 TEXT NOT NULL);";
 	executeQuery(questionsTableQuery, nullptr, nullptr);
+	// insert questions to data base
 	insertQuestions();
 }
 
+/*
+* Function inserts questions to data base questions table
+* Output: none
+*/
 void SqliteDatabase::insertQuestions()
 {
+	// python command to run python script to add the questions to data base. the scipt uses an api url to get a 
+	// json string of 10 random questions and inserts them to data base
 	std::string pythonCommand = "python insertDBquestions.py";
 
-	// Run the Python script
+	// run the Python script
 	int result = system(pythonCommand.c_str());
 }
 
+/*
+* Function creates the statistics table in data base
+* Output: none
+*/
 void SqliteDatabase::createStatisticsTable()
 {
-	const char* statisticsTableQuery = "CREATE TABLE statistics (question TEXT NOT NULL, room_number INTEGER NOT NULL, username TEXT NOT NULL, time INTEGER NOT NULL, is_correct_answer INTEGER NOT NULL, score INTEGER NOT NULL);";
+	std::string statisticsTableQuery = "CREATE TABLE statistics (question TEXT NOT NULL, room_number INTEGER NOT NULL, username TEXT NOT NULL, time INTEGER NOT NULL, is_correct_answer INTEGER NOT NULL, score INTEGER NOT NULL);";
 	executeQuery(statisticsTableQuery, nullptr, nullptr);
 }
 
+/*
+* Function gets a list of questions
+* Input: data - additional passed data
+* argc - number of collums
+* argv - array of strings that contains the values of the columns in the current row of the query result
+* azColName - array of strings that contains the names of the columns in the current row of the query result
+* Output: code 0
+*/
 int QuestionsCallback(void* data, int argc, char** argv, char** azColName)
 {
 	std::list<std::string>* list = static_cast<std::list<std::string>*>(data);
@@ -188,56 +218,95 @@ int QuestionsCallback(void* data, int argc, char** argv, char** azColName)
 			question = argv[i];
 		}
 	}
+	// add question to list
 	list->push_back(question);
 
 	return 0;
 }
 
-
+/*
+* Function gets a list of questions from data base
+* Input: amount - the amount of questions to get
+* Output: question list
+*/
 std::list<std::string> SqliteDatabase::getQuestions(int amount)
 {
 	std::list<std::string> questions;
 	std::string getQuestionsQuery = "SELECT * FROM questions LIMIT " + std::to_string(amount) + "; ";
+	// run the query with the questions callback function
 	executeQuery(getQuestionsQuery, QuestionsCallback, &questions);
 	return questions;
 }
 
+/*
+* Function gets the total time of user
+* Input: data - additional passed data
+* argc - number of collums
+* argv - array of strings that contains the values of the columns in the current row of the query result
+* azColName - array of strings that contains the names of the columns in the current row of the query result
+* Output: code 0
+*/
 int timeCallback(void* data, int argc, char** argv, char** azColName)
 {
 	float* time = static_cast<float*>(data);
 	for (int i = 0; i < argc; i++) {
 		if (std::string(azColName[i]) == "time") {
+			// sum up the time in seconds
 			*time += std::atoi(argv[i]);
 		}
 	}
 	return 0;
 }
 
+/*
+* Function gets the total number of answers of user
+* Input: data - additional passed data
+* argc - number of collums
+* argv - array of strings that contains the values of the columns in the current row of the query result
+* azColName - array of strings that contains the names of the columns in the current row of the query result
+* Output: code 0
+*/
 int totalUserAnswersCallBAck(void* data, int argc, char** argv, char** azColName)
 {
 	float* amount = static_cast<float*>(data);
+	// set amount as the number of rows from data base
 	*amount = argc;
 	return 0;
 }
 
+/*
+* Function gets a player's average time to answer a question
+* Input: username - the player name
+* Output: avergae time
+*/
 float SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
 {
-	float totalTime = 0;
-	float amount = 0;
+	float totalTime = 0, amount = 0;
 	std::string query = "SELECT * FROM statistics WHERE username = '" + username + "'; ";
 	executeQuery(query, timeCallback, &totalTime);
 	executeQuery(query, totalUserAnswersCallBAck, &amount);
 
+	// divide the total time by the amount of questions the user answered
 	return totalTime / amount;
 }
 
+/*
+* Function gets the total number of correct answers of user
+* Input: data - additional passed data
+* argc - number of collums
+* argv - array of strings that contains the values of the columns in the current row of the query result
+* azColName - array of strings that contains the names of the columns in the current row of the query result
+* Output: code 0
+*/
 int correctAnswersCallback(void* data, int argc, char** argv, char** azColName)
 {
 	int* count = static_cast<int*>(data);
 	for (int i = 0; i < argc; i++) {
 		if (std::string(azColName[i]) == "is_correct_answer") {
 			if (std::atoi(argv[i]) == correct)
+				// if the answer is correct
 			{
+				// raise the answers count
 				count++;
 			}
 		}
@@ -245,6 +314,11 @@ int correctAnswersCallback(void* data, int argc, char** argv, char** azColName)
 	return 0;
 }
 
+/*
+* Function gets a player's number of correct answers
+* Input: username - the player name
+* Output: correct answers
+*/
 int SqliteDatabase::getNumOfCorrectAnswers(std::string username)
 {
 	int correctAnswersCount = 0;
@@ -253,6 +327,11 @@ int SqliteDatabase::getNumOfCorrectAnswers(std::string username)
 	return correctAnswersCount;
 }
 
+/*
+* Function gets a player's number of answers
+* Input: username - the player name
+* Output: answers
+*/
 int SqliteDatabase::getNumOfTotalAnswers(std::string username)
 {
 	int amount = 0;
@@ -261,23 +340,42 @@ int SqliteDatabase::getNumOfTotalAnswers(std::string username)
 	return amount;
 }
 
+/*
+* Function gets a player's number of games
+* Input: username - the player name
+* Output: games
+*/
 int SqliteDatabase::getNumOfPlayerGames(std::string username)
 {
+	// divide the number of answers in all games by the number of questions
 	return getNumOfTotalAnswers(username) / NUM_OF_QUESTIONS;
 }
 
-
+/*
+* Function gets the total acore of a player
+* Input: data - additional passed data
+* argc - number of collums
+* argv - array of strings that contains the values of the columns in the current row of the query result
+* azColName - array of strings that contains the names of the columns in the current row of the query result
+* Output: code 0
+*/
 int scoreCallback(void* data, int argc, char** argv, char** azColName)
 {
 	int* score = static_cast<int*>(data);
 	for (int i = 0; i < argc; i++) {
 		if (std::string(azColName[i]) == "score") {
+			// add to total score
 			*score += std::atoi(argv[i]);
 		}
 	}
 	return 0;
 }
 
+/*
+* Function gets a player's score
+* Input: username - the player name
+* Output: score
+*/
 int SqliteDatabase::getPlayerScore(std::string username)
 {
 	int totalPlayerScore = 0;
@@ -286,6 +384,14 @@ int SqliteDatabase::getPlayerScore(std::string username)
 	return totalPlayerScore;
 }
 
+/*
+* Function gets the scores of all users 
+* Input: data - additional passed data
+* argc - number of collums
+* argv - array of strings that contains the values of the columns in the current row of the query result
+* azColName - array of strings that contains the names of the columns in the current row of the query result
+* Output: code 0
+*/
 int usersScoresCallback(void* data, int argc, char** argv, char** azColName)
 {
 	std::string username = "";
@@ -299,13 +405,19 @@ int usersScoresCallback(void* data, int argc, char** argv, char** azColName)
 			score = std::atoi(argv[i]);
 		}	
 	}
+	// insert a score of user to map
 	(*scores).insert(std::make_pair(score, username));
 
 	return 0;
 }
 
+/*
+* Function gets a the top players scores
+* Output: high scores table
+*/
 std::vector<std::string> SqliteDatabase::getHighScores()
 {
+	// set a multimap of scores and their users
 	std::multimap<int, std::string> usersScores;
 	std::string query = "SELECT * FROM statistics";
 	executeQuery(query, usersScoresCallback, &usersScores);
@@ -313,6 +425,10 @@ std::vector<std::string> SqliteDatabase::getHighScores()
 	return getHighScoresTable(usersScores);
 }
 
+/*
+* Function gets a the top players scores, in a vector of user score string
+* Output: high scores table
+*/
 std::vector<std::string> SqliteDatabase::getHighScoresTable(std::multimap<int, std::string> scores)
 {
 	std::vector<std::string> topUsers;
@@ -320,8 +436,10 @@ std::vector<std::string> SqliteDatabase::getHighScoresTable(std::multimap<int, s
 	for (it = scores.begin(); it != scores.end(); ++it) 
 	{
 		std::string userHighScore = it->second + ": " + std::to_string(it->first);
+		// add players from the top of the multimap
 		topUsers.push_back(userHighScore);
 		if (topUsers.size() == 5) 
+			// when reached the size of 5, break and stop inserting to vector
 			break;
 	}
 	return topUsers;

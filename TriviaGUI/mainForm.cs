@@ -14,12 +14,16 @@ namespace TriviaGUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            loginForm login = new loginForm();
+            login.Show();
+            this.Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            signupForm signup = new signupForm();
+            signup.Show();
+            this.Hide();
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -34,7 +38,7 @@ namespace TriviaGUI
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
     }
 }

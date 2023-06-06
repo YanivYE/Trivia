@@ -40,7 +40,7 @@
             button1.BackColor = Color.Gold;
             button1.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
             button1.ForeColor = Color.Black;
-            button1.Location = new Point(335, 318);
+            button1.Location = new Point(335, 180);
             button1.Name = "button1";
             button1.Size = new Size(143, 51);
             button1.TabIndex = 0;
@@ -52,7 +52,7 @@
             // 
             button2.BackColor = Color.Gold;
             button2.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
-            button2.Location = new Point(335, 261);
+            button2.Location = new Point(335, 114);
             button2.Name = "button2";
             button2.Size = new Size(143, 51);
             button2.TabIndex = 1;
@@ -67,7 +67,7 @@
             button3.BackgroundImageLayout = ImageLayout.Stretch;
             button3.FlatStyle = FlatStyle.Flat;
             button3.ForeColor = SystemColors.ControlText;
-            button3.Location = new Point(755, 379);
+            button3.Location = new Point(24, 377);
             button3.Name = "button3";
             button3.Size = new Size(44, 44);
             button3.TabIndex = 2;
@@ -80,11 +80,12 @@
             label1.BackColor = Color.Gold;
             label1.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(268, 108);
+            label1.Location = new Point(259, 36);
             label1.Name = "label1";
             label1.Size = new Size(294, 40);
             label1.TabIndex = 3;
             label1.Text = "TRIVIA NIGHT";
+            label1.Click += label1_Click;
             // 
             // mainForm
             // 

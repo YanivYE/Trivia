@@ -4,7 +4,7 @@ using System.Net;
 
 namespace TriviaGUI
 {
-    internal class ServerHandler()
+    public class ServerHandler()
     {
         Socket socket;
 
@@ -13,7 +13,7 @@ namespace TriviaGUI
             try
             {
                 // Create a TCP/IP socket
-                Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 FileHandler handler = new FileHandler();
                 handler.readFile();
@@ -21,7 +21,7 @@ namespace TriviaGUI
                 // Connect to the server
                 IPAddress serverIPAddress = IPAddress.Parse(handler.serverIp);
                 int serverPort = handler.port;
-                clientSocket.Connect(new IPEndPoint(serverIPAddress, serverPort));
+                socket.Connect(new IPEndPoint(serverIPAddress, serverPort));
 
                 return DialogResult.Yes;
             }
@@ -42,6 +42,11 @@ namespace TriviaGUI
                 socket.Shutdown(SocketShutdown.Both);
                 socket.Close();
             }
+        }
+
+        public Socket GetSocket()
+        {
+            return socket;
         }
     }
 }

@@ -31,7 +31,7 @@ public partial class mainForm : Form
 
         private void button1_Click(object sender, EventArgs e)
         {
-            loginForm login = new loginForm();
+            loginForm login = new loginForm(serverHandler);
             login.Show();
             this.Hide();
         }

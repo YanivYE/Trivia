@@ -51,37 +51,44 @@ void Communicator::bindAndListen(int port)
 */
 void Communicator::handleNewClient(SOCKET m_clientSocket)
 {
-	// create new login request handler
-	LoginRequestHandler* loginRequestHandler = new LoginRequestHandler(this->m_handlerFactory);
-	RequestInfo info;
-	int requestSize = 0;
-
-
-	// add client to map of clients
-	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(m_clientSocket, loginRequestHandler));
-	
-	// get info from client
-	info = getInfo(m_clientSocket);
-
-	if (loginRequestHandler->isRequestRelevant(info))
+	try
 	{
-		// get request result
-		RequestResult result = loginRequestHandler->handleRequest(info);
+		// create new login request handler
+		LoginRequestHandler* loginRequestHandler = new LoginRequestHandler(this->m_handlerFactory);
+		RequestInfo info;
+		int requestSize = 0;
 
-		// get buffer string
-		string bufferString(result.response._bytes.begin(), result.response._bytes.end());
-		
-		// send buffer string
-		send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
+
+		// add client to map of clients
+		this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(m_clientSocket, loginRequestHandler));
+
+		// get info from client
+		info = getInfo(m_clientSocket);
+
+		if (loginRequestHandler->isRequestRelevant(info))
+		{
+			// get request result
+			RequestResult result = loginRequestHandler->handleRequest(info);
+
+			// get buffer string
+			string bufferString(result.response._bytes.begin(), result.response._bytes.end());
+
+			// send buffer string
+			send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
+		}
+		else
+		{
+			// send error response
+			ErrorResponse errorResponse;
+
+			errorResponse._data = "Error!";
+
+			sendErrorResponse(m_clientSocket, errorResponse);
+		}
 	}
-	else
+	catch (...)
 	{
-		// send error response
-		ErrorResponse errorResponse;
-
-		errorResponse._data = "Error!";
-
-		sendErrorResponse(m_clientSocket, errorResponse);
+		std::cout << "Unknown error! User probbly disconnected mid commands.\n";
 	}
 }
 

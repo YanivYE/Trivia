@@ -21,6 +21,9 @@ int main()
 	{
 		// run server
 		myServer.run(PORT);
+
+		// get input and check if exit
+		while (std::getline(std::cin, input) && input != EXIT);
 	}
 	catch (std::exception& e)
 	{
@@ -30,9 +33,6 @@ int main()
 	{
 		std::cout << "Unkown error occured" << std::endl;
 	}
-
-	// get input and check if exit
-	while (std::getline(std::cin, input) && input != EXIT);
 
 	// release resources
 

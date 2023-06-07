@@ -34,8 +34,7 @@
             label2 = new Label();
             button1 = new Button();
             label1 = new Label();
-            pictureBox1 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            button3 = new Button();
             SuspendLayout();
             // 
             // usernameBox
@@ -88,16 +87,18 @@
             label1.TabIndex = 5;
             label1.Text = "Password:";
             // 
-            // pictureBox1
+            // button3
             // 
-            pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
-            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox1.Location = new Point(736, 372);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(46, 45);
-            pictureBox1.TabIndex = 6;
-            pictureBox1.TabStop = false;
+            button3.BackColor = Color.Transparent;
+            button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
+            button3.BackgroundImageLayout = ImageLayout.Stretch;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.ForeColor = SystemColors.ControlText;
+            button3.Location = new Point(738, 374);
+            button3.Name = "button3";
+            button3.Size = new Size(44, 44);
+            button3.TabIndex = 7;
+            button3.UseVisualStyleBackColor = false;
             // 
             // loginForm
             // 
@@ -106,7 +107,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
-            Controls.Add(pictureBox1);
+            Controls.Add(button3);
             Controls.Add(label1);
             Controls.Add(button1);
             Controls.Add(label2);
@@ -119,7 +120,6 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
             FormClosed += loginForm_Close;
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -131,6 +131,6 @@
         private Label label2;
         private Button button1;
         private Label label1;
-        private PictureBox pictureBox1;
+        private Button button3;
     }
 }

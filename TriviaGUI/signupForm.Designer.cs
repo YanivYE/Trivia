@@ -36,7 +36,8 @@
             textBox1 = new TextBox();
             textBox2 = new TextBox();
             button1 = new Button();
-            button2 = new Button();
+            pictureBox1 = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // usernameBox
@@ -101,25 +102,23 @@
             // 
             button1.BackColor = Color.Gold;
             button1.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.Location = new Point(318, 319);
+            button1.Location = new Point(318, 316);
             button1.Name = "button1";
             button1.Size = new Size(176, 64);
             button1.TabIndex = 10;
             button1.Text = "Sign Up";
             button1.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // pictureBox1
             // 
-            button2.BackColor = Color.Transparent;
-            button2.BackgroundImage = (Image)resources.GetObject("button2.BackgroundImage");
-            button2.BackgroundImageLayout = ImageLayout.Stretch;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.ForeColor = SystemColors.ControlText;
-            button2.Location = new Point(24, 382);
-            button2.Name = "button2";
-            button2.Size = new Size(44, 44);
-            button2.TabIndex = 11;
-            button2.UseVisualStyleBackColor = false;
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
+            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox1.Location = new Point(736, 372);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(46, 45);
+            pictureBox1.TabIndex = 11;
+            pictureBox1.TabStop = false;
             // 
             // signupForm
             // 
@@ -128,7 +127,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
-            Controls.Add(button2);
+            Controls.Add(pictureBox1);
             Controls.Add(button1);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
@@ -144,6 +143,7 @@
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
             FormClosed += signupForm_Close;
             Load += signupForm_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -157,6 +157,6 @@
         private TextBox textBox1;
         private TextBox textBox2;
         private Button button1;
-        private Button button2;
+        private PictureBox pictureBox1;
     }
 }

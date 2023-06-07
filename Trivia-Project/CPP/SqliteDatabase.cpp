@@ -422,7 +422,44 @@ std::vector<std::string> SqliteDatabase::getHighScores()
 	std::string query = "SELECT * FROM statistics";
 	executeQuery(query, usersScoresCallback, &usersScores);
 
-	return getHighScoresTable(usersScores);
+	return getHighScoresTable(combineUserScores(usersScores));
+}
+
+std::multimap<int, std::string> combineUserScores(const std::multimap<int, std::string>& scoresMap) {
+	std::multimap<std::string, int> combinedScoresMap;
+
+	// Combine scores for each username
+	for (const auto& pair : scoresMap) {
+		const std::string& username = pair.second;
+		int score = pair.first;
+
+		// Find the range of scores for the current username
+		auto range = combinedScoresMap.equal_range(username);
+
+		// Check if the username already exists in the combined scores map
+		bool found = false;
+		for (auto it = range.first; it != range.second; ++it) {
+			if (it->first == username) {
+				// Add the score to the existing entry for the username
+				it->second += score;
+				found = true;
+				break;
+			}
+		}
+
+		// If the username was not found, add a new entry to the combined scores map
+		if (!found) {
+			combinedScoresMap.insert(std::make_pair(username, score));
+		}
+	}
+
+	// Create a new multimap with combined scores as keys and usernames as values
+	std::multimap<int, std::string> combinedMap;
+	for (const auto& pair : combinedScoresMap) {
+		combinedMap.insert(std::make_pair(pair.second, pair.first));
+	}
+
+	return combinedMap;
 }
 
 /*
@@ -438,8 +475,8 @@ std::vector<std::string> SqliteDatabase::getHighScoresTable(std::multimap<int, s
 		std::string userHighScore = it->second + ": " + std::to_string(it->first);
 		// add players from the top of the multimap
 		topUsers.push_back(userHighScore);
-		if (topUsers.size() == 5) 
-			// when reached the size of 5, break and stop inserting to vector
+		if (topUsers.size() == 3) 
+			// when reached the size of 3, break and stop inserting to vector
 			break;
 	}
 	return topUsers;

@@ -425,7 +425,8 @@ std::vector<std::string> SqliteDatabase::getHighScores()
 	return getHighScoresTable(combineUserScores(usersScores));
 }
 
-std::multimap<int, std::string> combineUserScores(const std::multimap<int, std::string>& scoresMap) {
+std::multimap<int, std::string> SqliteDatabase::combineUserScores(const std::multimap<int, std::string>& scoresMap)
+{
 	std::multimap<std::string, int> combinedScoresMap;
 
 	// Combine scores for each username

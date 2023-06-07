@@ -15,9 +15,12 @@ namespace TriviaGUI
                 // Create a TCP/IP socket
                 Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
+                FileHandler handler = new FileHandler();
+                handler.readFile();
+
                 // Connect to the server
-                IPAddress serverIPAddress = IPAddress.Parse("127.0.0.1"); // Replace with the server's IP address
-                int serverPort = 8200; // Replace with the server's port
+                IPAddress serverIPAddress = IPAddress.Parse(handler.serverIp);
+                int serverPort = handler.port;
                 clientSocket.Connect(new IPEndPoint(serverIPAddress, serverPort));
 
                 return DialogResult.Yes;

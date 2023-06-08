@@ -58,6 +58,7 @@ def get_user_details(code):
 
 def send_message(socket, code, size, buffer):
     """Send message to server"""
+    print(code, size, buffer)
     message = str(pad_binary_string(code, 1)) + str(pad_binary_string(int(size), 4)) + str(
         pad_binary_string(str(buffer), int(size)))
     socket.send(message.encode())

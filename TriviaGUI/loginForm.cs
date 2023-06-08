@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Text.Json;
+
 
 namespace TriviaGUI
 {
+
     public partial class loginForm : Form
     {
+        const int LOGIN_CODE = 1;
+        const int CODE_BYTES = 1;
+        const int LENGTH_BYTES = 4;
         ServerHandler server;
 
         public loginForm(ServerHandler server)
@@ -40,12 +40,27 @@ namespace TriviaGUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            String username = usernameBox.Text;
-            String password = passBox.Text;
-
             Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
 
-            string message = "Hello, server!";
+            var loginMessage = new loginMessage
+            {
+                username = usernameBox.Text,
+                password = passBox.Text
+            };
+
+            // Configure JSON serializer settings
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = null,
+                WriteIndented = true
+            };
+
+            string jsonString = JsonSerializer.Serialize(loginMessage, options);
+
+            string message = ConvertStringToBinary(LOGIN_CODE.ToString(), CODE_BYTES) +
+                ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
+                ConvertStringToBinary(jsonString, jsonString.Length);
+
             byte[] buffer = Encoding.UTF8.GetBytes(message);
 
             try
@@ -75,6 +90,33 @@ namespace TriviaGUI
                     Console.WriteLine("Error receiving message: " + ex.Message);
                 }
             */
+        }
+
+        public static string ConvertStringToBinary(string inputString, int byteCount)
+        {
+            StringBuilder binaryString = new StringBuilder();
+            int byteLength = 0;
+
+            foreach (char c in inputString)
+            {
+                int asciiValue = (int)c;
+                string binaryValue = Convert.ToString(asciiValue, 2).PadLeft(8, '0');
+
+                // Check if adding the current character exceeds the byte count
+                if (byteLength + binaryValue.Length > byteCount * 8)
+                {
+                    break;
+                }
+
+                binaryString.Append(binaryValue);
+                byteLength += binaryValue.Length;
+            }
+
+            // Pad with zeros if the binary string is shorter than the specified byte count
+            int remainingBits = byteCount * 8 - byteLength;
+            binaryString.Append('0', remainingBits);
+
+            return binaryString.ToString();
         }
     }
 }

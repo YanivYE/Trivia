@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.Json;
 
@@ -42,20 +43,18 @@ namespace TriviaGUI
         {
             Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
 
-            var loginMessage = new loginMessage
+            var loginMsg = new loginMessage
             {
-                username = usernameBox.Text,
-                password = passBox.Text
+                password = passBox.Text,
+                username = usernameBox.Text
             };
 
-            // Configure JSON serializer settings
-            var options = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = null,
-                WriteIndented = true
-            };
+            var stream1 = new MemoryStream();
+            var ser = new DataContractJsonSerializer(typeof(loginMessage));
 
-            string jsonString = JsonSerializer.Serialize(loginMessage, options);
+            ser.WriteObject(stream1, loginMsg);
+            stream1.Position = 0;
+            var jsonString = new StreamReader(stream1).ReadToEnd();
 
             string message = ConvertStringToBinary(LOGIN_CODE.ToString(), CODE_BYTES) +
                 ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +

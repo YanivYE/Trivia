@@ -10,14 +10,19 @@ using System.Windows.Forms;
 
 namespace TriviaGUI
 {
-    public partial class userStatusForm : Form
+    public partial class roomForm : Form
     {
-        public userStatusForm()
+        public roomForm()
         {
             InitializeComponent();
         }
 
-        private void label9_Click(object sender, EventArgs e)
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void roomForm_Load(object sender, EventArgs e)
         {
 
         }

@@ -63,7 +63,7 @@
             label3.AutoSize = true;
             label3.BackColor = Color.Gold;
             label3.Font = new Font("Ravie", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(218, 237);
+            label3.Location = new Point(166, 237);
             label3.Name = "label3";
             label3.Size = new Size(113, 38);
             label3.TabIndex = 6;

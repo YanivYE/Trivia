@@ -80,11 +80,12 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Gold;
+            label1.BorderStyle = BorderStyle.Fixed3D;
             label1.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.Black;
             label1.Location = new Point(253, 47);
             label1.Name = "label1";
-            label1.Size = new Size(311, 40);
+            label1.Size = new Size(313, 42);
             label1.TabIndex = 4;
             label1.Text = "LEADERBOARD";
             label1.Click += label1_Click;

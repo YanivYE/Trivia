@@ -33,7 +33,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(ErrorResponse response)
     json data;
     
     data["message"] = response._data;
-    message._code = Error;
+    message._code = Fail;
     message._data = data;
     message._dataLength = data.dump().length(); // convert message to bytes
 

@@ -38,7 +38,7 @@ public partial class mainForm : Form
 
         private void button2_Click(object sender, EventArgs e)
         {
-            signupForm signup = new signupForm();
+            signupForm signup = new signupForm(serverHandler);
             signup.Show();
             this.Hide();
         }

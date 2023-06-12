@@ -43,79 +43,36 @@ namespace TriviaGUI
         {
             Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
 
-            var loginMsg = new loginMessage
+            Utillities.sendMessage(socket, serialize());
+
+            string msg = Utillities.recieveMessage(socket);
+
+            if (msg[0] == '1')
             {
-                password = passBox.Text,
-                username = usernameBox.Text
-            };
-
-            var stream1 = new MemoryStream();
-            var ser = new DataContractJsonSerializer(typeof(loginMessage));
-
-            ser.WriteObject(stream1, loginMsg);
-            stream1.Position = 0;
-            var jsonString = new StreamReader(stream1).ReadToEnd();
-
-            string message = ConvertStringToBinary(LOGIN_CODE.ToString(), CODE_BYTES) +
-                ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
-                ConvertStringToBinary(jsonString, jsonString.Length);
-
-            byte[] buffer = Encoding.UTF8.GetBytes(message);
-
-            try
-            {
-                socket.Send(buffer);
-                Console.WriteLine("Message sent successfully.");
+                mainForm test = new mainForm();
+                test.Show();
+                this.Hide();
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error sending message: " + ex.Message);
-            }
-
-            /*
-             * Socket socket = serverHandler.GetSocket(); // Assuming you have the serverHandler instance
-
-                byte[] buffer = new byte[1024]; // Buffer to store the received data
-                int bytesRead;
-
-                try
-                {
-                    bytesRead = socket.Receive(buffer);
-                    string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    Console.WriteLine("Received message: " + message);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error receiving message: " + ex.Message);
-                }
-            */
         }
 
-        public static string ConvertStringToBinary(string inputString, int byteCount)
+        string serialize()
         {
-            StringBuilder binaryString = new StringBuilder();
-            int byteLength = 0;
-
-            foreach (char c in inputString)
+            var loginMsg = new loginMessage
             {
-                int asciiValue = (int)c;
-                string binaryValue = Convert.ToString(asciiValue, 2).PadLeft(8, '0');
+                username = usernameBox.Text,
+                password = passBox.Text
+            };
 
-                // Check if adding the current character exceeds the byte count
-                if (byteLength + binaryValue.Length > byteCount * 8)
-                {
-                    break;
-                }
+            string jsonString = JsonSerializer.Serialize(loginMsg);
 
-                binaryString.Append(binaryValue);
-                byteLength += binaryValue.Length;
-            }
+            jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
 
-            // Pad with zeros if the binary string is shorter than the specified byte count
-            int remainingBits = byteCount * 8 - byteLength;
-            binaryString.Append('0', remainingBits);
 
-            return binaryString.ToString();
+            string message = Utillities.ConvertStringToBinary(LOGIN_CODE.ToString(), CODE_BYTES) +
+                Utillities.ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
+                Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
+
+            return message;
         }
     }
 }

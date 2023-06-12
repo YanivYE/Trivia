@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace TriviaGUI
 {
-    public class loginMessage
+    public class signupMessage
     {
         [DataMember(Order = 1)]
         public string username { get; set; }
 
         [DataMember(Order = 2)]
         public string password { get; set; }
+        [DataMember(Order = 3)]
+        public string email { get; set; }
     }
 }

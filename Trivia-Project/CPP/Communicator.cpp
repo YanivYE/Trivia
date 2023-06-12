@@ -73,6 +73,8 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 			// get buffer string
 			string bufferString(result.response._bytes.begin(), result.response._bytes.end());
 
+			std::cout << "Sent message: " << bufferString << std::endl;
+
 			// send buffer string
 			send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
 		}
@@ -131,6 +133,8 @@ void Communicator::sendErrorResponse(SOCKET m_clientSocket, ErrorResponse errorR
 
 	buffer = seralizer.serializeResponse(errorResponse);
 	std::string bufferString(buffer._bytes.begin(), buffer._bytes.end()); // converts bits vector to buffer string 
+
+	std::cout << "Sent message: " << bufferString << std::endl;
 
 	// send string of bits
 	send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);

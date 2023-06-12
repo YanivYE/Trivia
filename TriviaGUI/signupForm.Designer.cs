@@ -33,8 +33,8 @@
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            passBox = new TextBox();
+            mailBox = new TextBox();
             button1 = new Button();
             pictureBox1 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -82,21 +82,21 @@
             label4.TabIndex = 7;
             label4.Text = "Password:";
             // 
-            // textBox1
+            // passBox
             // 
-            textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox1.Location = new Point(396, 172);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(246, 38);
-            textBox1.TabIndex = 8;
+            passBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            passBox.Location = new Point(396, 172);
+            passBox.Name = "passBox";
+            passBox.Size = new Size(246, 38);
+            passBox.TabIndex = 8;
             // 
-            // textBox2
+            // mailBox
             // 
-            textBox2.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox2.Location = new Point(396, 237);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(246, 38);
-            textBox2.TabIndex = 9;
+            mailBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            mailBox.Location = new Point(396, 237);
+            mailBox.Name = "mailBox";
+            mailBox.Size = new Size(246, 38);
+            mailBox.TabIndex = 9;
             // 
             // button1
             // 
@@ -108,6 +108,7 @@
             button1.TabIndex = 10;
             button1.Text = "Sign Up";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // pictureBox1
             // 
@@ -129,8 +130,8 @@
             ClientSize = new Size(811, 450);
             Controls.Add(pictureBox1);
             Controls.Add(button1);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            Controls.Add(mailBox);
+            Controls.Add(passBox);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -154,8 +155,8 @@
         private Label label2;
         private Label label3;
         private Label label4;
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private TextBox passBox;
+        private TextBox mailBox;
         private Button button1;
         private PictureBox pictureBox1;
     }

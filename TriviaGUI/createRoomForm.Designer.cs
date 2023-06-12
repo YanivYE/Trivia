@@ -38,6 +38,7 @@
             textBox1 = new TextBox();
             textBox2 = new TextBox();
             textBox3 = new TextBox();
+            button3 = new Button();
             SuspendLayout();
             // 
             // label2
@@ -127,6 +128,19 @@
             textBox3.Size = new Size(246, 38);
             textBox3.TabIndex = 17;
             // 
+            // button3
+            // 
+            button3.BackColor = Color.Transparent;
+            button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
+            button3.BackgroundImageLayout = ImageLayout.Stretch;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.ForeColor = SystemColors.ControlText;
+            button3.Location = new Point(741, 368);
+            button3.Name = "button3";
+            button3.Size = new Size(44, 44);
+            button3.TabIndex = 18;
+            button3.UseVisualStyleBackColor = false;
+            // 
             // createRoomForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -134,6 +148,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
+            Controls.Add(button3);
             Controls.Add(textBox3);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
@@ -163,5 +178,6 @@
         private TextBox textBox1;
         private TextBox textBox2;
         private TextBox textBox3;
+        private Button button3;
     }
 }

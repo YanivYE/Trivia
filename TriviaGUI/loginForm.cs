@@ -1,20 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
+using System.Net.Sockets;
+using System.Runtime.Serialization.Json;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Text.Json;
+
 
 namespace TriviaGUI
 {
+
     public partial class loginForm : Form
     {
-        public loginForm()
+        const int LOGIN_CODE = 1;
+        const int CODE_BYTES = 1;
+        const int LENGTH_BYTES = 4;
+        ServerHandler server;
+
+        public loginForm(ServerHandler server)
         {
             InitializeComponent();
+            this.server = server;
         }
 
         private void loginForm_Close(object sender, EventArgs e)
@@ -36,10 +41,39 @@ namespace TriviaGUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            String username = usernameBox.Text;
-            String password = passBox.Text;
+            Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
+
+            Utillities.sendMessage(socket, serialize());
+
+            string msg = Utillities.recieveMessage(socket);
+
+            if (msg[0] == '1')
+            {
+                //TODO: CHANGE
+                mainForm test = new mainForm();
+                test.Show();
+                this.Hide();
+            }
+        }
+
+        string serialize()
+        {
+            var loginMsg = new loginMessage
+            {
+                username = usernameBox.Text,
+                password = passBox.Text
+            };
+
+            string jsonString = JsonSerializer.Serialize(loginMsg);
+
+            jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
 
 
+            string message = Utillities.ConvertStringToBinary(LOGIN_CODE.ToString(), CODE_BYTES) +
+                Utillities.ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
+                Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
+
+            return message;
         }
     }
 }

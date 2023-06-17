@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(lobbyForm));
-            label4 = new Label();
+            username = new Label();
             label3 = new Label();
             button3 = new Button();
             button2 = new Button();
@@ -38,16 +38,16 @@
             button5 = new Button();
             SuspendLayout();
             // 
-            // label4
+            // username
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(419, 42);
-            label4.Name = "label4";
-            label4.Size = new Size(65, 23);
-            label4.TabIndex = 47;
-            label4.Text = "           ";
-            label4.Click += label4_Click;
+            username.AutoSize = true;
+            username.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
+            username.Location = new Point(419, 42);
+            username.Name = "username";
+            username.Size = new Size(65, 23);
+            username.TabIndex = 47;
+            username.Text = "           ";
+            username.Click += label4_Click;
             // 
             // label3
             // 
@@ -72,6 +72,7 @@
             button3.Size = new Size(44, 44);
             button3.TabIndex = 48;
             button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
             // 
             // button2
             // 
@@ -130,7 +131,7 @@
             Controls.Add(button1);
             Controls.Add(button2);
             Controls.Add(button3);
-            Controls.Add(label4);
+            Controls.Add(username);
             Controls.Add(label3);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -138,13 +139,14 @@
             Name = "lobbyForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
+            Load += lobbyForm_Load_2;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label label4;
+        private Label username;
         private Label label3;
         private Button button3;
         private Button button2;

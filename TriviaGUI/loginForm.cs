@@ -5,7 +5,6 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.Json;
 
-
 namespace TriviaGUI
 {
 
@@ -47,11 +46,15 @@ namespace TriviaGUI
 
             string msg = Utillities.recieveMessage(socket);
 
-            if (msg[0] == '1')
+
+            if(msg.Contains(":9"))
             {
-                //TODO: CHANGE
-                mainForm test = new mainForm();
-                test.Show();
+                MessageBox.Show("Username/Password incorrect", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                lobbyForm lobby = new lobbyForm(usernameBox.Text);
+                lobby.Show();
                 this.Hide();
             }
         }

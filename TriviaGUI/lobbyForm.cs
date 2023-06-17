@@ -12,8 +12,11 @@ namespace TriviaGUI
 {
     public partial class lobbyForm : Form
     {
-        public lobbyForm()
+        string user;
+
+        public lobbyForm(string user)
         {
+            this.user = user;
             InitializeComponent();
         }
 
@@ -35,6 +38,16 @@ namespace TriviaGUI
         private void button2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void lobbyForm_Load_2(object sender, EventArgs e)
+        {
+            username.Text = user;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

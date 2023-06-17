@@ -17,6 +17,8 @@ namespace TriviaGUI
             try
             {
                 bytesRead = socket.Receive(getMsg);
+
+                
                 string getMessage = Encoding.UTF8.GetString(getMsg, 0, bytesRead);
 
                 StringBuilder asciiString = new StringBuilder();
@@ -25,8 +27,17 @@ namespace TriviaGUI
                 {
                     string binaryByte = getMessage.Substring(i, 8);
                     int asciiValue = Convert.ToInt32(binaryByte, 2);
-                    char asciiChar = Convert.ToChar(asciiValue);
-                    asciiString.Append(asciiChar);
+
+                    if(asciiValue == 0)
+                    {
+                        asciiString.Append(' ');
+                    }
+                    else
+                    {
+                        char asciiChar = (char)asciiValue;
+                        asciiString.Append(asciiChar);
+                    }
+                    
                 }
 
                 string result = asciiString.ToString();

@@ -49,6 +49,7 @@ namespace TriviaGUI
 
             if (msg[0] == '1')
             {
+                //TODO: CHANGE
                 mainForm test = new mainForm();
                 test.Show();
                 this.Hide();

@@ -152,6 +152,51 @@ Buffer JsonResponsePacketSerializer::serializeResponse(GetPersonalStatsResponse 
     return serializeResponseStats(response._status, response._statistics, "UserStatistics", GetPersonalStats);
 }
 
+Buffer JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse response)
+{
+    return serializeReponseStatus(CloseRoom, response._status);
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(StartGameResponse response)
+{
+    return serializeReponseStatus(StartGame, response._status);
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse response)
+{
+    Buffer buffer;
+    Message message;
+    json data;
+
+    std::string players;
+
+    // add all the player names
+    for (int i = 0; i < response._players.size(); i++)
+    {
+        players += response._players[i] + ", ";
+    }
+
+    data["status"] = response._status;
+    data["hasGameBegun"] = response._hasGameBegun;
+    data["players"] = players.substr(0, players.size() - 1);
+    data["AnswerCount"] = response._questionCount;
+    data["answerTimeOut"] = response._answerTimeout;
+
+
+    message._code = GetRoomState;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse response)
+{
+    return serializeReponseStatus(LeaveRoom, response._status);
+}
+
 /*
 * Function gets a status, stats, type of stats, and code of a message and returns a buffer of the serialized response
 * Input: status - the status code

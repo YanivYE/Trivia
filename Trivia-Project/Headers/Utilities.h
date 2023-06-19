@@ -9,7 +9,7 @@
 
 using json = nlohmann::json;
 
-enum messageCode { Login = 1, SignUp, Logout, GetRooms, GetPlayersInRoom, JoinRoom, CreateRoom, GetHighScore, GetPersonalStats};
+enum messageCode { Login = 1, SignUp, Logout, GetRooms, GetPlayersInRoom, JoinRoom, CreateRoom, GetHighScore, GetPersonalStats, CloseRoom, StartGame, GetRoomState, LeaveRoom};
 enum statusCode {Fail = 9, Success = 1};
 enum errorCode {userNotExist = 1, userNameExist, userAlreadyLogedIn, invalidUserName};
 enum roomStatusCodes {inGame = 1, waitingToStart};
@@ -110,3 +110,28 @@ struct CreateRoomRequest
 	unsigned int _questionCount;
 	unsigned int _answerTimeout;
 } typedef CreateRoomRequest;
+
+struct CloseRoomResponse
+{
+	unsigned int _status;
+} typedef CloseRoomResponse;
+
+struct StartGameResponse
+{
+	unsigned int _status;
+} typedef StartGameResponse;
+
+struct GetRoomStateResponse
+{
+	unsigned int _status;
+	bool _hasGameBegun;
+	std::vector<std::string> _players;
+	unsigned int _questionCount;
+	unsigned int _answerTimeout;
+} typedef GetRoomStateResponse;
+
+struct LeaveRoomResponse
+{
+	unsigned int _status;
+} typedef LeaveRoomResponse;
+

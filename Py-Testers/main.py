@@ -3,8 +3,8 @@ import json
 
 PORT = 8200
 MESSAGE = 'Hello'
-Login = '1'
-SignUp = '2'
+Login = '0'
+SignUp = '1'
 
 get_bin = lambda x: format(x, 'b')
 
@@ -24,7 +24,7 @@ def connect():
 
 def get_message_type_code():
     """Get message type from user"""
-    message_type = input("Choose a message type:\n1. Login\n2. SignUp\n ")
+    message_type = input("Choose a message type:\n0. Login\n1. SignUp\n ")
 
     if message_type == Login:
         return int(Login)
@@ -58,6 +58,7 @@ def get_user_details(code):
 
 def send_message(socket, code, size, buffer):
     """Send message to server"""
+    print(code, size, buffer)
     message = str(pad_binary_string(code, 1)) + str(pad_binary_string(int(size), 4)) + str(
         pad_binary_string(str(buffer), int(size)))
     socket.send(message.encode())

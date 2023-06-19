@@ -59,29 +59,28 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 
 	// add client to map of clients
 	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(m_clientSocket, loginRequestHandler));
-	
-	// get info from client
-	info = getInfo(m_clientSocket);
 
-	if (loginRequestHandler->isRequestRelevant(info))
+	try
 	{
-		// get request result
-		RequestResult result = loginRequestHandler->handleRequest(info);
+		while (true)
+		{
+			// get info from client
+			info = getInfo(m_clientSocket);
 
-		// get buffer string
-		string bufferString(result.response._bytes.begin(), result.response._bytes.end());
-		
-		// send buffer string
-		send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
+			RequestResult result = m_clients[m_clientSocket]->handleRequest(info);
+
+			// get buffer string
+			string bufferString(result.response._bytes.begin(), result.response._bytes.end());
+
+			std::cout << "Sent message: " << bufferString << std::endl;
+
+			// send buffer string
+			send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
+		}
 	}
-	else
+	catch (...)
 	{
-		// send error response
-		ErrorResponse errorResponse;
-
-		errorResponse._data = "Error!";
-
-		sendErrorResponse(m_clientSocket, errorResponse);
+		std::cout << "Unknown error! User probbly disconnected mid commands.\n";
 	}
 }
 
@@ -124,6 +123,8 @@ void Communicator::sendErrorResponse(SOCKET m_clientSocket, ErrorResponse errorR
 
 	buffer = seralizer.serializeResponse(errorResponse);
 	std::string bufferString(buffer._bytes.begin(), buffer._bytes.end()); // converts bits vector to buffer string 
+
+	std::cout << "Sent message: " << bufferString << std::endl;
 
 	// send string of bits
 	send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);

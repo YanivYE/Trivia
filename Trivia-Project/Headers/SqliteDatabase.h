@@ -46,4 +46,5 @@ private:
 	void insertQuestions(); // insert queestions
 	void createStatisticsTable(); // create stats table
 	std::vector<std::string> getHighScoresTable(std::multimap<int, std::string> scores); // get high score table
+	std::multimap<int, std::string> combineUserScores(const std::multimap<int, std::string>& scoresMap);
 };

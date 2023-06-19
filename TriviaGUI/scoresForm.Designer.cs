@@ -43,7 +43,7 @@
             label1.BorderStyle = BorderStyle.Fixed3D;
             label1.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(211, 49);
+            label1.Location = new Point(206, 47);
             label1.Name = "label1";
             label1.Size = new Size(182, 42);
             label1.TabIndex = 10;
@@ -54,7 +54,7 @@
             pictureBox3.BackColor = Color.Transparent;
             pictureBox3.BackgroundImage = (Image)resources.GetObject("pictureBox3.BackgroundImage");
             pictureBox3.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox3.Location = new Point(141, 129);
+            pictureBox3.Location = new Point(141, 125);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new Size(56, 52);
             pictureBox3.TabIndex = 11;
@@ -64,7 +64,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(222, 141);
+            label4.Location = new Point(220, 141);
             label4.Name = "label4";
             label4.Size = new Size(146, 31);
             label4.TabIndex = 46;

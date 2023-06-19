@@ -70,9 +70,9 @@
             pictureBox2.BackColor = Color.Transparent;
             pictureBox2.BackgroundImage = (Image)resources.GetObject("pictureBox2.BackgroundImage");
             pictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox2.Location = new Point(278, 101);
+            pictureBox2.Location = new Point(278, 96);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(256, 148);
+            pictureBox2.Size = new Size(256, 159);
             pictureBox2.TabIndex = 4;
             pictureBox2.TabStop = false;
             // 

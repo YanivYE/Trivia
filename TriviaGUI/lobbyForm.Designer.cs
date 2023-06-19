@@ -41,12 +41,13 @@
             // username
             // 
             username.AutoSize = true;
-            username.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            username.Location = new Point(419, 42);
+            username.BackColor = Color.Transparent;
+            username.Font = new Font("Showcard Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            username.Location = new Point(422, 39);
             username.Name = "username";
-            username.Size = new Size(65, 23);
+            username.Size = new Size(59, 26);
             username.TabIndex = 47;
-            username.Text = "           ";
+            username.Text = "test";
             username.Click += label4_Click;
             // 
             // label3

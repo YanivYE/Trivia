@@ -52,7 +52,7 @@ int LoginManager::login(std::string username, std::string password)
 	}
 
 	// user doesnt exists
-	return userNotExist;
+	return Fail;
 }
 
 /*

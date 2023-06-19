@@ -28,6 +28,12 @@ public:
 	Buffer serializeResponse(CreateRoomResponse response); // serialize create room reponse
 	Buffer serializeResponse(GetHighScoreResponse response); // serialize get high score reponse
 	Buffer serializeResponse(GetPersonalStatsResponse response); // serialize get personal stats reponse
+
+	Buffer serializeResponse(CloseRoomResponse response); // serialize close room reponse
+	Buffer serializeResponse(StartGameResponse response); // serialize start game reponse
+	Buffer serializeResponse(GetRoomStateResponse response); // serialize get room state reponse
+	Buffer serializeResponse(LeaveRoomResponse response); // serialize leave room reponse
+
 private:
 	Buffer serializeReponseStatus(int code, int status); // serialize response status
 	Buffer serializeResponseStats(int status, std::vector<std::string> statistics, std::string typeOfStats, int code); // serialize reponse stats with stats and type of stats

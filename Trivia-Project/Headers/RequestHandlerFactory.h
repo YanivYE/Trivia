@@ -31,6 +31,8 @@ public:
 	RoomManager& getRoomManager(); // return room manager
 	StatisticsManager& getStatisticsManager(); // return stats manager
 
+	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser user, Room room);
+	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser user, Room room);
 private:
 	// ctor
 	RequestHandlerFactory(IDataBase* database) : m_loginManager()

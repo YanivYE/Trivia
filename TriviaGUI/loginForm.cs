@@ -71,8 +71,7 @@ namespace TriviaGUI
 
             jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
 
-
-            string message = Utillities.ConvertStringToBinary(LOGIN_CODE.ToString(), CODE_BYTES) +
+            string message = LOGIN_CODE.ToString("D8") + 
                 Utillities.ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
                 Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
 

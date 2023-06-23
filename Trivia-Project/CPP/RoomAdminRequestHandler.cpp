@@ -25,8 +25,9 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 {
     CloseRoomResponse response;
-    
+    RequestResult result;
 
+    return result;
 }
 
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)

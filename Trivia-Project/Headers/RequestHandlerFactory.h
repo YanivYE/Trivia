@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RoomMemberRequestHandler.h"
+#include "RoomAdminRequestHandler.h"
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
 #include "IDataBase.h"
@@ -7,6 +9,7 @@
 
 class LoginRequestHandler;
 class MenuRequestHandler;
+class RoomAdminRequestHandler;
 
 class RequestHandlerFactory
 {

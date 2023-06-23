@@ -17,6 +17,8 @@ struct RoomData
 	unsigned int isActive;
 } typedef RoomData;
 
+class RoomManager;
+
 class Room
 {
 public:

@@ -9,7 +9,10 @@
 
 using json = nlohmann::json;
 
-enum messageCode { Login = 1, SignUp, Logout, GetRooms, GetPlayersInRoom, JoinRoom, CreateRoom, GetHighScore, GetPersonalStats, CloseRoom, StartGame, GetRoomState, LeaveRoom};
+enum messageCode { Login = 0b00000001, SignUp = 0b00000010, Logout = 0b00000011, GetRooms = 0b00000100,
+	GetPlayersInRoom = 0b00000101, JoinRoom = 0b00000110, CreateRoom = 0b00000111, GetHighScore = 0b00001000,
+	GetPersonalStats = 0b00001001, CloseRoom = 0b00001010, StartGame = 0b00001011, GetRoomState = 0b00001100,
+	LeaveRoom = 0b00001101};
 enum statusCode {Fail = 9, Success = 1};
 enum errorCode {userNotExist = 1, userNameExist, userAlreadyLogedIn, invalidUserName};
 enum roomStatusCodes {inGame = 1, waitingToStart};

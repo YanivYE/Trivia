@@ -10,7 +10,7 @@ namespace TriviaGUI
 
     public partial class loginForm : Form
     {
-        const int LOGIN_CODE = 1;
+        const int LOGIN_CODE = 0b00000001;
         const int CODE_BYTES = 1;
         const int LENGTH_BYTES = 4;
         ServerHandler server;

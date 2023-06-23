@@ -36,7 +36,6 @@
             passBox = new TextBox();
             mailBox = new TextBox();
             button1 = new Button();
-            button3 = new Button();
             SuspendLayout();
             // 
             // usernameBox
@@ -109,19 +108,6 @@
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
-            // button3
-            // 
-            button3.BackColor = Color.Transparent;
-            button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
-            button3.BackgroundImageLayout = ImageLayout.Stretch;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.ForeColor = SystemColors.ControlText;
-            button3.Location = new Point(739, 373);
-            button3.Name = "button3";
-            button3.Size = new Size(44, 44);
-            button3.TabIndex = 11;
-            button3.UseVisualStyleBackColor = false;
-            // 
             // signupForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -129,7 +115,6 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
-            Controls.Add(button3);
             Controls.Add(button1);
             Controls.Add(mailBox);
             Controls.Add(passBox);
@@ -151,13 +136,12 @@
 
         #endregion
 
-        private TextBox usernameBox;
         private Label label2;
         private Label label3;
         private Label label4;
+        private TextBox usernameBox;
         private TextBox passBox;
         private TextBox mailBox;
         private Button button1;
-        private Button button3;
     }
 }

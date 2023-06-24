@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RequestHandlerFactory.h"
 #include "IRequestHandler.h"
 #include "RoomManager.h"
 #include "Room.h"
@@ -9,6 +10,8 @@ class RequestHandlerFactory;
 class RoomMemberRequestHandler : public IRequestHandler
 {
 public:
+	RoomMemberRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Room room);
+
 	bool isRequestRelevant(RequestInfo info);
 	RequestResult handleRequest(RequestInfo info);
 	RequestResult leaveRoom(RequestInfo info);
@@ -17,7 +20,7 @@ public:
 private:
 	Room m_room;
 	LoggedUser m_user;
-	RequestHandlerFactory& m_handlerFactory;
-	RoomManager m_roomManager;
+	RoomManager* m_roomManager;
+	RequestHandlerFactory* m_handleFactory;
 
 };

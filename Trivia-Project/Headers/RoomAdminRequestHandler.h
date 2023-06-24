@@ -4,10 +4,15 @@
 #include "RoomManager.h"
 #include "LoginRequestHandler.h"
 #include "Utilities.h"
+#include "RequestHandlerFactory.h"
+
+class RequestHandlerFactory;
 
 class RoomAdminRequestHandler : public IRequestHandler
 {
 public:
+	RoomAdminRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Room room);
+
 	bool isRequestRelevant(RequestInfo info);
 	RequestResult handleRequest(RequestInfo info);
 	RequestResult closeRoom(RequestInfo info);
@@ -17,7 +22,7 @@ public:
 private:
 	Room m_room;
 	LoggedUser m_user;
-	RoomManager& m_roomManager;
-	RequestHandlerFactory& m_handleFactory;
+	RoomManager* m_roomManager;
+	RequestHandlerFactory* m_handleFactory;
 
 };

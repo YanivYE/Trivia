@@ -59,6 +59,7 @@
     <ClCompile Include="CPP\SqliteDatabase.cpp" />
     <ClCompile Include="CPP\StatisticsManager.cpp" />
     <ClCompile Include="CPP\WSAInitializer.cpp" />
+    <ClCompile Include="Headers\RoomMemberRequestHandler.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

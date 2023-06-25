@@ -10,7 +10,7 @@ namespace TriviaGUI
 
     public partial class loginForm : Form
     {
-        const int LOGIN_CODE = 1;
+        const int LOGIN_CODE = 0b00000001;
         const int CODE_BYTES = 1;
         const int LENGTH_BYTES = 4;
         ServerHandler server;
@@ -71,8 +71,7 @@ namespace TriviaGUI
 
             jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
 
-
-            string message = Utillities.ConvertStringToBinary(LOGIN_CODE.ToString(), CODE_BYTES) +
+            string message = LOGIN_CODE.ToString("D8") + 
                 Utillities.ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
                 Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
 

@@ -6,6 +6,7 @@
 #include <cstring>
 #include <bitset>
 #include <sstream>
+#include <iostream>
 
 #include "..\Headers\json.hpp"
 #include "..\Headers\Utilities.h"

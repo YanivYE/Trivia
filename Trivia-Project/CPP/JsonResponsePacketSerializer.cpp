@@ -355,7 +355,8 @@ std::vector<unsigned char> JsonResponsePacketSerializer::binaryStringToBits(cons
 */
 std::vector<unsigned char> JsonResponsePacketSerializer::convertMessageToBuffer(Message message)
 {
-    std::vector<unsigned char> code = binaryStringToBits(padBinaryString(convertIntToBinaryString(message._code), 1));
+    std::vector<unsigned char> code = binaryStringToBits(std::bitset<8>(message._code).to_string());
+    //std::vector<unsigned char> code = binaryStringToBits(padBinaryString(convertIntToBinaryString(message._code), 1));
     std::vector<unsigned char> dataLength = binaryStringToBits(padBinaryString(convertIntToBinaryString(message._dataLength), 4));
     std::vector<unsigned char> data = binaryStringToBits(padBinaryString(convertJsonToBinaryString(message._data), message._dataLength));
 

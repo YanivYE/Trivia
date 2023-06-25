@@ -96,7 +96,8 @@ RequestInfo Communicator::getInfo(SOCKET m_clientSocket)
 	Buffer buffer;
 
 	// get request id from user
-	info.requestId = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH, 0)));
+	//info.requestId = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH, 0)));
+	info.requestId = stoi(read(m_clientSocket, BYTE_BIT_LENGTH, 0));
 
 	// check message size
 	int requestSize = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0)));

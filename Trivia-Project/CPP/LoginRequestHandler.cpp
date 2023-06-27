@@ -86,7 +86,7 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
 		// try to login
 		returnCode = this->m_handlerFactory->getLoginManager().login(loginRequest._username, loginRequest._password);
 
-		if (returnCode == Success)
+		if (returnCode == Login)
 		{
 			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(loginRequest._username));
 		}
@@ -149,7 +149,7 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
 		// try to sign up
 		returnCode = this->m_handlerFactory->getLoginManager().signup(signupRequest._username, signupRequest._password, signupRequest._email);
 		
-		if (returnCode == Success)
+		if (returnCode == SignUp)
 		{
 			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(signupRequest._username));
 		}

@@ -67,7 +67,7 @@ namespace TriviaGUI
 
             if (!msg.Contains(":3"))
             {
-                MessageBox.Show("Coldn'y logout! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Coldn't logout! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {

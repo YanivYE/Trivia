@@ -16,7 +16,10 @@ int LoginManager::signup(std::string username, std::string password, std::string
 	if (!this->m_database->doesUserExist(username))
 		// user doesnt exists
 	{
-		return this->m_database->addNewUser(username, password, mail);
+		if (this->m_database->addNewUser(username, password, mail))
+		{
+			return SignUp;
+		}
 	}
 
 	// user already exists
@@ -44,7 +47,7 @@ int LoginManager::login(std::string username, std::string password)
 			// connect user
 			this->m_loggedUsers.push_back(LoggedUser(username));
 
-			return Success;
+			return Login;
 		}
 
 		// user already loged in

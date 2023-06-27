@@ -228,7 +228,20 @@ std::string JsonResponsePacketSerializer::vectorToString(std::vector<PlayerResul
 
 Buffer JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse response)
 {
-    return serializeReponseStatus(SubmitAnswer, response._status);
+    Buffer buffer;
+    Message message;
+    json data;
+
+    data["status"] = response._status;
+    data["ID"] = response._correctAnswerId;
+
+    message._code = SubmitAnswer;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
 }
 
 Buffer JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse response)

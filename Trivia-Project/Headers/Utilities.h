@@ -172,3 +172,7 @@ struct GetGameResultsResponse
 	std::vector<PlayerResults> _results;
 } typedef GetGameResultsResponse;
 
+struct SubmitAnswerRequest
+{
+	unsigned int _answerId;
+} typedef SubmitAnswerRequest;

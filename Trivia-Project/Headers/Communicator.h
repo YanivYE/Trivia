@@ -28,12 +28,6 @@ public:
 		return instance;
 	}
 
-	// destory instance of communicator
-	static void destroyInstance() {
-		Communicator& instance = getInstance(nullptr);
-		delete& instance;
-	}
-
 	void startHandleRequests(int port); // start handling requests to connect from client
 	void bindAndListen(int port); // bind and listen server to port
 	void handleNewClient(SOCKET m_clientSocket); // handle new client
@@ -60,7 +54,6 @@ private:
 	// dtor
 	~Communicator()
 	{
-		destroyInstance();
 		try
 		{
 			// the only use of the destructor should be for freeing 
@@ -70,10 +63,6 @@ private:
 		catch (...) {}
 	}
 
-	void handleLoginRequest(SOCKET m_clientSocket); // handle login request
-	void sendLoginResponse(SOCKET m_clientSocket); // send login response
-	void handleSignUpRequest(SOCKET m_clientSocket); // handle sign up request
-	void sendSignUpResponse(SOCKET m_clientSocket); // send signup response
 	void sendErrorResponse(SOCKET m_clientSocket, ErrorResponse errorResponse); // send error response
 
 	RequestInfo getInfo(SOCKET m_clientSocket); // get info from client

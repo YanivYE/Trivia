@@ -34,7 +34,31 @@ namespace TriviaGUI
         void sendUpdateMessage()
         {
             Socket socket = server.GetSocket();
-            //Utillities.sendMessage(socket, serialize());
+            while(true)
+            {
+                Utillities.sendMessage(socket, serialize());
+                string msg = Utillities.recieveMessage(socket);
+
+                Thread.Sleep(3000);
+            }
+        }
+
+        string serialize()
+        {
+            var getRooms = new updateMessage
+            {
+                messageCode = 0b00000100
+            };
+
+            string jsonString = JsonSerializer.Serialize(getRooms);
+
+            jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
+
+            string message = LOGIN_CODE.ToString("D89") +
+                Utillities.ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
+                Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
+
+            return message;
         }
 
         private void button2_Click(object sender, EventArgs e)

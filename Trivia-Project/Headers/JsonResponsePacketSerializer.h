@@ -35,6 +35,12 @@ public:
 	Buffer serializeResponse(GetRoomStateResponse response); // serialize get room state reponse
 	Buffer serializeResponse(LeaveRoomResponse response); // serialize leave room reponse
 
+
+	Buffer serializeResponse(GetGameResultsResponse response); // serialize leave room reponse
+	Buffer serializeResponse(SubmitAnswerResponse response); // serialize leave room reponse
+	Buffer serializeResponse(GetQuestionResponse response); // serialize leave room reponse
+	Buffer serializeResponse(LeaveGameResponse response); // serialize leave room reponse
+
 private:
 	Buffer serializeReponseStatus(int code, int status); // serialize response status
 	Buffer serializeResponseStats(int status, std::vector<std::string> statistics, std::string typeOfStats, int code); // serialize reponse stats with stats and type of stats
@@ -44,4 +50,6 @@ private:
 	std::string padBinaryString(const std::string& value, int numBytes); // pad binrary string 
 	std::vector<unsigned char> binaryStringToBits(const std::string& binaryString); // binrary string to vector bits
 	std::vector<unsigned char> convertMessageToBuffer(Message message); // nessage to buffer of bits
+
+	std::string vectorToString(std::vector<PlayerResults> vec);
 };

@@ -197,6 +197,65 @@ Buffer JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse respons
     return serializeReponseStatus(LeaveRoom, response._status);
 }
 
+Buffer JsonResponsePacketSerializer::serializeResponse(GetGameResultsResponse response)
+{
+    Buffer buffer;
+    Message message;
+    json data;
+    data["status"] = response._status;
+    data["Results"] = vectorToString(response._results);
+
+    message._code = GetGameResult;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
+}
+
+std::string JsonResponsePacketSerializer::vectorToString(std::vector<PlayerResults> vec)
+{
+    std::string resultsString = "";
+    for (auto& playerResult : vec) {
+        resultsString += playerResult._username + ", " +
+            std::to_string(playerResult.correctAnswerCount) + ", " +
+            std::to_string(playerResult.wrongAnswerCount) + ", " +
+            std::to_string(playerResult.averageAnswerTime) + "\n";
+    }
+    return resultsString;
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse response)
+{
+    return serializeReponseStatus(SubmitAnswer, response._status);
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse response)
+{
+    Buffer buffer;
+    Message message;
+    json data;
+
+    data["status"] = response._status;
+    data["question"] = response._question;
+    data["Answers"] = response._answers;
+
+
+    message._code = GetQuestion;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse response)
+{
+    return serializeReponseStatus(LeaveGame, response._status);
+}
+
 /*
 * Function gets a status, stats, type of stats, and code of a message and returns a buffer of the serialized response
 * Input: status - the status code

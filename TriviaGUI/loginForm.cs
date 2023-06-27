@@ -46,8 +46,7 @@ namespace TriviaGUI
 
             string msg = Utillities.recieveMessage(socket);
 
-
-            if(msg.Contains(":9"))
+            if (msg.Contains(":9"))
             {
                 MessageBox.Show("Username/Password incorrect", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -71,11 +70,16 @@ namespace TriviaGUI
 
             jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
 
-            string message = LOGIN_CODE.ToString("D8") + 
+            string message = LOGIN_CODE.ToString("D89") +
                 Utillities.ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
                 Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
 
             return message;
+        }
+
+        private void loginForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

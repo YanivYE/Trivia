@@ -120,6 +120,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
             FormClosed += loginForm_Close;
+            Load += loginForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

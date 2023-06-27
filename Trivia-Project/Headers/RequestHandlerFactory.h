@@ -22,12 +22,6 @@ public:
 		return instance;
 	}
 
-	// destroy of request handler factory
-	static void destroyInstance() {
-		RequestHandlerFactory& instance = getInstance(nullptr);
-		delete& instance;
-	}
-
 	LoginRequestHandler* createLoginRequestHandlers(); // create login request handlers
 	MenuRequestHandler* createMenuRequestHandlers(LoggedUser user); // create menu reuqest handlers
 
@@ -51,7 +45,6 @@ private:
 	// dtor
 	~RequestHandlerFactory()
 	{
-		destroyInstance();
 		this->m_database->close();
 	}
 

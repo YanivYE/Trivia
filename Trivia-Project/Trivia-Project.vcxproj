@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\Communicator.h" />
+    <ClInclude Include="Headers\FileHelper.h" />
     <ClInclude Include="Headers\IDataBase.h" />
     <ClInclude Include="Headers\IRequestHandler.h" />
     <ClInclude Include="Headers\json.hpp" />

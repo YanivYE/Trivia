@@ -69,6 +69,8 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 
 			RequestResult result = m_clients[m_clientSocket]->handleRequest(info);
 
+			m_clients[m_clientSocket] = result.newHandler;
+
 			// get buffer string
 			string bufferString(result.response._bytes.begin(), result.response._bytes.end());
 

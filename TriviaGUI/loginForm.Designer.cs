@@ -94,11 +94,12 @@
             button3.BackgroundImageLayout = ImageLayout.Stretch;
             button3.FlatStyle = FlatStyle.Flat;
             button3.ForeColor = SystemColors.ControlText;
-            button3.Location = new Point(738, 374);
+            button3.Location = new Point(12, 381);
             button3.Name = "button3";
             button3.Size = new Size(44, 44);
             button3.TabIndex = 7;
             button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click_1;
             // 
             // loginForm
             // 

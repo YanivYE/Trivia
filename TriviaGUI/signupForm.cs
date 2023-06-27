@@ -47,9 +47,9 @@ namespace TriviaGUI
             }
             else
             {
-                MessageBox.Show(msg);
+                MessageBox.Show("Username/Password/Email incorrect", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
 
         string serialize()

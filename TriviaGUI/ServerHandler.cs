@@ -8,7 +8,7 @@ namespace TriviaGUI
     {
         Socket socket;
 
-    public DialogResult ConnectToServer(string ipAddress, int port)
+    public DialogResult ConnectToServer()
     {
         try
         {

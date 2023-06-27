@@ -17,7 +17,7 @@ public partial class mainForm : Form
         private void Form1_Load(object sender, EventArgs e)
         {
             // Connect to the server
-            DialogResult connected = serverHandler.ConnectToServer("127.0.0.1", 8200);
+            DialogResult connected = serverHandler.ConnectToServer();
 
             if (connected == DialogResult.OK)
             {

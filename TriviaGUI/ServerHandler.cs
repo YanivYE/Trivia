@@ -8,8 +8,9 @@ namespace TriviaGUI
     {
         Socket socket;
 
-        public DialogResult ConnectToServer(string ipAddress, int port)
+        public DialogResult ConnectToServer()
         {
+
             try
             {
                 // Create a TCP/IP socket
@@ -34,7 +35,6 @@ namespace TriviaGUI
             }
 
         }
-
         public void CloseConnection()
         {
             if (this.socket != null && this.socket.Connected)

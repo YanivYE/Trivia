@@ -33,29 +33,26 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 {
 	RequestResult requestResult;
 
-	if (info.requestId == CreateRoom)
+	switch (info.requestId)
 	{
+	case CreateRoom:
 		return createRoom(info);
-	}
-	else if (info.requestId == GetRooms)
-	{
+		break;
+	case GetRooms:
 		return getRooms(info);
-	}
-	else if (info.requestId == GetPlayersInRoom)
-	{
+		break;
+	case GetPlayersInRoom:
 		return getPlayersInRoom(info);
-	}
-	else if (info.requestId == JoinRoom)
-	{
+		break;
+	case JoinRoom:
 		return joinRoom(info);
-	}
-	else if (info.requestId == GetPersonalStats)
-	{
+		break;
+	case GetPersonalStats:
 		return getPersonalStats(info);
-	}
-	else if (info.requestId == Logout)
-	{
+		break;
+	case Logout:
 		return signout(info);
+		break;
 	}
 	
 	return requestResult;
@@ -361,7 +358,6 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 RequestResult MenuRequestHandler::signout(RequestInfo info)
 {
 	RequestResult result;
-	int returnCode = 1;
 	JsonResponsePacketSerializer serializer;
 
 	try
@@ -371,7 +367,7 @@ RequestResult MenuRequestHandler::signout(RequestInfo info)
 
 		logoutResponse._status = this->m_handlerFactory->getLoginManager().logout(m_user.getUsername());
 
-		if (returnCode == Success)
+		if (logoutResponse._status == Logout)
 		{
 			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
 		}

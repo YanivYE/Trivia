@@ -61,6 +61,7 @@
             button1.TabIndex = 30;
             button1.Text = "Refresh";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // label7
             // 
@@ -82,6 +83,7 @@
             button2.TabIndex = 32;
             button2.Text = "JOIN";
             button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
@@ -114,6 +116,7 @@
             Name = "joinRoomForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
+            Load += joinRoomForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

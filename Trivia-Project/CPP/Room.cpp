@@ -52,16 +52,24 @@ int Room::addUser(LoggedUser user)
 * Input: user - logged user to remove
 * Output: none
 */
-void Room::removeUser(LoggedUser user)
+int Room::removeUser(LoggedUser user)
 {
-	// iterate each user
-	for (int i = 0; i < this->m_users.size(); i++)
+	try
 	{
-		// check if its the user to remove
-		if (this->m_users[i] == user) 
+		// iterate each user
+		for (int i = 0; i < this->m_users.size(); i++)
 		{
-			this->m_users.erase(this->m_users.begin() + i);
+			// check if its the user to remove
+			if (this->m_users[i] == user)
+			{
+				this->m_users.erase(this->m_users.begin() + i);
+			}
 		}
+		return LeaveRoom;
+	}
+	catch (...)
+	{
+		return Fail;
 	}
 }
 
@@ -108,9 +116,18 @@ bool Room::gameStarted()
 * Input: none
 * Output: none
 */
-void Room::startGame()
+int Room::startGame()
 {
-	this->isInGame = true;
+	try
+	{
+		this->isInGame = true;
+
+		return StartGame;
+	}
+	catch (...)
+	{
+		return Fail;
+	}
 }
 
 /*
@@ -122,4 +139,9 @@ void Room::stopGame()
 {
 	this->isInGame = false;
 	this->m_users.clear();
+}
+
+int Room::getId()
+{
+	return this->count;
 }

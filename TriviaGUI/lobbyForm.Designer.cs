@@ -119,6 +119,7 @@
             button5.TabIndex = 52;
             button5.Text = "Log Out";
             button5.UseVisualStyleBackColor = false;
+            button5.Click += button5_Click;
             // 
             // lobbyForm
             // 

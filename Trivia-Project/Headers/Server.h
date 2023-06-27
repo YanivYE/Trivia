@@ -25,7 +25,7 @@ private:
 
 	// dtor
 	~Server() {
-		delete m_database;
+		m_database->close();
 	}
 
 	Communicator* m_communicator; // communicator object

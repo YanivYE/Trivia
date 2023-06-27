@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RoomMemberRequestHandler.h"
+#include "RoomAdminRequestHandler.h"
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
 #include "IDataBase.h"
@@ -7,6 +9,8 @@
 
 class LoginRequestHandler;
 class MenuRequestHandler;
+class RoomAdminRequestHandler;
+class RoomMemberRequestHandler;
 
 class RequestHandlerFactory
 {
@@ -18,12 +22,6 @@ public:
 		return instance;
 	}
 
-	// destroy of request handler factory
-	static void destroyInstance() {
-		RequestHandlerFactory& instance = getInstance(nullptr);
-		delete& instance;
-	}
-
 	LoginRequestHandler* createLoginRequestHandlers(); // create login request handlers
 	MenuRequestHandler* createMenuRequestHandlers(LoggedUser user); // create menu reuqest handlers
 
@@ -31,6 +29,8 @@ public:
 	RoomManager& getRoomManager(); // return room manager
 	StatisticsManager& getStatisticsManager(); // return stats manager
 
+	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser user, Room room);
+	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser user, Room room);
 private:
 	// ctor
 	RequestHandlerFactory(IDataBase* database) : m_loginManager()
@@ -45,7 +45,6 @@ private:
 	// dtor
 	~RequestHandlerFactory()
 	{
-		destroyInstance();
 		this->m_database->close();
 	}
 

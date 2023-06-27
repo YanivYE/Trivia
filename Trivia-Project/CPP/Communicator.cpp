@@ -69,6 +69,8 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 
 			RequestResult result = m_clients[m_clientSocket]->handleRequest(info);
 
+			m_clients[m_clientSocket] = result.newHandler;
+
 			// get buffer string
 			string bufferString(result.response._bytes.begin(), result.response._bytes.end());
 
@@ -96,7 +98,8 @@ RequestInfo Communicator::getInfo(SOCKET m_clientSocket)
 	Buffer buffer;
 
 	// get request id from user
-	info.requestId = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH, 0)));
+	//info.requestId = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH, 0)));
+	info.requestId = stoi(read(m_clientSocket, BYTE_BIT_LENGTH, 0));
 
 	// check message size
 	int requestSize = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0)));

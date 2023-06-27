@@ -10,7 +10,7 @@ namespace TriviaGUI
 
     public partial class loginForm : Form
     {
-        const int LOGIN_CODE = 1;
+        const int LOGIN_CODE = 0b00000001;
         const int CODE_BYTES = 1;
         const int LENGTH_BYTES = 4;
         ServerHandler server;
@@ -46,14 +46,13 @@ namespace TriviaGUI
 
             string msg = Utillities.recieveMessage(socket);
 
-
-            if(msg.Contains(":9"))
+            if (msg.Contains(":9"))
             {
                 MessageBox.Show("Username/Password incorrect", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                lobbyForm lobby = new lobbyForm(usernameBox.Text);
+                lobbyForm lobby = new lobbyForm(usernameBox.Text, server);
                 lobby.Show();
                 this.Hide();
             }
@@ -71,12 +70,22 @@ namespace TriviaGUI
 
             jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
 
-
-            string message = Utillities.ConvertStringToBinary(LOGIN_CODE.ToString(), CODE_BYTES) +
+            string message = LOGIN_CODE.ToString("D89") +
                 Utillities.ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
                 Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
 
             return message;
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            mainForm main = new mainForm();
+            main.Show();
+            this.Hide();
+        }
+        private void loginForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

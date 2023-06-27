@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
+﻿using System.Net.Sockets;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace TriviaGUI
 {
     public partial class signupForm : Form
     {
         ServerHandler server;
-        const int SIGNUP_CODE = 2;
+        const int SIGNUP_CODE = 0b00000010;
         const int CODE_BYTES = 1;
         const int LENGTH_BYTES = 4;
 
@@ -54,7 +45,11 @@ namespace TriviaGUI
                 test.Show();
                 this.Hide();
             }
-            
+            else
+            {
+                MessageBox.Show("Username/Password/Email incorrect", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         string serialize()

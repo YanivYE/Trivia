@@ -27,7 +27,7 @@ def insert_question(cursor, conn, question_data):
 
 
 def create_query(data):
-    query = "INSERT INTO questions (question, correctAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3) VALUES ('" + \
+    query = "INSERT INTO questions (question, correct_answer, wrong_answer_1, wrong_answer_2, wrong_answer_3) VALUES ('" + \
             data['question'] + "','" + \
             data['correct_answer'] + "','" + \
             data['incorrect_answers'][0] + "','" + \

@@ -8,6 +8,8 @@
 #include <vector>
 #include <list>
 #include <map>
+#include <cstdlib>
+
 
 #define DB_NAME "MyDB.sqlite"
 

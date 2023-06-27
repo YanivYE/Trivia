@@ -185,10 +185,8 @@ void SqliteDatabase::insertQuestions()
 {
 	// python command to run python script to add the questions to data base. the scipt uses an api url to get a 
 	// json string of 10 random questions and inserts them to data base
-	std::string pythonCommand = "python insertDBquestions.py";
-
-	// run the Python script
-	int result = system(pythonCommand.c_str());
+	std::system("python insertDBquestions.py");
+	// MIGHT NOT WORK, RUN THE SCRYPT MANUALY
 }
 
 /*

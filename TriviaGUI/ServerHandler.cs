@@ -4,49 +4,49 @@ using System.Net;
 
 namespace TriviaGUI
 {
-    public class ServerHandler()
+    public class ServerHandler
     {
         Socket socket;
 
-    public DialogResult ConnectToServer(string ipAddress, int port)
-    {
-        try
+        public DialogResult ConnectToServer(string ipAddress, int port)
         {
-            // Create a TCP/IP socket
-            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            try
+            {
+                // Create a TCP/IP socket
+                this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-            FileHandler handler = new FileHandler();
-            handler.readFile();
+                FileHandler handler = new FileHandler();
+                handler.readFile();
 
-            // Connect to the server
-            IPAddress serverIPAddress = IPAddress.Parse(handler.serverIp);
-            int serverPort = handler.port;
-            socket.Connect(new IPEndPoint(serverIPAddress, serverPort));
+                // Connect to the server
+                IPAddress serverIPAddress = IPAddress.Parse(handler.serverIp);
+                int serverPort = handler.port;
+                this.socket.Connect(new IPEndPoint(serverIPAddress, serverPort));
 
-            return DialogResult.Yes;
+                return DialogResult.Yes;
+            }
+            catch (Exception ex)
+            {
+                DialogResult result = MessageBox.Show("Couldn't Connect To Server\nOk - Try Again\nCancel - Close Client", "Error!",
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+
+                return result;
+            }
+
         }
-        catch (Exception ex)
+
+        public void CloseConnection()
         {
-            DialogResult result = MessageBox.Show("Couldn't Connect To Server\nOk - Try Again\nCancel - Close Client", "Error!",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-
-            return result;
+            if (this.socket != null && this.socket.Connected)
+            {
+                this.socket.Shutdown(SocketShutdown.Both);
+                this.socket.Close();
+            }
         }
 
-    }
-
-    public void CloseConnection()
-    {
-        if (socket != null && socket.Connected)
+        public Socket GetSocket()
         {
-            socket.Shutdown(SocketShutdown.Both);
-            socket.Close();
+            return this.socket;
         }
     }
-
-    public Socket GetSocket()
-    {
-        return socket;
-    }
-}
 }

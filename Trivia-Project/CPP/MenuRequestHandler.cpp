@@ -114,7 +114,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 		// create menu request handler for user if success
 		if (returnCode == Success)
 		{
-			result.newHandler = this->m_handlerFactory->createRoomAdminRequestHandler(m_user, this->m_roomManager->getRoom(roomData.id));
+			result.newHandler = this->m_handlerFactory->createRoomAdminRequestHandler(m_user, *this->m_roomManager->getRoom(roomData.id));
 		}
 		else
 		{
@@ -203,7 +203,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 		// get playser from room 
 		GetPlayersInRoomResponse getPlayersInRoomResponse;
 
-		getPlayersInRoomResponse._players = this->m_handlerFactory->getRoomManager().getRoom(getPlayersInRoomRequest._roomId).getAllUsers();
+		getPlayersInRoomResponse._players = this->m_handlerFactory->getRoomManager().getRoom(getPlayersInRoomRequest._roomId)->getAllUsers();
 		
 		if (returnCode == Success)
 		{
@@ -329,15 +329,15 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 		// join rooms 
 		JoinRoomResponse joinRoomResponse;
 
-		joinRoomResponse._status = this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest._roomId).addUser(m_user);
+		joinRoomResponse._status = this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest._roomId)->addUser(m_user);
 
-		if (returnCode == Success)
+		if (joinRoomResponse._status == Success)
 		{
 			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
 		}
 		else
 		{
-			return returnError(result, "Error! Couldn't join room!", serializer);
+			return returnError(result, "Error! Couldn't join room! maybe full :0", serializer);
 		}
 
 		result.response = serializer.serializeResponse(joinRoomResponse);

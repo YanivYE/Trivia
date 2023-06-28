@@ -71,18 +71,22 @@ namespace TriviaGUI
                         {
                             string result = value.Substring(startQuoteIndex + 1, endQuoteIndex - startQuoteIndex - 1); // Extract the value between the quotes
 
-                            // Split the input string by commas
                             string[] strings = result.Split(',');
 
-                            // Trim whitespace from each string and convert to a List<string>
                             List<string> stringList = strings
-                                .Select((s, index) => $"{index+1}: {s.Trim()}")
+                                .Select((s, index) => string.IsNullOrEmpty(s)
+                                    ? s.Trim() // No numbering if the string is empty or null
+                                    : $"{index + 1}: {s.Trim()}") // Add numbering if the string is not empty
                                 .ToList();
 
                             // Convert the List<string> to an array
                             string[] stringArray = stringList.ToArray();
 
+                            // Remove the last element from the array
+                            Array.Resize(ref stringArray, stringArray.Length - 1);
+
                             rooms = stringArray;
+                            
                             UpdateRoomList(stringList);
                         }
                     }
@@ -142,9 +146,15 @@ namespace TriviaGUI
                     Utillities.sendMessage(socket, serialize(JOIN_ROOM_CODE));
                     string msg = Utillities.recieveMessage(socket);
 
+                    if (!msg.Contains(":15}"))
+                    {
+                        MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                     //roomForm lobby = new roomForm(user, server, createRoomMsg);
                     //this.Hide();
                     //lobby.Show();
+
+                    break;
                 }
                 else
                 {

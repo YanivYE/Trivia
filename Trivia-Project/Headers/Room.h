@@ -29,6 +29,8 @@ public:
 	int addUser(LoggedUser user); // add user to room
 	int removeUser(LoggedUser user); // remove user from room
 
+	void setId();
+
 	RoomData getRoomData(); // get room data
 
 	std::vector<std::string> getAllUsers(); // get all users in room
@@ -39,8 +41,8 @@ public:
 
 	int getId();
 private:
-	RoomData m_metadata; // room data
-	std::vector<LoggedUser> m_users; // all users in room
+	RoomData* m_metadata; // room data
+	std::vector<LoggedUser>* m_users; // all users in room
 	bool isInGame; 
 
 	static int count; // instance to count id of room

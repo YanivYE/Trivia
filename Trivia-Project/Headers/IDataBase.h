@@ -9,6 +9,7 @@
 #include <list>
 #include <map>
 #include <cstdlib>
+#include "Question.h"
 
 
 #define DB_NAME "MyDB.sqlite"
@@ -25,7 +26,7 @@ public:
 	virtual int addNewUser(std::string username, std::string password, std::string mail) = 0;
 	
 	// Statistics
-	virtual std::list<std::string> getQuestions(int amount) = 0;
+	virtual std::vector<Question> getQuestions(int amount) = 0;
 	virtual float getPlayerAverageAnswerTime(std::string username) = 0;
 	virtual int getNumOfCorrectAnswers(std::string uaername) = 0;
 	virtual int getNumOfTotalAnswers(std::string username) = 0;

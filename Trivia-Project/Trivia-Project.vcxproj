@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClInclude Include="Headers\Communicator.h" />
     <ClInclude Include="Headers\FileHelper.h" />
+    <ClInclude Include="Headers\Game.h" />
+    <ClInclude Include="Headers\GameManager.h" />
+    <ClInclude Include="Headers\GameRequestHandler.h" />
     <ClInclude Include="Headers\IDataBase.h" />
     <ClInclude Include="Headers\IRequestHandler.h" />
     <ClInclude Include="Headers\json.hpp" />
@@ -30,6 +33,7 @@
     <ClInclude Include="Headers\LoginManager.h" />
     <ClInclude Include="Headers\LoginRequestHandler.h" />
     <ClInclude Include="Headers\MenuRequestHandler.h" />
+    <ClInclude Include="Headers\Question.h" />
     <ClInclude Include="Headers\RequestHandlerFactory.h" />
     <ClInclude Include="Headers\Room.h" />
     <ClInclude Include="Headers\RoomAdminRequestHandler.h" />
@@ -50,6 +54,7 @@
     <ClCompile Include="CPP\LoginManager.cpp" />
     <ClCompile Include="CPP\LoginRequestHandler.cpp" />
     <ClCompile Include="CPP\MenuRequestHandler.cpp" />
+    <ClCompile Include="CPP\Question.cpp" />
     <ClCompile Include="CPP\RequestHandlerFactory.cpp" />
     <ClCompile Include="CPP\Room.cpp" />
     <ClCompile Include="CPP\RoomAdminRequestHandler.cpp" />
@@ -60,6 +65,9 @@
     <ClCompile Include="CPP\SqliteDatabase.cpp" />
     <ClCompile Include="CPP\StatisticsManager.cpp" />
     <ClCompile Include="CPP\WSAInitializer.cpp" />
+    <ClCompile Include="Headers\Game.cpp" />
+    <ClCompile Include="Headers\GameManager.cpp" />
+    <ClCompile Include="Headers\GameRequestHandler.cpp" />
     <ClCompile Include="Headers\RoomMemberRequestHandler.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

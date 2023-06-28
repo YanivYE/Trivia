@@ -22,6 +22,13 @@ namespace TriviaGUI
             this.serverHandler = server;
             this.info = info;
         }
+        
+        public roomForm(string admin, ServerHandler server)
+        {
+            InitializeComponent();
+            this.admin = admin;
+            this.serverHandler = server;
+        }
 
         private void roomForm_Close(object sender, EventArgs e)
         {

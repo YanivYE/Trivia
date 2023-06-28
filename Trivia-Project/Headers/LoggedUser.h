@@ -12,6 +12,7 @@ public:
 
 	bool operator==(const LoggedUser& other) const; // == operator that checks the username
 	bool operator!=(const LoggedUser& other) const; // != operator that checks the username
+	bool operator<(const LoggedUser& other) const; // != operator that checks the username
 private:
 	std::string m_username; // username of logged user
 };

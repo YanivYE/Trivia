@@ -3,6 +3,10 @@
 #include "Utilities.h"
 #include "IDataBase.h"
 #include "Game.h"
+#include <iostream>
+#include <map>
+#include <vector>
+#include <string>
 
 class GameManager
 {

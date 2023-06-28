@@ -11,7 +11,7 @@ std::map<LoggedUser, GameData> GameManager::getPlayers(Room room)
 {
     std::map<LoggedUser, GameData> players;
     std::vector<std::string> userNames = room.getAllUsers();
-    for (std::string name : userNames)
+    for (const std::string& name : userNames)
     {
         LoggedUser user(name);
         players[user] = GameData();
@@ -29,7 +29,7 @@ void GameManager::deleteGame(int gameId)
     {
         if (game->getGameId() == gameId)
         {
-            game = this->m_games.erase(game);
+           game = this->m_games.erase(game);
         }
     }
 }

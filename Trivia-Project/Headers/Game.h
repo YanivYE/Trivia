@@ -18,7 +18,7 @@ public:
 	Game(std::vector<Question> questions, std::map<LoggedUser, GameData> players, int gameId); // ctor for game
 
 	Question getQuestionForUser(LoggedUser user);
-	void submitAnswer(LoggedUser user, int answerId);
+	int submitAnswer(LoggedUser user, int answerId);
 	void removePlayer(LoggedUser user);
 	int getGameId();
 private:

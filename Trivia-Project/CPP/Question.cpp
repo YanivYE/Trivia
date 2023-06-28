@@ -1,5 +1,10 @@
 #include "../Headers/Question.h"
 
+Question::Question()
+{
+    this->m_question = "";
+}
+
 std::string Question::getQuestion()
 {
     return this->m_question;

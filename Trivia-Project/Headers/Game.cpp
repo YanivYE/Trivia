@@ -16,7 +16,7 @@ Question Game::getQuestionForUser(LoggedUser user)
 	return this->m_players[user].currentQuestion;
 }
 
-void Game::submitAnswer(LoggedUser user, int answerId)
+int Game::submitAnswer(LoggedUser user, int answerId)
 {
 	Question currQuestion = this->m_players[user].currentQuestion;
 	if (currQuestion.getCorrectAnswerId() == answerId)
@@ -27,6 +27,7 @@ void Game::submitAnswer(LoggedUser user, int answerId)
 	{
 		this->m_players[user].wrongAnswerCount += 1;
 	}
+	return SubmitAnswer;
 }
 
 void Game::removePlayer(LoggedUser user)

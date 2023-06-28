@@ -7,6 +7,8 @@
 class Question
 {
 public:
+	Question();
+
 	std::string getQuestion();
 	std::vector<std::string> getPossibleAnswers();
 	int getCorrectAnswerId();

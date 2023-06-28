@@ -30,8 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(joinRoomForm));
             label1 = new Label();
-            button1 = new Button();
-            label7 = new Label();
+            roomList = new Label();
             button2 = new Button();
             button3 = new Button();
             SuspendLayout();
@@ -49,29 +48,15 @@
             label1.TabIndex = 5;
             label1.Text = "ROOMS LIST:";
             // 
-            // button1
+            // roomList
             // 
-            button1.BackColor = Color.DarkCyan;
-            button1.BackgroundImage = (Image)resources.GetObject("button1.BackgroundImage");
-            button1.BackgroundImageLayout = ImageLayout.Stretch;
-            button1.Font = new Font("Showcard Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.Location = new Point(21, 189);
-            button1.Name = "button1";
-            button1.Size = new Size(72, 72);
-            button1.TabIndex = 30;
-            button1.Text = "Refresh";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label7.Location = new Point(110, 131);
-            label7.Name = "label7";
-            label7.Size = new Size(578, 186);
-            label7.TabIndex = 31;
-            label7.Text = resources.GetString("label7.Text");
+            roomList.AutoSize = true;
+            roomList.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            roomList.Location = new Point(110, 131);
+            roomList.Name = "roomList";
+            roomList.Size = new Size(578, 186);
+            roomList.TabIndex = 31;
+            roomList.Text = resources.GetString("roomList.Text");
             // 
             // button2
             // 
@@ -107,8 +92,7 @@
             ClientSize = new Size(811, 450);
             Controls.Add(button3);
             Controls.Add(button2);
-            Controls.Add(label7);
-            Controls.Add(button1);
+            Controls.Add(roomList);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -124,8 +108,7 @@
         #endregion
 
         private Label label1;
-        private Button button1;
-        private Label label7;
+        private Label roomList;
         private Button button2;
         private Button button3;
     }

@@ -114,7 +114,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 		// create menu request handler for user if success
 		if (returnCode == Success)
 		{
-			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
+			result.newHandler = this->m_handlerFactory->createRoomAdminRequestHandler(m_user, this->m_roomManager->getRoom(roomData.id));
 		}
 		else
 		{
@@ -142,7 +142,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 RequestResult MenuRequestHandler::getRooms(RequestInfo info)
 {
 	RequestResult result;
-	int returnCode = 1;
+	int returnCode = Success;
 	JsonResponsePacketSerializer serializer;
 
 	try

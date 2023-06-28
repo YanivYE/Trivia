@@ -30,14 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(createRoomForm));
             label2 = new Label();
-            usernameBox = new TextBox();
+            name = new TextBox();
             button1 = new Button();
             label1 = new Label();
             label3 = new Label();
             label4 = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
+            numPlayers = new TextBox();
+            numQuestions = new TextBox();
+            time = new TextBox();
             button3 = new Button();
             SuspendLayout();
             // 
@@ -52,13 +52,13 @@
             label2.TabIndex = 5;
             label2.Text = "Roon Name:";
             // 
-            // usernameBox
+            // name
             // 
-            usernameBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            usernameBox.Location = new Point(457, 69);
-            usernameBox.Name = "usernameBox";
-            usernameBox.Size = new Size(241, 38);
-            usernameBox.TabIndex = 6;
+            name.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            name.Location = new Point(457, 69);
+            name.Name = "name";
+            name.Size = new Size(241, 38);
+            name.TabIndex = 6;
             // 
             // button1
             // 
@@ -70,6 +70,7 @@
             button1.TabIndex = 11;
             button1.Text = "CREATE";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // label1
             // 
@@ -104,29 +105,32 @@
             label4.TabIndex = 14;
             label4.Text = "Number Of Questions:";
             // 
-            // textBox1
+            // numPlayers
             // 
-            textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox1.Location = new Point(457, 136);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(246, 38);
-            textBox1.TabIndex = 15;
+            numPlayers.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            numPlayers.Location = new Point(457, 136);
+            numPlayers.Name = "numPlayers";
+            numPlayers.Size = new Size(246, 38);
+            numPlayers.TabIndex = 15;
+            numPlayers.KeyPress += numPlayers_KeyPress;
             // 
-            // textBox2
+            // numQuestions
             // 
-            textBox2.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox2.Location = new Point(457, 204);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(246, 38);
-            textBox2.TabIndex = 16;
+            numQuestions.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            numQuestions.Location = new Point(457, 204);
+            numQuestions.Name = "numQuestions";
+            numQuestions.Size = new Size(246, 38);
+            numQuestions.TabIndex = 16;
+            numQuestions.KeyPress += numQuestions_KeyPress;
             // 
-            // textBox3
+            // time
             // 
-            textBox3.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox3.Location = new Point(457, 272);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(246, 38);
-            textBox3.TabIndex = 17;
+            time.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            time.Location = new Point(457, 272);
+            time.Name = "time";
+            time.Size = new Size(246, 38);
+            time.TabIndex = 17;
+            time.KeyPress += time_KeyPress;
             // 
             // button3
             // 
@@ -135,11 +139,12 @@
             button3.BackgroundImageLayout = ImageLayout.Stretch;
             button3.FlatStyle = FlatStyle.Flat;
             button3.ForeColor = SystemColors.ControlText;
-            button3.Location = new Point(741, 368);
+            button3.Location = new Point(12, 373);
             button3.Name = "button3";
             button3.Size = new Size(44, 44);
             button3.TabIndex = 18;
             button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
             // 
             // createRoomForm
             // 
@@ -149,14 +154,14 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
             Controls.Add(button3);
-            Controls.Add(textBox3);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            Controls.Add(time);
+            Controls.Add(numQuestions);
+            Controls.Add(numPlayers);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label1);
             Controls.Add(button1);
-            Controls.Add(usernameBox);
+            Controls.Add(name);
             Controls.Add(label2);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -171,14 +176,14 @@
         #endregion
 
         private Label label2;
-        private TextBox usernameBox;
+        private TextBox name;
         private Button button1;
         private Label label1;
         private Label label3;
         private Label label4;
-        private TextBox textBox1;
-        private TextBox textBox2;
-        private TextBox textBox3;
+        private TextBox numPlayers;
+        private TextBox numQuestions;
+        private TextBox time;
         private Button button3;
     }
 }

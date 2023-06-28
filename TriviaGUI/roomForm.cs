@@ -12,9 +12,20 @@ namespace TriviaGUI
 {
     public partial class roomForm : Form
     {
-        public roomForm()
+        ServerHandler serverHandler;
+        string admin;
+        createRoomMessage info;
+        public roomForm(string admin, ServerHandler server, createRoomMessage info)
         {
             InitializeComponent();
+            this.admin = admin;
+            this.serverHandler = server;
+            this.info = info;
+        }
+
+        private void roomForm_Close(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -23,6 +34,14 @@ namespace TriviaGUI
         }
 
         private void roomForm_Load(object sender, EventArgs e)
+        {
+            adminLabel.Text = admin;
+            maxNumber.Text = info.maxUsers;
+            numQuestions.Text = info.questionCount;
+            answerTimeout.Text = info.answerTimeout;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
         {
 
         }

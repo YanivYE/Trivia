@@ -111,7 +111,7 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
     submitAnswerRequest._answerId = stoi(correntAnswerID);
 
     return submitAnswerRequest;
-}
+}   
 
 /*
 * Function gets a vector of bits and converts it to json

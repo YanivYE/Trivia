@@ -6,6 +6,7 @@
 #include "MenuRequestHandler.h"
 #include "IDataBase.h"
 #include "LoginManager.h"
+#include "GameRequestHandler.h"
 
 class LoginRequestHandler;
 class MenuRequestHandler;
@@ -31,6 +32,10 @@ public:
 
 	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser user, Room room);
 	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser user, Room room);
+
+	GameRequestHandler* createGameRequestHandler(LoggedUser user);
+	GameManager& getGameManager();
+
 private:
 	// ctor
 	RequestHandlerFactory(IDataBase* database) : m_loginManager()
@@ -40,6 +45,7 @@ private:
 		this->m_loginManager = &(LoginManager::getInstance(m_database));
 		this->m_statisticsManager = new StatisticsManager(m_database);
 		this->m_roomManager = new RoomManager();
+		this->m_gameManager = new GameManager();
 	}
 
 	// dtor
@@ -51,5 +57,6 @@ private:
 	LoginManager* m_loginManager;
 	IDataBase* m_database;
 	RoomManager* m_roomManager;
+	GameManager* m_gameManager;
 	StatisticsManager* m_statisticsManager;
 };

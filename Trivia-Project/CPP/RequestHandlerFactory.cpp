@@ -59,3 +59,8 @@ RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(
 {
     return new RoomMemberRequestHandler(this, user, room);
 }
+
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser user)
+{
+    return new GameRequestHandler(this, user, );
+}

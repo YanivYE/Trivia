@@ -13,8 +13,8 @@ class RoomAdminRequestHandler : public IRequestHandler
 public:
 	RoomAdminRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Room room);
 
-	bool isRequestRelevant(RequestInfo info);
-	RequestResult handleRequest(RequestInfo info);
+	bool isRequestRelevant(RequestInfo info) override;
+	RequestResult handleRequest(RequestInfo info) override;
 	RequestResult closeRoom(RequestInfo info);
 	RequestResult startGame(RequestInfo info);
 	RequestResult getRoomState(RequestInfo info);

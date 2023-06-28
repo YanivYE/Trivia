@@ -1,6 +1,8 @@
 #pragma once
 
 #include "IRequestHandler.h";
+#include "GameManager.h"
+#include "RequestHandlerFactory.h"
 
 class RequestHandlerFactory;
 
@@ -17,7 +19,7 @@ public:
 	RequestResult leaveGame(RequestInfo info);
 
 private:
-	Game* m_game;
+	Game m_game;
 	LoggedUser m_user;
 	GameManager* m_gameManager;
 	RequestHandlerFactory* m_handleFactory;

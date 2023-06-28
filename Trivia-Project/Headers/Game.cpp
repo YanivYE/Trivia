@@ -33,3 +33,8 @@ void Game::removePlayer(LoggedUser user)
 {
 	this->m_players.erase(user);
 }
+
+int Game::getGameId()
+{
+	return this->m_gameId;
+}

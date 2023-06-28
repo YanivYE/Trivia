@@ -3,7 +3,7 @@
 GameRequestHandler::GameRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Game game)
 {
     this->m_handleFactory = requestHandlerFactory;
-    this->m_gameManager = &requestHandlerFactory->getRoomManager();
+    this->m_gameManager = &requestHandlerFactory->getGameManager();
     this->m_user = user;
     this->m_game = game;
 }

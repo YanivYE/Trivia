@@ -11,6 +11,7 @@ public:
 	void deleteGame(int gameId); // delete room
 
 private:
+	std::map<LoggedUser, GameData> getPlayers(Room room);
 	IDataBase* m_database;
-	std::vector<Game> m_games; // map of rooms and id
+	std::vector<Game> m_games; 
 };

@@ -7,11 +7,13 @@
 #include "IDataBase.h"
 #include "LoginManager.h"
 #include "GameRequestHandler.h"
+#include "GameManager.h"
 
 class LoginRequestHandler;
 class MenuRequestHandler;
 class RoomAdminRequestHandler;
 class RoomMemberRequestHandler;
+class GameRequestHandler;
 
 class RequestHandlerFactory
 {
@@ -29,12 +31,13 @@ public:
 	LoginManager& getLoginManager(); // return login manager 
 	RoomManager& getRoomManager(); // return room manager
 	StatisticsManager& getStatisticsManager(); // return stats manager
+	GameManager& getGameManager(); // return game manager
 
 	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser user, Room room);
 	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser user, Room room);
 
-	GameRequestHandler* createGameRequestHandler(LoggedUser user);
-	GameManager& getGameManager();
+	GameRequestHandler* createGameRequestHandler(LoggedUser user, Game game);
+	
 
 private:
 	// ctor

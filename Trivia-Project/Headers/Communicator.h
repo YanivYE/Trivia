@@ -33,10 +33,13 @@ public:
 	void handleNewClient(SOCKET m_clientSocket); // handle new client
 	void acceptClient(); // accept new client
 
+	void setUser(LoggedUser user);
+
 private:
 	SOCKET m_serverSocket; // server socket
 	std::map<SOCKET, IRequestHandler*> m_clients; // clients sockets and handlers
 	RequestHandlerFactory* m_handlerFactory; // request handler
+	LoggedUser m_user;
 
 	// ctor
 	Communicator(RequestHandlerFactory* factory)
@@ -46,6 +49,7 @@ private:
 		// if the server use UDP we will use: SOCK_DGRAM & IPPROTO_UDP
 		m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 		m_handlerFactory = factory;
+		m_user = LoggedUser();
 
 		if (m_serverSocket == INVALID_SOCKET)
 			throw std::exception(__FUNCTION__ " - socket");

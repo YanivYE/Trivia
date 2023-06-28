@@ -89,6 +89,7 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
 		if (returnCode == Login)
 		{
 			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(loginRequest._username));
+			this->m_handlerFactory->setUser(LoggedUser(loginRequest._username));
 		}
 		else
 		{

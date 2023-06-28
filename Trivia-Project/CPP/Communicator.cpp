@@ -83,6 +83,7 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 	catch (...)
 	{
 		std::cout << "Unknown error! User probbly disconnected mid commands.\n";
+		this->m_handlerFactory->getLoginManager().logout(m_user.getUsername());
 	}
 }
 
@@ -220,6 +221,11 @@ void Communicator::acceptClient()
 	std::thread handleThread(&Communicator::handleNewClient, this, client_socket);
 
 	handleThread.detach();
+}
+
+void Communicator::setUser(LoggedUser user)
+{
+	this->m_user = user;
 }
 
 /*

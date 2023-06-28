@@ -28,19 +28,36 @@ namespace TriviaGUI
             this.user = user;
         }
 
+        private void createRoomForm_Close(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
         private void numPlayers_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = !char.IsNumber(e.KeyChar);
+            // Allow digits, backspace
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true; // Ignore the input
+            }
         }
 
         private void numQuestions_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = !char.IsNumber(e.KeyChar);
+            // Allow digits, backspace
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true; // Ignore the input
+            }
         }
 
         private void time_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = !char.IsNumber(e.KeyChar);
+            // Allow digits, backspace
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true; // Ignore the input
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)

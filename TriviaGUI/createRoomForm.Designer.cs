@@ -163,6 +163,7 @@
             Controls.Add(button1);
             Controls.Add(name);
             Controls.Add(label2);
+            FormClosed += createRoomForm_Close;
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;

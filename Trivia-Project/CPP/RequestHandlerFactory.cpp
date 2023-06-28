@@ -59,3 +59,13 @@ RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(
 {
     return new RoomMemberRequestHandler(this, user, room);
 }
+
+void RequestHandlerFactory::setCommunicator(Communicator* communicator)
+{
+    this->m_communicator = communicator;
+}
+
+void RequestHandlerFactory::setUser(LoggedUser user)
+{
+    this->m_communicator->setUser(user);
+}

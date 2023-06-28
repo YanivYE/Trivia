@@ -79,7 +79,7 @@ namespace TriviaGUI
             }
             else
             {
-                roomList.Text += roomName + "\n";
+                roomList.Text = roomName;
             }
         }
 

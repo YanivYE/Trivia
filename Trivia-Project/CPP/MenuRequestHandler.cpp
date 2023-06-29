@@ -50,6 +50,9 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 	case GetPersonalStats:
 		return getPersonalStats(info);
 		break;
+	case GetLeaderboardStats:
+		return getHighScore(info);
+		break;
 	case Logout:
 		return signout(info);
 		break;
@@ -234,7 +237,7 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 	RequestResult result;
 	JsonRequestPacketDeserializer deserializer;
 	JsonResponsePacketSerializer serializer;
-	int returnCode = 1;
+	int returnCode = Success;
 
 	try
 	{
@@ -249,6 +252,7 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 		}
 		else
 		{
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
 			return returnError(result, "Error! Couldn't get personal stats!", serializer);
 		}
 
@@ -272,7 +276,7 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 	RequestResult result;
 	JsonRequestPacketDeserializer deserializer;
 	JsonResponsePacketSerializer serializer;
-	int returnCode = 1;
+	int returnCode = Success;
 
 	try
 	{

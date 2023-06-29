@@ -109,6 +109,7 @@
             button4.TabIndex = 51;
             button4.Text = "Statistics";
             button4.UseVisualStyleBackColor = false;
+            button4.Click += button4_Click;
             // 
             // button5
             // 

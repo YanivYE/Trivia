@@ -103,5 +103,12 @@ namespace TriviaGUI
             joinRoom.Show();
             this.Hide();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            statisticsForm statistics = new statisticsForm(user, server);
+            statistics.Show();
+            this.Hide();
+        }
     }
 }

@@ -50,6 +50,9 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 	case GetPersonalStats:
 		return getPersonalStats(info);
 		break;
+	case GetLeaderboardStats:
+		return getLeaderboard(info);
+		break;
 	case Logout:
 		return signout(info);
 		break;
@@ -253,6 +256,43 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 		}
 
 		result.response = serializer.serializeResponse(getPersonalStatsResponse);
+	}
+	catch (std::exception& e)
+	{
+		return returnError(result, "Error! Couldn't get user personal stats!", serializer);
+	}
+
+	return result;
+}
+
+/*
+* Function gets a info to deserialize and returns a request result of get personal stats
+* Input: info - the info to desializer to request result
+* Output: a get personal stats request result
+*/
+RequestResult MenuRequestHandler::getLeaderboard(RequestInfo info)
+{
+	RequestResult result;
+	JsonResponsePacketSerializer serializer;
+	int returnCode = 1;
+
+	try
+	{
+		// get personal stats
+		GetHighScoreResponse getHighScoreResponse;
+
+		getHighScoreResponse._statistics = this->m_handlerFactory->getStatisticsManager().getHighScore();
+
+		if (returnCode == Success)
+		{
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
+		}
+		else
+		{
+			return returnError(result, "Error! Couldn't get personal stats!", serializer);
+		}
+
+		result.response = serializer.serializeResponse(getHighScoreResponse);
 	}
 	catch (std::exception& e)
 	{

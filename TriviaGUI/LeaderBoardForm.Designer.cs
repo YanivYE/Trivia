@@ -114,6 +114,7 @@
             label2.Size = new Size(515, 81);
             label2.TabIndex = 7;
             label2.Text = "                    ";
+            label2.Click += label2_Click_1;
             // 
             // label4
             // 
@@ -126,6 +127,7 @@
             label4.Size = new Size(515, 81);
             label4.TabIndex = 8;
             label4.Text = "                    ";
+            label4.Click += label4_Click;
             // 
             // button3
             // 
@@ -139,6 +141,7 @@
             button3.Size = new Size(44, 44);
             button3.TabIndex = 9;
             button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
             // 
             // LeaderBoardForm
             // 
@@ -161,6 +164,7 @@
             Name = "LeaderBoardForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
+            Load += LeaderBoardForm_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();

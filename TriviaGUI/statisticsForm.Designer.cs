@@ -45,6 +45,7 @@
             button1.TabIndex = 4;
             button1.Text = "LeaderBoard";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // button3
             // 
@@ -56,6 +57,7 @@
             button3.TabIndex = 5;
             button3.Text = "My Stats";
             button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
             // 
             // button2
             // 
@@ -69,6 +71,7 @@
             button2.Size = new Size(44, 44);
             button2.TabIndex = 8;
             button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // label1
             // 
@@ -100,6 +103,7 @@
             Name = "statisticsForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
+            Load += statisticsForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

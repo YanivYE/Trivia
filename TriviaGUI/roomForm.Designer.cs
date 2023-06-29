@@ -34,20 +34,21 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
-            label6 = new Label();
+            maxNumber = new Label();
+            numQuestions = new Label();
+            answerTimeout = new Label();
             button1 = new Button();
             label7 = new Label();
-            label8 = new Label();
+            adminLabel = new Label();
             label9 = new Label();
+            roomName = new Label();
             SuspendLayout();
             // 
             // label12
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label12.Location = new Point(341, 32);
+            label12.Location = new Point(238, 32);
             label12.Name = "label12";
             label12.Size = new Size(140, 31);
             label12.TabIndex = 21;
@@ -63,6 +64,7 @@
             button3.TabIndex = 22;
             button3.Text = "START";
             button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
             // 
             // label1
             // 
@@ -97,36 +99,36 @@
             label3.TabIndex = 25;
             label3.Text = "number of questions: ";
             // 
-            // label4
+            // maxNumber
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(133, 110);
-            label4.Name = "label4";
-            label4.Size = new Size(62, 31);
-            label4.TabIndex = 26;
-            label4.Text = "        ";
-            label4.Click += label4_Click;
+            maxNumber.AutoSize = true;
+            maxNumber.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            maxNumber.Location = new Point(133, 110);
+            maxNumber.Name = "maxNumber";
+            maxNumber.Size = new Size(62, 31);
+            maxNumber.TabIndex = 26;
+            maxNumber.Text = "        ";
+            maxNumber.Click += label4_Click;
             // 
-            // label5
+            // numQuestions
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(376, 110);
-            label5.Name = "label5";
-            label5.Size = new Size(62, 31);
-            label5.TabIndex = 27;
-            label5.Text = "        ";
+            numQuestions.AutoSize = true;
+            numQuestions.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            numQuestions.Location = new Point(376, 110);
+            numQuestions.Name = "numQuestions";
+            numQuestions.Size = new Size(62, 31);
+            numQuestions.TabIndex = 27;
+            numQuestions.Text = "        ";
             // 
-            // label6
+            // answerTimeout
             // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.Location = new Point(605, 110);
-            label6.Name = "label6";
-            label6.Size = new Size(62, 31);
-            label6.TabIndex = 28;
-            label6.Text = "        ";
+            answerTimeout.AutoSize = true;
+            answerTimeout.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            answerTimeout.Location = new Point(605, 110);
+            answerTimeout.Name = "answerTimeout";
+            answerTimeout.Size = new Size(62, 31);
+            answerTimeout.TabIndex = 28;
+            answerTimeout.Text = "        ";
             // 
             // button1
             // 
@@ -149,15 +151,15 @@
             label7.TabIndex = 30;
             label7.Text = "        \r\n\r\n                                                                       \r\n                                                                                       ";
             // 
-            // label8
+            // adminLabel
             // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label8.Location = new Point(401, 172);
-            label8.Name = "label8";
-            label8.Size = new Size(116, 31);
-            label8.TabIndex = 31;
-            label8.Text = "                 ";
+            adminLabel.AutoSize = true;
+            adminLabel.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            adminLabel.Location = new Point(401, 172);
+            adminLabel.Name = "adminLabel";
+            adminLabel.Size = new Size(116, 31);
+            adminLabel.TabIndex = 31;
+            adminLabel.Text = "                 ";
             // 
             // label9
             // 
@@ -170,6 +172,16 @@
             label9.TabIndex = 32;
             label9.Text = "Admin: ";
             // 
+            // roomName
+            // 
+            roomName.AutoSize = true;
+            roomName.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            roomName.Location = new Point(384, 32);
+            roomName.Name = "roomName";
+            roomName.Size = new Size(52, 31);
+            roomName.TabIndex = 33;
+            roomName.Text = "test";
+            // 
             // roomForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -177,13 +189,14 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
+            Controls.Add(roomName);
             Controls.Add(label9);
-            Controls.Add(label8);
+            Controls.Add(adminLabel);
             Controls.Add(label7);
             Controls.Add(button1);
-            Controls.Add(label6);
-            Controls.Add(label5);
-            Controls.Add(label4);
+            Controls.Add(answerTimeout);
+            Controls.Add(numQuestions);
+            Controls.Add(maxNumber);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -195,6 +208,7 @@
             Name = "roomForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
+            FormClosed += roomForm_Close;
             Load += roomForm_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -207,12 +221,13 @@
         private Label label1;
         private Label label2;
         private Label label3;
-        private Label label4;
-        private Label label5;
-        private Label label6;
+        private Label maxNumber;
+        private Label numQuestions;
+        private Label answerTimeout;
         private Button button1;
         private Label label7;
-        private Label label8;
+        private Label adminLabel;
         private Label label9;
+        private Label roomName;
     }
 }

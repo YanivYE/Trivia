@@ -40,7 +40,7 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo info)
 
     try
     {
-        Question question = this->m_gameManager->createGame(this->m_handleFactory->getRoomManager().getRoom(this->m_game.getGameId())).getQuestionForUser(this->m_user);
+        Question question = this->m_gameManager->createGame(*(this->m_handleFactory->getRoomManager().getRoom(this->m_game.getGameId()))).getQuestionForUser(this->m_user);
         if (question.getQuestion() != "")
         {
             result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
@@ -95,7 +95,7 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 
     try
     {
-        returnCode = this->m_handleFactory->getGameManager().createGame(this->m_handleFactory->getRoomManager().getRoom(this->m_game.getGameId())).submitAnswer(this->m_user, submitAnswerRequest._answerId);
+        returnCode = this->m_handleFactory->getGameManager().createGame(*(this->m_handleFactory->getRoomManager().getRoom(this->m_game.getGameId()))).submitAnswer(this->m_user, submitAnswerRequest._answerId);
 
         if (returnCode == SubmitAnswer)
         {
@@ -173,7 +173,7 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo info)
     try
     {
         // try to remove user
-        returnCode = this->m_handleFactory->getRoomManager().getRoom(this->m_game.getGameId()).removeUser(this->m_user);
+        returnCode = this->m_handleFactory->getRoomManager().getRoom(this->m_game.getGameId())->removeUser(this->m_user);
 
         if (returnCode == LeaveRoom)
         {

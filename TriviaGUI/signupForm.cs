@@ -39,15 +39,15 @@ namespace TriviaGUI
 
             string msg = Utillities.recieveMessage(socket);
 
-            if (msg[0] == '1')
+            if (msg.Contains(":2"))
             {
-                mainForm test = new mainForm();
-                test.Show();
+                mainForm main = new mainForm();
                 this.Hide();
+                main.Show();
             }
             else
             {
-                MessageBox.Show("Username/Password/Email incorrect", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Username/Password/Email incorrect!\nUsername must be at least 3 characters, and 1 alphabetic character.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -66,7 +66,7 @@ namespace TriviaGUI
             jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
 
 
-            string message = Utillities.ConvertStringToBinary(SIGNUP_CODE.ToString(), CODE_BYTES) +
+            string message = SIGNUP_CODE.ToString("D8") +
                 Utillities.ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
                 Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
 

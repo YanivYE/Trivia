@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,13 @@ namespace TriviaGUI
     public partial class joinRoomForm : Form
     {
         ServerHandler server;
+        const int GET_ROOMS_CODE = 0b00000100;
+        const int JOIN_ROOM_CODE = 0b00000110;
+        const int CODE_BYTES = 1;
+        const int LENGTH_BYTES = 4;
+        string[] rooms;
+        bool stop = false;
+
         public joinRoomForm(ServerHandler server)
         {
             this.server = server;
@@ -30,16 +38,160 @@ namespace TriviaGUI
         {
             Thread refreshThread = new Thread(sendUpdateMessage);
             refreshThread.Start();
+
+        }
+        private void joinRoomForm_Close(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
         void sendUpdateMessage()
         {
-            Socket socket = server.GetSocket();
-            //Utillities.sendMessage(socket, serialize());
+            while (!stop)
+            {
+                Socket socket = server.GetSocket();
+                Utillities.sendMessage(socket, serialize(GET_ROOMS_CODE));
+                string msg = Utillities.recieveMessage(socket);
+
+                if (!msg.Contains(":15}"))
+                {
+                    MessageBox.Show("Couldn't refresh room list. please restart client.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    int colonIndex = msg.IndexOf(':'); // Find the index of the colon
+
+                    if (colonIndex != -1 && colonIndex < msg.Length - 1)
+                    {
+                        string value = msg.Substring(colonIndex + 1); // Get the substring starting from the colon
+
+                        int startQuoteIndex = value.IndexOf('"'); // Find the index of the opening double quote
+                        int endQuoteIndex = value.LastIndexOf("\","); // Find the index of the closing double quote
+
+                        if (startQuoteIndex != -1 && endQuoteIndex != -1 && startQuoteIndex < endQuoteIndex)
+                        {
+                            string result = value.Substring(startQuoteIndex + 1, endQuoteIndex - startQuoteIndex - 1); // Extract the value between the quotes
+
+                            string[] strings = result.Split(',');
+
+                            List<string> stringList = strings
+                                .Select((s, index) => string.IsNullOrEmpty(s)
+                                    ? s.Trim() // No numbering if the string is empty or null
+                                    : $"{index + 1}: {s.Trim()}") // Add numbering if the string is not empty
+                                .ToList();
+
+                            // Convert the List<string> to an array
+                            string[] stringArray = stringList.ToArray();
+
+                            // Remove the last element from the array
+                            Array.Resize(ref stringArray, stringArray.Length - 1);
+
+                            rooms = stringArray;
+                            
+                            UpdateRoomList(stringList);
+                        }
+                    }
+                }
+
+                Thread.Sleep(3000);
+            }
         }
+
+        void UpdateRoomList(List<string> roomName)
+        {
+            string result = "";
+
+            foreach(string room in roomName)
+            {
+                result += room + "\n";
+            }
+
+            if (roomList.InvokeRequired)
+            {
+                roomList.Invoke(new Action<List<string>>(UpdateRoomList), roomName);
+            }
+            else
+            {
+                roomList.Text = result;
+            }
+        }
+
+        string serialize(int code)
+        {
+            joinRoomMessage joinRoomMsg = new joinRoomMessage
+            {
+                roomId = joinRoomName.Text
+            };
+
+            string jsonString = JsonSerializer.Serialize(joinRoomMsg);
+
+            jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
+
+            string message = code.ToString("D8") +
+                Utillities.ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
+                Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
+
+            return message;
+        }
+
 
         private void button2_Click(object sender, EventArgs e)
         {
+            foreach (string id in rooms)
+            {
+                if (int.Parse(joinRoomName.Text) == (id[0] - '0'))
+                {
+                    stop = true;
 
+                    Socket socket = server.GetSocket();
+                    Utillities.sendMessage(socket, serialize(JOIN_ROOM_CODE));
+                    string msg = Utillities.recieveMessage(socket);
+
+                    if (!msg.Contains(":15}"))
+                    {
+                        MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    {
+                        // Parse the JSON string
+                        JsonDocument jsonDocument = JsonDocument.Parse(msg.Substring(msg.IndexOf('{')));
+
+                        // Access individual properties using the root element
+                        JsonElement rootElement = jsonDocument.RootElement;
+                        int answerTimeout = rootElement.GetProperty("answerTimeOut").GetInt32();
+                        bool hasGameBegun = rootElement.GetProperty("hasGameBegun").GetBoolean();
+                        int maxPlayers = rootElement.GetProperty("maxPlayers").GetInt32();
+                        int numQuestions = rootElement.GetProperty("numQuestions").GetInt32();
+                        string players = rootElement.GetProperty("players").GetString();
+                        string roomName = rootElement.GetProperty("roomName").GetString();
+                        int status = rootElement.GetProperty("status").GetInt32();
+
+                        int startIndex = players.IndexOf('"') + 1;
+                        int endIndex = players.IndexOf(',', startIndex);
+                        string admin = players.Substring(startIndex, endIndex - startIndex);
+
+                        roomForm lobby = new roomForm(joinRoomName.Text, server, roomName, admin, maxPlayers.ToString(), numQuestions.ToString(), answerTimeout.ToString());
+                        this.Hide();
+                        lobby.Show();
+                    }
+                    
+
+                    break;
+                }
+                else
+                {
+                    MessageBox.Show("Room ID not from list. please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    stop = false;
+                }
+            }
+        }
+
+        private void joinRoomName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow digits, backspace
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true; // Ignore the input
+            }
         }
     }
 }

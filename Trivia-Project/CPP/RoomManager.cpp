@@ -6,7 +6,7 @@
 *		 roomData - the room data
 * Output: if creating room was successful
 */
-int RoomManager::createRoom(LoggedUser user, RoomData roomData)
+int RoomManager::createRoom(LoggedUser user, RoomData& roomData)
 {
 	try
 	{
@@ -15,9 +15,11 @@ int RoomManager::createRoom(LoggedUser user, RoomData roomData)
 
 		// add user to new room
 		room.addUser(user);
-
+		
 		// add new room to map
-		m_rooms.insert(std::pair<int, Room>(roomData.id, room));
+		m_rooms.insert(std::pair<int, Room>(room.getId(), room));
+
+		roomData = room.getRoomData();
 
 		return Success;
 	}
@@ -77,14 +79,14 @@ std::vector<RoomData> RoomManager::getRooms()
 * Input: id - the id of the room to return
 * Output: the room by id
 */
-Room& RoomManager::getRoom(int ID)
+Room* RoomManager::getRoom(int ID)
 {
 	for (auto i : m_rooms)   
 	{
 		// check if id is this
 		if (i.first == ID)
 		{
-			return i.second;
+			return &i.second;
 		}
 	}
 }

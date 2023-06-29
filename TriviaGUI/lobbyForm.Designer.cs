@@ -97,6 +97,7 @@
             button1.TabIndex = 50;
             button1.Text = "Join Room";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // button4
             // 
@@ -108,6 +109,7 @@
             button4.TabIndex = 51;
             button4.Text = "Statistics";
             button4.UseVisualStyleBackColor = false;
+            button4.Click += button4_Click;
             // 
             // button5
             // 

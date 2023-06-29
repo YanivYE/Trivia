@@ -69,3 +69,13 @@ GameManager& RequestHandlerFactory::getGameManager()
 {
     return *m_gameManager;
 }
+
+void RequestHandlerFactory::setCommunicator(Communicator* communicator)
+{
+    this->m_communicator = communicator;
+}
+
+void RequestHandlerFactory::setUser(LoggedUser user)
+{
+    this->m_communicator->setUser(user);
+}

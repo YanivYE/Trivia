@@ -4,6 +4,7 @@
 #include "RoomAdminRequestHandler.h"
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
+#include "Communicator.h"
 #include "IDataBase.h"
 #include "LoginManager.h"
 #include "GameRequestHandler.h"
@@ -13,6 +14,7 @@ class LoginRequestHandler;
 class MenuRequestHandler;
 class RoomAdminRequestHandler;
 class RoomMemberRequestHandler;
+class Communicator;
 class GameRequestHandler;
 
 class RequestHandlerFactory
@@ -35,9 +37,10 @@ public:
 
 	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser user, Room room);
 	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser user, Room room);
+	void setCommunicator(Communicator* communicator);
+	void setUser(LoggedUser user);
 
 	GameRequestHandler* createGameRequestHandler(LoggedUser user, Game game);
-	
 
 private:
 	// ctor
@@ -62,4 +65,5 @@ private:
 	RoomManager* m_roomManager;
 	GameManager* m_gameManager;
 	StatisticsManager* m_statisticsManager;
+	Communicator* m_communicator;
 };

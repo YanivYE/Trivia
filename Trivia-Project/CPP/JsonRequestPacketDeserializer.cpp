@@ -66,7 +66,8 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(Buffer
 
     json data = convertBytesToJson(bytes);
 
-    joinRoomRequest._roomId = data["roomId"];
+    std::string roomId = data["roomId"];
+    joinRoomRequest._roomId = stoi(roomId);
 
     return joinRoomRequest;
 }

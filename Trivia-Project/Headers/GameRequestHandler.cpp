@@ -129,8 +129,8 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 
     try
     {        
-        returnCode = this->m_handleFactory->getGameManager();
-        if (returnCode == LeaveRoom)
+        std::vector<std::string> results= this->m_handleFactory->getGameManager().getDataBase()->getHighScores();
+        if (!results.empty())
         {
             result.newHandler = this->m_handleFactory->createMenuRequestHandlers(this->m_user);
         }

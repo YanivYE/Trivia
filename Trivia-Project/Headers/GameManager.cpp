@@ -33,3 +33,8 @@ void GameManager::deleteGame(int gameId)
         }
     }
 }
+
+IDataBase* GameManager::getDataBase()
+{
+    return this->m_database;
+}

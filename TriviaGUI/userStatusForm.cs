@@ -12,14 +12,23 @@ namespace TriviaGUI
 {
     public partial class userStatusForm : Form
     {
-        public userStatusForm()
+        ServerHandler server;
+        public userStatusForm(ServerHandler server)
         {
             InitializeComponent();
+            this.server = server;
         }
 
         private void label9_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            statisticsForm statistics = new statisticsForm(server);
+            statistics.Show();
+            this.Hide();
         }
     }
 }

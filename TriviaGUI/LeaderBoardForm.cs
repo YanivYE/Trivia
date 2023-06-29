@@ -12,9 +12,11 @@ namespace TriviaGUI
 {
     public partial class LeaderBoardForm : Form
     {
-        public LeaderBoardForm()
+        ServerHandler server;
+        public LeaderBoardForm(ServerHandler server)
         {
             InitializeComponent();
+            this.server = server;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -35,6 +37,13 @@ namespace TriviaGUI
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            statisticsForm statistics = new statisticsForm(server);
+            statistics.Show();
+            this.Hide();
         }
     }
 }

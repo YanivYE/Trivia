@@ -44,11 +44,10 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo info)
         if (question.getQuestion() != "")
         {
             result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
-
         }
         else
         {
-            result.newHandler = this->m_handleFactory->createRoomAdminRequestHandler(this->m_user, this->m_handleFactory->getRoomManager().getRoom(this->m_game.getGameId()));
+            result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
 
             ErrorResponse errResponse;
             errResponse._data = "Error! Couldn't get question!";
@@ -63,7 +62,7 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo info)
     }
     catch (std::exception& e)
     {
-        result.newHandler = this->m_handleFactory->createRoomAdminRequestHandler(this->m_user, this->m_handleFactory->getRoomManager().getRoom(this->m_game.getGameId()));
+        result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
 
         ErrorResponse errResponse;
         errResponse._data = "Error! Couldn't remove user from room!";
@@ -80,7 +79,6 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
     JsonResponsePacketSerializer serializer;
     int returnCode = 0;
 
-    // try to get sign up request
     try
     {
         submitAnswerRequest = deserializer.deserializeSubmitAnswerRequest(info.buffer);
@@ -95,7 +93,6 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 
     try
     {
-        // try to sign up
         returnCode = this->m_handleFactory->getGameManager().createGame(this->m_handleFactory->getRoomManager().getRoom(this->m_game.getGameId())).submitAnswer(this->m_user, submitAnswerRequest._answerId);
 
         if (returnCode == SubmitAnswer)
@@ -104,7 +101,7 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
         }
         else
         {
-            result.newHandler = this->m_handleFactory->
+            result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
         }
 
         SubmitAnswerResponse submitAnswerResponse;
@@ -113,7 +110,7 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
     }
     catch (std::exception& e)
     {
-        result.newHandler = this->m_handlerFactory->
+        result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
 
         ErrorResponse errResponse;
         errResponse._data = "Error! Couldn't sign up user to server";
@@ -132,14 +129,14 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 
     try
     {        
-        returnCode = this->m_gameManager->createGame()
+        returnCode = this->m_handleFactory->getGameManager();
         if (returnCode == LeaveRoom)
         {
-            result.newHandler = this->m_handleFactory->createMenuRequestHandlers(user);
+            result.newHandler = this->m_handleFactory->createMenuRequestHandlers(this->m_user);
         }
         else
         {
-            result.newHandler = this->m_handleFactory->createRoomAdminRequestHandler(user, this->m_room);
+            result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
 
             ErrorResponse errResponse;
             errResponse._data = "Error! Couldn't remove user from room!";
@@ -154,7 +151,7 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
     }
     catch (std::exception& e)
     {
-        result.newHandler = this->m_handleFactory->createRoomAdminRequestHandler(user, this->m_room);
+        result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
 
         ErrorResponse errResponse;
         errResponse._data = "Error! Couldn't remove user from room!";

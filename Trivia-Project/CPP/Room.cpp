@@ -4,6 +4,8 @@ int Room::count = 0;
 
 Room::Room()
 {
+	m_users = new std::vector<LoggedUser>();
+	m_metadata = new RoomData();
 }
 
 /*
@@ -16,15 +18,19 @@ Room::Room()
 */
 Room::Room(std::string name, unsigned int maxPlayers, unsigned int timePerQuestion, unsigned int numOfQuestionsInGame)
 {
-	this->m_metadata.id = ++count; // set id as num of instances
+	m_users = new std::vector<LoggedUser>();
+	m_metadata = new RoomData();
+	int counter = ++count; // set id as num of instances
 
-	this->m_metadata.isActive = true; // default active
+	this->m_metadata->id = counter;
+
+	this->m_metadata->isActive = true; // default active
 
 	// set fields
-	this->m_metadata.maxPlayers = maxPlayers;
-	this->m_metadata.name = name;
-	this->m_metadata.numOfQuestionsInGame = numOfQuestionsInGame;
-	this->m_metadata.timePerQuestion = timePerQuestion;
+	this->m_metadata->maxPlayers = maxPlayers;
+	this->m_metadata->name = name;
+	this->m_metadata->numOfQuestionsInGame = numOfQuestionsInGame;
+	this->m_metadata->timePerQuestion = timePerQuestion;
 }
 
 /*
@@ -36,15 +42,27 @@ int Room::addUser(LoggedUser user)
 {
 	try
 	{
-		// sdd user to users vector
-		this->m_users.push_back(user);
+		if (this->m_users->size() <= this->m_metadata->maxPlayers && std::find(this->m_users->begin(), this->m_users->end(), user) == this->m_users->end())
+		{
+			// sdd user to users vector
+			this->m_users->push_back(user);
 
-		return SUCCESS;
+			return Success;
+		}
+		
 	}
 	catch (...)
 	{
-		return FAIL;
+		return Fail;
 	}
+
+	return Fail;
+}
+
+void Room::setId()
+{
+	//this->m_metadata.id = ;
+	this->m_metadata;
 }
 
 /*
@@ -57,12 +75,12 @@ int Room::removeUser(LoggedUser user)
 	try
 	{
 		// iterate each user
-		for (int i = 0; i < this->m_users.size(); i++)
+		for (int i = 0; i < this->m_users->size(); i++)
 		{
 			// check if its the user to remove
-			if (this->m_users[i] == user)
+			if (this->m_users->at(i) == user)
 			{
-				this->m_users.erase(this->m_users.begin() + i);
+				this->m_users->erase(this->m_users->begin() + i);
 			}
 		}
 		return LeaveRoom;
@@ -80,7 +98,7 @@ int Room::removeUser(LoggedUser user)
 */
 RoomData Room::getRoomData()
 {
-	return this->m_metadata;
+	return *(this->m_metadata);
 }
 
 /*
@@ -93,9 +111,9 @@ std::vector<std::string> Room::getAllUsers()
 	std::vector<std::string> users;
 
 	// go on all the users in room
-	for (int i = 0; i < this->m_users.size(); i++)
+	for (int i = 0; i < this->m_users->size(); i++)
 	{
-		users.push_back(this->m_users[i].getUsername());
+		users.push_back(this->m_users->at(i).getUsername());
 	}
 
 	return users;
@@ -138,7 +156,7 @@ int Room::startGame()
 void Room::stopGame()
 {
 	this->isInGame = false;
-	this->m_users.clear();
+	this->m_users->clear();
 }
 
 int Room::getId()

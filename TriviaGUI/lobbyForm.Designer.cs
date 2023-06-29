@@ -97,6 +97,7 @@
             button1.TabIndex = 50;
             button1.Text = "Join Room";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // button4
             // 

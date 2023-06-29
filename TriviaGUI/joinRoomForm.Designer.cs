@@ -30,10 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(joinRoomForm));
             label1 = new Label();
-            button1 = new Button();
-            label7 = new Label();
+            roomList = new Label();
             button2 = new Button();
             button3 = new Button();
+            joinRoomName = new TextBox();
+            label2 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -49,35 +50,21 @@
             label1.TabIndex = 5;
             label1.Text = "ROOMS LIST:";
             // 
-            // button1
+            // roomList
             // 
-            button1.BackColor = Color.DarkCyan;
-            button1.BackgroundImage = (Image)resources.GetObject("button1.BackgroundImage");
-            button1.BackgroundImageLayout = ImageLayout.Stretch;
-            button1.Font = new Font("Showcard Gothic", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.Location = new Point(21, 189);
-            button1.Name = "button1";
-            button1.Size = new Size(72, 72);
-            button1.TabIndex = 30;
-            button1.Text = "Refresh";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label7.Location = new Point(110, 131);
-            label7.Name = "label7";
-            label7.Size = new Size(578, 186);
-            label7.TabIndex = 31;
-            label7.Text = resources.GetString("label7.Text");
+            roomList.AutoSize = true;
+            roomList.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            roomList.Location = new Point(110, 131);
+            roomList.Name = "roomList";
+            roomList.Size = new Size(578, 186);
+            roomList.TabIndex = 31;
+            roomList.Text = resources.GetString("roomList.Text");
             // 
             // button2
             // 
             button2.BackColor = Color.Gold;
             button2.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            button2.Location = new Point(308, 331);
+            button2.Location = new Point(500, 333);
             button2.Name = "button2";
             button2.Size = new Size(188, 64);
             button2.TabIndex = 32;
@@ -98,6 +85,28 @@
             button3.TabIndex = 33;
             button3.UseVisualStyleBackColor = false;
             // 
+            // joinRoomName
+            // 
+            joinRoomName.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point);
+            joinRoomName.Location = new Point(319, 334);
+            joinRoomName.Name = "joinRoomName";
+            joinRoomName.Size = new Size(175, 61);
+            joinRoomName.TabIndex = 34;
+            joinRoomName.KeyPress += joinRoomName_KeyPress;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.Gold;
+            label2.BorderStyle = BorderStyle.Fixed3D;
+            label2.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.ForeColor = Color.Black;
+            label2.Location = new Point(110, 348);
+            label2.Name = "label2";
+            label2.Size = new Size(203, 42);
+            label2.TabIndex = 35;
+            label2.Text = "ROOM ID:";
+            // 
             // joinRoomForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -105,10 +114,11 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
+            Controls.Add(label2);
+            Controls.Add(joinRoomName);
             Controls.Add(button3);
             Controls.Add(button2);
-            Controls.Add(label7);
-            Controls.Add(button1);
+            Controls.Add(roomList);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -116,6 +126,7 @@
             Name = "joinRoomForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
+            FormClosed += joinRoomForm_Close;
             Load += joinRoomForm_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -124,9 +135,10 @@
         #endregion
 
         private Label label1;
-        private Button button1;
-        private Label label7;
+        private Label roomList;
         private Button button2;
         private Button button3;
+        private TextBox joinRoomName;
+        private Label label2;
     }
 }

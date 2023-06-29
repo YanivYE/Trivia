@@ -4,6 +4,7 @@
 #include "JsonRequestPacketDeserializer.h"
 #include "JsonResponsePacketSerializer.h"
 #include "MenuRequestHandler.h"
+#include "Communicator.h"
 #include "Utilities.h"
 #include <fstream>
 #include <iostream>

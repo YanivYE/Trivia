@@ -44,7 +44,9 @@ namespace TriviaGUI
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            createRoomForm createRoom = new createRoomForm(server, user);
+            this.Hide();
+            createRoom.Show();
         }
 
         private void lobbyForm_Load_2(object sender, EventArgs e)
@@ -67,7 +69,7 @@ namespace TriviaGUI
 
             if (!msg.Contains(":3"))
             {
-                MessageBox.Show("Coldn'y logout! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Coldn't logout! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -93,6 +95,13 @@ namespace TriviaGUI
                 Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
 
             return message;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            joinRoomForm joinRoom = new joinRoomForm(server);
+            joinRoom.Show();
+            this.Hide();
         }
     }
 }

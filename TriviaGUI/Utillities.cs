@@ -11,7 +11,7 @@ namespace TriviaGUI
     {
         public static string recieveMessage(Socket socket)
         {
-            byte[] getMsg = new byte[1024]; // Buffer to store the received data
+            byte[] getMsg = new byte[2048]; // Buffer to store the received data
             int bytesRead;
 
             try

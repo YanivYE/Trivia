@@ -83,6 +83,7 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 	catch (...)
 	{
 		std::cout << "Unknown error! User probbly disconnected mid commands.\n";
+		this->m_handlerFactory->getLoginManager().logout(m_user.getUsername());
 	}
 }
 
@@ -101,8 +102,18 @@ RequestInfo Communicator::getInfo(SOCKET m_clientSocket)
 	//info.requestId = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH, 0)));
 	info.requestId = stoi(read(m_clientSocket, BYTE_BIT_LENGTH, 0));
 
-	// check message size
-	int requestSize = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0)));
+	int requestSize = 0;
+
+	try
+	{
+		// check message size
+		requestSize = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0)));
+	}
+	catch(...)
+	{
+		requestSize = 0;
+	}
+
 
 	// get message
 	request = read(m_clientSocket, BYTE_BIT_LENGTH * requestSize, 0);
@@ -210,6 +221,11 @@ void Communicator::acceptClient()
 	std::thread handleThread(&Communicator::handleNewClient, this, client_socket);
 
 	handleThread.detach();
+}
+
+void Communicator::setUser(LoggedUser user)
+{
+	this->m_user = user;
 }
 
 /*

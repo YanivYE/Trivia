@@ -150,9 +150,12 @@ namespace TriviaGUI
                     {
                         MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    //roomForm lobby = new roomForm(user, server, createRoomMsg);
-                    //this.Hide();
-                    //lobby.Show();
+                    {
+                        roomForm lobby = new roomForm(user, server, createRoomMsg);
+                        this.Hide();
+                        lobby.Show();
+                    }
+                    
 
                     break;
                 }

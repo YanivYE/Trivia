@@ -330,10 +330,11 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 		JoinRoomResponse joinRoomResponse;
 
 		joinRoomResponse._status = this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest._roomId)->addUser(m_user);
+		joinRoomResponse._room = *this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest._roomId);
 
 		if (joinRoomResponse._status == Success)
 		{
-			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
+			result.newHandler = this->m_handlerFactory->createRoomMemberRequestHandler(m_user, *this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest._roomId));
 		}
 		else
 		{

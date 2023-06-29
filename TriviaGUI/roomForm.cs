@@ -22,12 +22,23 @@ namespace TriviaGUI
             this.serverHandler = server;
             this.info = info;
         }
-        
-        public roomForm(string admin, ServerHandler server)
+
+        public roomForm(ServerHandler server)
         {
             InitializeComponent();
-            this.admin = admin;
             this.serverHandler = server;
+
+            Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
+
+            Utillities.sendMessage(socket, serialize());
+
+            string msg = Utillities.recieveMessage(socket);
+
+            roomName.Text = info.roomName;
+            adminLabel.Text = admin;
+            maxNumber.Text = info.maxUsers;
+            numQuestions.Text = info.questionCount;
+            answerTimeout.Text = info.answerTimeout;
         }
 
         private void roomForm_Close(object sender, EventArgs e)
@@ -42,6 +53,7 @@ namespace TriviaGUI
 
         private void roomForm_Load(object sender, EventArgs e)
         {
+            roomName.Text = info.roomName;
             adminLabel.Text = admin;
             maxNumber.Text = info.maxUsers;
             numQuestions.Text = info.questionCount;

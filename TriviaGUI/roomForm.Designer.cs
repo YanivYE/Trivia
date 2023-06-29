@@ -41,13 +41,14 @@
             label7 = new Label();
             adminLabel = new Label();
             label9 = new Label();
+            roomName = new Label();
             SuspendLayout();
             // 
             // label12
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label12.Location = new Point(341, 32);
+            label12.Location = new Point(238, 32);
             label12.Name = "label12";
             label12.Size = new Size(140, 31);
             label12.TabIndex = 21;
@@ -171,6 +172,16 @@
             label9.TabIndex = 32;
             label9.Text = "Admin: ";
             // 
+            // roomName
+            // 
+            roomName.AutoSize = true;
+            roomName.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            roomName.Location = new Point(384, 32);
+            roomName.Name = "roomName";
+            roomName.Size = new Size(52, 31);
+            roomName.TabIndex = 33;
+            roomName.Text = "test";
+            // 
             // roomForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -178,6 +189,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
+            Controls.Add(roomName);
             Controls.Add(label9);
             Controls.Add(adminLabel);
             Controls.Add(label7);
@@ -190,13 +202,13 @@
             Controls.Add(label1);
             Controls.Add(button3);
             Controls.Add(label12);
-            FormClosed += roomForm_Close;
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "roomForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
+            FormClosed += roomForm_Close;
             Load += roomForm_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -216,5 +228,6 @@
         private Label label7;
         private Label adminLabel;
         private Label label9;
+        private Label roomName;
     }
 }

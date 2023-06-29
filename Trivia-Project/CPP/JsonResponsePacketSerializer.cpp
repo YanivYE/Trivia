@@ -119,6 +119,36 @@ Buffer JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse 
 */
 Buffer JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response)
 {
+    Buffer buffer;
+    Message message;
+    json data;
+
+    std::string players;
+
+    // add all the player names
+    for (int i = 0; i < response._room.getAllUsers().size(); i++)
+    {
+        players += response._room.getAllUsers()[i] + ", ";
+    }
+
+    data["status"] = response._status;
+    data["hasGameBegun"] = response._data.isActive;
+    data["maxPlayers"] = response._data.maxPlayers;
+    data["roomName"] = response._data.name;
+    data["roomName"] = response._data.;
+    data["players"] = players.substr(0, players.size() - 1); //
+    data["AnswerCount"] = response._questionCount;
+    data["answerTimeOut"] = response._answerTimeout;
+
+
+    message._code = GetRoomState;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
+
     return serializeReponseStatus(JoinRoom, response._status);
 }
 

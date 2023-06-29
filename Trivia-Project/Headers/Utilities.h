@@ -37,6 +37,7 @@ struct ErrorResponse
 struct JoinRoomResponse
 {
 	unsigned int _status;
+	Room _room;
 }typedef JoinRoomResponse;
 
 struct CreateRoomResponse

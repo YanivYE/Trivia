@@ -28,7 +28,7 @@ namespace TriviaGUI
 
         private void button3_Click(object sender, EventArgs e)
         {
-            userStatusForm userStats = new userStatusForm(server);
+            userStatusForm userStats = new userStatusForm(user, server);
             userStats.Show();
             this.Hide();
         }

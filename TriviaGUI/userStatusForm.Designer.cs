@@ -126,6 +126,7 @@
             label8.Size = new Size(98, 31);
             label8.TabIndex = 18;
             label8.Text = "              ";
+            label8.Click += label8_Click;
             // 
             // label11
             // 
@@ -136,6 +137,7 @@
             label11.Size = new Size(98, 31);
             label11.TabIndex = 19;
             label11.Text = "              ";
+            label11.Click += label11_Click;
             // 
             // label12
             // 
@@ -146,6 +148,7 @@
             label12.Size = new Size(98, 31);
             label12.TabIndex = 20;
             label12.Text = "              ";
+            label12.Click += label12_Click;
             // 
             // label6
             // 
@@ -156,6 +159,7 @@
             label6.Size = new Size(98, 31);
             label6.TabIndex = 21;
             label6.Text = "              ";
+            label6.Click += label6_Click;
             // 
             // userStatusForm
             // 
@@ -180,6 +184,7 @@
             Name = "userStatusForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
+            Load += userStatusForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

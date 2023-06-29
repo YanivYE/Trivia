@@ -106,7 +106,7 @@ namespace TriviaGUI
 
         private void button4_Click(object sender, EventArgs e)
         {
-            statisticsForm statistics = new statisticsForm(server);
+            statisticsForm statistics = new statisticsForm(user, server);
             statistics.Show();
             this.Hide();
         }

@@ -51,7 +51,7 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 		return getPersonalStats(info);
 		break;
 	case GetLeaderboardStats:
-		return getLeaderboard(info);
+		return getHighScore(info);
 		break;
 	case Logout:
 		return signout(info);
@@ -237,7 +237,7 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 	RequestResult result;
 	JsonRequestPacketDeserializer deserializer;
 	JsonResponsePacketSerializer serializer;
-	int returnCode = 1;
+	int returnCode = Success;
 
 	try
 	{
@@ -252,47 +252,11 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 		}
 		else
 		{
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
 			return returnError(result, "Error! Couldn't get personal stats!", serializer);
 		}
 
 		result.response = serializer.serializeResponse(getPersonalStatsResponse);
-	}
-	catch (std::exception& e)
-	{
-		return returnError(result, "Error! Couldn't get user personal stats!", serializer);
-	}
-
-	return result;
-}
-
-/*
-* Function gets a info to deserialize and returns a request result of get personal stats
-* Input: info - the info to desializer to request result
-* Output: a get personal stats request result
-*/
-RequestResult MenuRequestHandler::getLeaderboard(RequestInfo info)
-{
-	RequestResult result;
-	JsonResponsePacketSerializer serializer;
-	int returnCode = 1;
-
-	try
-	{
-		// get personal stats
-		GetHighScoreResponse getHighScoreResponse;
-
-		getHighScoreResponse._statistics = this->m_handlerFactory->getStatisticsManager().getHighScore();
-
-		if (returnCode == Success)
-		{
-			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
-		}
-		else
-		{
-			return returnError(result, "Error! Couldn't get personal stats!", serializer);
-		}
-
-		result.response = serializer.serializeResponse(getHighScoreResponse);
 	}
 	catch (std::exception& e)
 	{
@@ -312,7 +276,7 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 	RequestResult result;
 	JsonRequestPacketDeserializer deserializer;
 	JsonResponsePacketSerializer serializer;
-	int returnCode = 1;
+	int returnCode = Success;
 
 	try
 	{

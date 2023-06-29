@@ -21,6 +21,7 @@ public:
 	RequestResult getRooms(RequestInfo info); // get rooms request
 	RequestResult getPlayersInRoom(RequestInfo info); // get players in room request
 	RequestResult getPersonalStats(RequestInfo info); // get personal stats request
+	RequestResult getLeaderboard(RequestInfo info); // get personal stats request
 	RequestResult getHighScore(RequestInfo info); // get high score request
 	RequestResult joinRoom(RequestInfo info); // join room request
 	RequestResult createRoom(RequestInfo info); // create room request

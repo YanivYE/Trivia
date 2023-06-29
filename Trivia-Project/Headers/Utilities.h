@@ -5,6 +5,8 @@
 #include "..\Headers\json.hpp"
 #include "Room.h"
 
+class Utilities;
+class Room;
 struct RoomData;
 
 #define NUM_OF_QUESTIONS 10
@@ -37,7 +39,7 @@ struct ErrorResponse
 struct JoinRoomResponse
 {
 	unsigned int _status;
-	Room _room;
+	Room* _room;
 }typedef JoinRoomResponse;
 
 struct CreateRoomResponse

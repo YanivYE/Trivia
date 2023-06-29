@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.Sockets;
+using System.Text.Json;
 
 namespace TriviaGUI
 {
@@ -15,31 +17,32 @@ namespace TriviaGUI
         ServerHandler serverHandler;
         string admin;
         createRoomMessage info;
+        string id;
+        bool isAdmin = false;
+
         public roomForm(string admin, ServerHandler server, createRoomMessage info)
         {
+            isAdmin = true;
             InitializeComponent();
             this.admin = admin;
             this.serverHandler = server;
             this.info = info;
         }
 
-        public roomForm(ServerHandler server)
+        public roomForm(string id, ServerHandler server, string roomNameINPUT, string admin, string maxNumberINPUT, string numQueestionsINPUT, string answerTimeoutINPUT)
         {
             InitializeComponent();
             this.serverHandler = server;
 
-            Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
-
-            Utillities.sendMessage(socket, serialize());
-
-            string msg = Utillities.recieveMessage(socket);
-
-            roomName.Text = info.roomName;
+            roomName.Text = roomNameINPUT;
             adminLabel.Text = admin;
-            maxNumber.Text = info.maxUsers;
-            numQuestions.Text = info.questionCount;
-            answerTimeout.Text = info.answerTimeout;
+            maxNumber.Text = maxNumberINPUT;
+            numQuestions.Text = numQueestionsINPUT;
+            answerTimeout.Text = answerTimeoutINPUT;
+
+            this.id = id;
         }
+
 
         private void roomForm_Close(object sender, EventArgs e)
         {
@@ -53,11 +56,17 @@ namespace TriviaGUI
 
         private void roomForm_Load(object sender, EventArgs e)
         {
-            roomName.Text = info.roomName;
-            adminLabel.Text = admin;
-            maxNumber.Text = info.maxUsers;
-            numQuestions.Text = info.questionCount;
-            answerTimeout.Text = info.answerTimeout;
+            if(isAdmin)
+            {
+                roomName.Text = info.roomName;
+                adminLabel.Text = admin;
+                maxNumber.Text = info.maxUsers;
+                numQuestions.Text = info.questionCount;
+                answerTimeout.Text = info.answerTimeout;
+            }
+            else 
+            {
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)

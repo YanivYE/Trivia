@@ -69,6 +69,8 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo info)
 
         result.response = serializer.serializeResponse(errResponse);
     }
+
+    return result;
 }
 
 RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
@@ -158,6 +160,8 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 
         result.response = serializer.serializeResponse(errResponse);
     }
+
+    return result;
 }
 
 RequestResult GameRequestHandler::leaveGame(RequestInfo info)

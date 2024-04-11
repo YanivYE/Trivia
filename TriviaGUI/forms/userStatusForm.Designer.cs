@@ -29,137 +29,133 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(userStatusForm));
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
-            button3 = new Button();
-            label8 = new Label();
-            label11 = new Label();
-            label12 = new Label();
-            label6 = new Label();
+            statsLabel = new Label();
+            rightAnswersLabel = new Label();
+            gamesPlayedLabel = new Label();
+            avgTimeLabel = new Label();
+            wrongAnswersLabel = new Label();
+            BackArrow = new Button();
+            avgTimeBox = new Label();
+            wrongAnswersBox = new Label();
+            rightAnswersBox = new Label();
+            gamesPlayedBox = new Label();
             SuspendLayout();
             // 
-            // label1
+            // statsLabel
             // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.Gold;
-            label1.BorderStyle = BorderStyle.Fixed3D;
-            label1.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.ForeColor = Color.Black;
-            label1.Location = new Point(301, 46);
-            label1.Name = "label1";
-            label1.Size = new Size(225, 42);
-            label1.TabIndex = 5;
-            label1.Text = "MY STATS";
+            statsLabel.AutoSize = true;
+            statsLabel.BackColor = Color.Gold;
+            statsLabel.BorderStyle = BorderStyle.Fixed3D;
+            statsLabel.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            statsLabel.ForeColor = Color.Black;
+            statsLabel.Location = new Point(301, 46);
+            statsLabel.Name = "statsLabel";
+            statsLabel.Size = new Size(225, 42);
+            statsLabel.TabIndex = 5;
+            statsLabel.Text = "MY STATS";
             // 
-            // label2
+            // rightAnswersLabel
             // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.Gold;
-            label2.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.ForeColor = Color.Black;
-            label2.Location = new Point(145, 180);
-            label2.Name = "label2";
-            label2.Size = new Size(255, 32);
-            label2.TabIndex = 6;
-            label2.Text = "Right Answers:";
+            rightAnswersLabel.AutoSize = true;
+            rightAnswersLabel.BackColor = Color.Gold;
+            rightAnswersLabel.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            rightAnswersLabel.ForeColor = Color.Black;
+            rightAnswersLabel.Location = new Point(145, 180);
+            rightAnswersLabel.Name = "rightAnswersLabel";
+            rightAnswersLabel.Size = new Size(255, 32);
+            rightAnswersLabel.TabIndex = 6;
+            rightAnswersLabel.Text = "Right Answers:";
             // 
-            // label3
+            // gamesPlayedLabel
             // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Gold;
-            label3.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.ForeColor = Color.Black;
-            label3.Location = new Point(145, 119);
-            label3.Name = "label3";
-            label3.Size = new Size(234, 32);
-            label3.TabIndex = 7;
-            label3.Text = "Games Played:";
+            gamesPlayedLabel.AutoSize = true;
+            gamesPlayedLabel.BackColor = Color.Gold;
+            gamesPlayedLabel.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            gamesPlayedLabel.ForeColor = Color.Black;
+            gamesPlayedLabel.Location = new Point(145, 119);
+            gamesPlayedLabel.Name = "gamesPlayedLabel";
+            gamesPlayedLabel.Size = new Size(234, 32);
+            gamesPlayedLabel.TabIndex = 7;
+            gamesPlayedLabel.Text = "Games Played:";
             // 
-            // label4
+            // avgTimeLabel
             // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.Gold;
-            label4.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.ForeColor = Color.Black;
-            label4.Location = new Point(145, 301);
-            label4.Name = "label4";
-            label4.Size = new Size(419, 32);
-            label4.TabIndex = 8;
-            label4.Text = "Average time per answer:";
-            label4.TextAlign = ContentAlignment.MiddleCenter;
+            avgTimeLabel.AutoSize = true;
+            avgTimeLabel.BackColor = Color.Gold;
+            avgTimeLabel.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            avgTimeLabel.ForeColor = Color.Black;
+            avgTimeLabel.Location = new Point(145, 301);
+            avgTimeLabel.Name = "avgTimeLabel";
+            avgTimeLabel.Size = new Size(419, 32);
+            avgTimeLabel.TabIndex = 8;
+            avgTimeLabel.Text = "Average time per answer:";
+            avgTimeLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // label5
+            // wrongAnswersLabel
             // 
-            label5.AutoSize = true;
-            label5.BackColor = Color.Gold;
-            label5.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.ForeColor = Color.Black;
-            label5.Location = new Point(145, 241);
-            label5.Name = "label5";
-            label5.Size = new Size(266, 32);
-            label5.TabIndex = 9;
-            label5.Text = "Wrong Answers:";
+            wrongAnswersLabel.AutoSize = true;
+            wrongAnswersLabel.BackColor = Color.Gold;
+            wrongAnswersLabel.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            wrongAnswersLabel.ForeColor = Color.Black;
+            wrongAnswersLabel.Location = new Point(145, 241);
+            wrongAnswersLabel.Name = "wrongAnswersLabel";
+            wrongAnswersLabel.Size = new Size(266, 32);
+            wrongAnswersLabel.TabIndex = 9;
+            wrongAnswersLabel.Text = "Wrong Answers:";
             // 
-            // button3
+            // BackArrow
             // 
-            button3.BackColor = Color.Transparent;
-            button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
-            button3.BackgroundImageLayout = ImageLayout.Stretch;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.ForeColor = SystemColors.ControlText;
-            button3.Location = new Point(737, 373);
-            button3.Name = "button3";
-            button3.Size = new Size(44, 44);
-            button3.TabIndex = 10;
-            button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click;
+            BackArrow.BackColor = Color.Transparent;
+            BackArrow.BackgroundImage = (Image)resources.GetObject("BackArrow.BackgroundImage");
+            BackArrow.BackgroundImageLayout = ImageLayout.Stretch;
+            BackArrow.FlatStyle = FlatStyle.Flat;
+            BackArrow.ForeColor = SystemColors.ControlText;
+            BackArrow.Location = new Point(737, 373);
+            BackArrow.Name = "BackArrow";
+            BackArrow.Size = new Size(44, 44);
+            BackArrow.TabIndex = 10;
+            BackArrow.UseVisualStyleBackColor = false;
+            BackArrow.Click += BackArrow_Click;
             // 
-            // label8
+            // avgTimeBox
             // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label8.Location = new Point(586, 302);
-            label8.Name = "label8";
-            label8.Size = new Size(98, 31);
-            label8.TabIndex = 18;
-            label8.Text = "              ";
-            label8.Click += label8_Click;
+            avgTimeBox.AutoSize = true;
+            avgTimeBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            avgTimeBox.Location = new Point(586, 302);
+            avgTimeBox.Name = "avgTimeBox";
+            avgTimeBox.Size = new Size(98, 31);
+            avgTimeBox.TabIndex = 18;
+            avgTimeBox.Text = "              ";
             // 
-            // label11
+            // wrongAnswersBox
             // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label11.Location = new Point(586, 242);
-            label11.Name = "label11";
-            label11.Size = new Size(98, 31);
-            label11.TabIndex = 19;
-            label11.Text = "              ";
-            label11.Click += label11_Click;
+            wrongAnswersBox.AutoSize = true;
+            wrongAnswersBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            wrongAnswersBox.Location = new Point(586, 242);
+            wrongAnswersBox.Name = "wrongAnswersBox";
+            wrongAnswersBox.Size = new Size(98, 31);
+            wrongAnswersBox.TabIndex = 19;
+            wrongAnswersBox.Text = "              ";
             // 
-            // label12
+            // rightAnswersBox
             // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label12.Location = new Point(586, 181);
-            label12.Name = "label12";
-            label12.Size = new Size(98, 31);
-            label12.TabIndex = 20;
-            label12.Text = "              ";
-            label12.Click += label12_Click;
+            rightAnswersBox.AutoSize = true;
+            rightAnswersBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            rightAnswersBox.Location = new Point(586, 181);
+            rightAnswersBox.Name = "rightAnswersBox";
+            rightAnswersBox.Size = new Size(98, 31);
+            rightAnswersBox.TabIndex = 20;
+            rightAnswersBox.Text = "              ";
             // 
-            // label6
+            // gamesPlayedBox
             // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.Location = new Point(586, 120);
-            label6.Name = "label6";
-            label6.Size = new Size(98, 31);
-            label6.TabIndex = 21;
-            label6.Text = "              ";
-            label6.Click += label6_Click;
+            gamesPlayedBox.AutoSize = true;
+            gamesPlayedBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            gamesPlayedBox.Location = new Point(586, 120);
+            gamesPlayedBox.Name = "gamesPlayedBox";
+            gamesPlayedBox.Size = new Size(98, 31);
+            gamesPlayedBox.TabIndex = 21;
+            gamesPlayedBox.Text = "              ";
             // 
             // userStatusForm
             // 
@@ -168,16 +164,16 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
-            Controls.Add(label6);
-            Controls.Add(label12);
-            Controls.Add(label11);
-            Controls.Add(label8);
-            Controls.Add(button3);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(gamesPlayedBox);
+            Controls.Add(rightAnswersBox);
+            Controls.Add(wrongAnswersBox);
+            Controls.Add(avgTimeBox);
+            Controls.Add(BackArrow);
+            Controls.Add(wrongAnswersLabel);
+            Controls.Add(avgTimeLabel);
+            Controls.Add(gamesPlayedLabel);
+            Controls.Add(rightAnswersLabel);
+            Controls.Add(statsLabel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
@@ -191,15 +187,15 @@
 
         #endregion
 
-        private Label label1;
-        private Label label2;
-        private Label label3;
-        private Label label4;
-        private Label label5;
-        private Button button3;
-        private Label label8;
-        private Label label11;
-        private Label label12;
-        private Label label6;
+        private Label statsLabel;
+        private Label rightAnswersLabel;
+        private Label gamesPlayedLabel;
+        private Label avgTimeLabel;
+        private Label wrongAnswersLabel;
+        private Button BackArrow;
+        private Label avgTimeBox;
+        private Label wrongAnswersBox;
+        private Label rightAnswersBox;
+        private Label gamesPlayedBox;
     }
 }

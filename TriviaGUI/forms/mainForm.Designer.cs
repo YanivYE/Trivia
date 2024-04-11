@@ -79,11 +79,11 @@
             Title.AutoSize = true;
             Title.BackColor = Color.Gold;
             Title.BorderStyle = BorderStyle.Fixed3D;
-            Title.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            Title.Font = new Font("Ravie", 18F, FontStyle.Bold, GraphicsUnit.Point);
             Title.ForeColor = Color.Black;
             Title.Location = new Point(259, 36);
             Title.Name = "Title";
-            Title.Size = new Size(296, 42);
+            Title.Size = new Size(308, 42);
             Title.TabIndex = 3;
             Title.Text = "TRIVIA NIGHT";
             Title.Click += Title_Click;

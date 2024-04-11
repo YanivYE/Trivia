@@ -29,26 +29,27 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(joinRoomForm));
-            label1 = new Label();
+            roomsListLabel = new Label();
             roomList = new Label();
-            button2 = new Button();
-            button3 = new Button();
-            joinRoomName = new TextBox();
-            label2 = new Label();
+            Join = new Button();
+            BackArrow = new Button();
+            roomID = new TextBox();
+            roomIdLabel = new Label();
             SuspendLayout();
             // 
-            // label1
+            // roomsListLabel
             // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.Gold;
-            label1.BorderStyle = BorderStyle.Fixed3D;
-            label1.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.ForeColor = Color.Black;
-            label1.Location = new Point(268, 70);
-            label1.Name = "label1";
-            label1.Size = new Size(276, 42);
-            label1.TabIndex = 5;
-            label1.Text = "ROOMS LIST:";
+            roomsListLabel.AutoSize = true;
+            roomsListLabel.BackColor = Color.Gold;
+            roomsListLabel.BorderStyle = BorderStyle.Fixed3D;
+            roomsListLabel.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            roomsListLabel.ForeColor = Color.Black;
+            roomsListLabel.Location = new Point(268, 70);
+            roomsListLabel.Name = "roomsListLabel";
+            roomsListLabel.Size = new Size(276, 42);
+            roomsListLabel.TabIndex = 5;
+            roomsListLabel.Text = "ROOMS LIST:";
+            roomsListLabel.Click += roomList_Click;
             // 
             // roomList
             // 
@@ -60,52 +61,52 @@
             roomList.TabIndex = 31;
             roomList.Text = resources.GetString("roomList.Text");
             // 
-            // button2
+            // Join
             // 
-            button2.BackColor = Color.Gold;
-            button2.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            button2.Location = new Point(500, 333);
-            button2.Name = "button2";
-            button2.Size = new Size(188, 64);
-            button2.TabIndex = 32;
-            button2.Text = "JOIN";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += button2_Click;
+            Join.BackColor = Color.Gold;
+            Join.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            Join.Location = new Point(500, 333);
+            Join.Name = "Join";
+            Join.Size = new Size(188, 64);
+            Join.TabIndex = 32;
+            Join.Text = "JOIN";
+            Join.UseVisualStyleBackColor = false;
+            Join.Click += JoinRoom_Click;
             // 
-            // button3
+            // BackArrow
             // 
-            button3.BackColor = Color.Transparent;
-            button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
-            button3.BackgroundImageLayout = ImageLayout.Stretch;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.ForeColor = SystemColors.ControlText;
-            button3.Location = new Point(735, 366);
-            button3.Name = "button3";
-            button3.Size = new Size(44, 44);
-            button3.TabIndex = 33;
-            button3.UseVisualStyleBackColor = false;
+            BackArrow.BackColor = Color.Transparent;
+            BackArrow.BackgroundImage = (Image)resources.GetObject("BackArrow.BackgroundImage");
+            BackArrow.BackgroundImageLayout = ImageLayout.Stretch;
+            BackArrow.FlatStyle = FlatStyle.Flat;
+            BackArrow.ForeColor = SystemColors.ControlText;
+            BackArrow.Location = new Point(735, 366);
+            BackArrow.Name = "BackArrow";
+            BackArrow.Size = new Size(44, 44);
+            BackArrow.TabIndex = 33;
+            BackArrow.UseVisualStyleBackColor = false;
             // 
-            // joinRoomName
+            // roomID
             // 
-            joinRoomName.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point);
-            joinRoomName.Location = new Point(319, 334);
-            joinRoomName.Name = "joinRoomName";
-            joinRoomName.Size = new Size(175, 61);
-            joinRoomName.TabIndex = 34;
-            joinRoomName.KeyPress += joinRoomName_KeyPress;
+            roomID.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point);
+            roomID.Location = new Point(319, 334);
+            roomID.Name = "roomID";
+            roomID.Size = new Size(175, 61);
+            roomID.TabIndex = 34;
+            roomID.KeyPress += joinRoomName_KeyPress;
             // 
-            // label2
+            // roomIdLabel
             // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.Gold;
-            label2.BorderStyle = BorderStyle.Fixed3D;
-            label2.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.ForeColor = Color.Black;
-            label2.Location = new Point(110, 348);
-            label2.Name = "label2";
-            label2.Size = new Size(203, 42);
-            label2.TabIndex = 35;
-            label2.Text = "ROOM ID:";
+            roomIdLabel.AutoSize = true;
+            roomIdLabel.BackColor = Color.Gold;
+            roomIdLabel.BorderStyle = BorderStyle.Fixed3D;
+            roomIdLabel.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            roomIdLabel.ForeColor = Color.Black;
+            roomIdLabel.Location = new Point(110, 348);
+            roomIdLabel.Name = "roomIdLabel";
+            roomIdLabel.Size = new Size(203, 42);
+            roomIdLabel.TabIndex = 35;
+            roomIdLabel.Text = "ROOM ID:";
             // 
             // joinRoomForm
             // 
@@ -114,12 +115,12 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
-            Controls.Add(label2);
-            Controls.Add(joinRoomName);
-            Controls.Add(button3);
-            Controls.Add(button2);
+            Controls.Add(roomIdLabel);
+            Controls.Add(roomID);
+            Controls.Add(BackArrow);
+            Controls.Add(Join);
             Controls.Add(roomList);
-            Controls.Add(label1);
+            Controls.Add(roomsListLabel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
@@ -134,11 +135,11 @@
 
         #endregion
 
-        private Label label1;
+        private Label roomsListLabel;
         private Label roomList;
-        private Button button2;
-        private Button button3;
-        private TextBox joinRoomName;
-        private Label label2;
+        private Button Join;
+        private Button BackArrow;
+        private TextBox roomID;
+        private Label roomIdLabel;
     }
 }

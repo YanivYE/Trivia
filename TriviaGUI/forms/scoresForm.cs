@@ -16,5 +16,10 @@ namespace TriviaGUI
         {
             InitializeComponent();
         }
+
+        private void scoresForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

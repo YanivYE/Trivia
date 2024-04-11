@@ -29,56 +29,56 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(scoresForm));
-            label1 = new Label();
-            pictureBox3 = new PictureBox();
-            label4 = new Label();
-            label2 = new Label();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            winnerLabel = new Label();
+            medal1 = new PictureBox();
+            nameBox = new Label();
+            scoreBox = new Label();
+            ((System.ComponentModel.ISupportInitialize)medal1).BeginInit();
             SuspendLayout();
             // 
-            // label1
+            // winnerLabel
             // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.Gold;
-            label1.BorderStyle = BorderStyle.Fixed3D;
-            label1.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.ForeColor = Color.Black;
-            label1.Location = new Point(211, 49);
-            label1.Name = "label1";
-            label1.Size = new Size(182, 42);
-            label1.TabIndex = 10;
-            label1.Text = "WINNER";
+            winnerLabel.AutoSize = true;
+            winnerLabel.BackColor = Color.Gold;
+            winnerLabel.BorderStyle = BorderStyle.Fixed3D;
+            winnerLabel.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            winnerLabel.ForeColor = Color.Black;
+            winnerLabel.Location = new Point(211, 49);
+            winnerLabel.Name = "winnerLabel";
+            winnerLabel.Size = new Size(182, 42);
+            winnerLabel.TabIndex = 10;
+            winnerLabel.Text = "WINNER";
             // 
-            // pictureBox3
+            // medal1
             // 
-            pictureBox3.BackColor = Color.Transparent;
-            pictureBox3.BackgroundImage = (Image)resources.GetObject("pictureBox3.BackgroundImage");
-            pictureBox3.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox3.Location = new Point(141, 129);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(56, 52);
-            pictureBox3.TabIndex = 11;
-            pictureBox3.TabStop = false;
+            medal1.BackColor = Color.Transparent;
+            medal1.BackgroundImage = (Image)resources.GetObject("medal1.BackgroundImage");
+            medal1.BackgroundImageLayout = ImageLayout.Stretch;
+            medal1.Location = new Point(141, 129);
+            medal1.Name = "medal1";
+            medal1.Size = new Size(56, 52);
+            medal1.TabIndex = 11;
+            medal1.TabStop = false;
             // 
-            // label4
+            // nameBox
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(222, 141);
-            label4.Name = "label4";
-            label4.Size = new Size(146, 31);
-            label4.TabIndex = 46;
-            label4.Text = "                      ";
+            nameBox.AutoSize = true;
+            nameBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            nameBox.Location = new Point(222, 141);
+            nameBox.Name = "nameBox";
+            nameBox.Size = new Size(146, 31);
+            nameBox.TabIndex = 46;
+            nameBox.Text = "                      ";
             // 
-            // label2
+            // scoreBox
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(396, 141);
-            label2.Name = "label2";
-            label2.Size = new Size(56, 31);
-            label2.TabIndex = 47;
-            label2.Text = "       ";
+            scoreBox.AutoSize = true;
+            scoreBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            scoreBox.Location = new Point(396, 141);
+            scoreBox.Name = "scoreBox";
+            scoreBox.Size = new Size(56, 31);
+            scoreBox.TabIndex = 47;
+            scoreBox.Text = "       ";
             // 
             // scoresForm
             // 
@@ -87,26 +87,27 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Center;
             ClientSize = new Size(573, 251);
-            Controls.Add(label2);
-            Controls.Add(label4);
-            Controls.Add(pictureBox3);
-            Controls.Add(label1);
+            Controls.Add(scoreBox);
+            Controls.Add(nameBox);
+            Controls.Add(medal1);
+            Controls.Add(winnerLabel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "scoresForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            Load += scoresForm_Load;
+            ((System.ComponentModel.ISupportInitialize)medal1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label label1;
-        private PictureBox pictureBox3;
-        private Label label4;
-        private Label label2;
+        private Label winnerLabel;
+        private PictureBox medal1;
+        private Label nameBox;
+        private Label scoreBox;
     }
 }

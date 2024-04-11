@@ -25,27 +25,7 @@ namespace TriviaGUI
             this.server = server;
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
+        private void BackArrow_Click(object sender, EventArgs e)
         {
             statisticsForm statistics = new statisticsForm(user, server);
             statistics.Show();
@@ -55,33 +35,22 @@ namespace TriviaGUI
         private void LeaderBoardForm_Load(object sender, EventArgs e)
         {
             Socket socket = server.GetSocket();
-            Utillities.sendMessage(socket, serialize());
-            string leaderBoard = Utillities.recieveMessage(socket);
-            List<string> board = CreateVectorFromString(leaderBoard);
-            if (!(board.Count() == 0))
-            {
-                label3.Text = CreateVectorFromString(leaderBoard)[0];
-                label2.Text = CreateVectorFromString(leaderBoard)[1];
-                label4.Text = CreateVectorFromString(leaderBoard)[2];
-            }
-            
-        }
-        string serialize()
-        {
-            var leaderBoard = new statisticsMsg
+
+            var leaderBoardMsg = new statisticsMsg
             {
                 code = LEADER_BOARD_CODE
             };
 
-            string jsonString = JsonSerializer.Serialize(leaderBoard);
+            Utillities.sendMessage(socket, Utillities.serialize(leaderBoardMsg, LEADER_BOARD_CODE));
+            string leaderBoard = Utillities.recieveMessage(socket);
+            List<string> board = CreateVectorFromString(leaderBoard);
+            if (!(board.Count() == 0))
+            {
+                first.Text = CreateVectorFromString(leaderBoard)[0];
+                second.Text = CreateVectorFromString(leaderBoard)[1];
+                third.Text = CreateVectorFromString(leaderBoard)[2];
+            }
 
-            jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
-
-            string message = LEADER_BOARD_CODE.ToString("D8") +
-                Utillities.ConvertStringToBinary(jsonString.Length.ToString(), 4) +
-                Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
-
-            return message;
         }
 
         public static List<string> CreateVectorFromString(string inputString)
@@ -109,20 +78,9 @@ namespace TriviaGUI
                         return null;
                     }
                 }
-                
+
             }
             return vector;
-        }
-
-
-        private void label2_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

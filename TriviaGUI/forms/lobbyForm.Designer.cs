@@ -43,7 +43,7 @@
             username.AutoSize = true;
             username.BackColor = Color.Transparent;
             username.Font = new Font("Showcard Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            username.Location = new Point(422, 39);
+            username.Location = new Point(419, 39);
             username.Name = "username";
             username.Size = new Size(59, 26);
             username.TabIndex = 47;
@@ -55,7 +55,7 @@
             welcome.AutoSize = true;
             welcome.BackColor = Color.Transparent;
             welcome.Font = new Font("Showcard Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            welcome.Location = new Point(321, 42);
+            welcome.Location = new Point(324, 42);
             welcome.Name = "welcome";
             welcome.Size = new Size(95, 21);
             welcome.TabIndex = 46;

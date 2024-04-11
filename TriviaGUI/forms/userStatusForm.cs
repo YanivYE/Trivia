@@ -25,12 +25,7 @@ namespace TriviaGUI
             this.server = server;
         }
 
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
+        private void BackArrow_Click(object sender, EventArgs e)
         {
             statisticsForm statistics = new statisticsForm(user, server);
             statistics.Show();
@@ -40,32 +35,20 @@ namespace TriviaGUI
         private void userStatusForm_Load(object sender, EventArgs e)
         {
             Socket socket = server.GetSocket();
-            Utillities.sendMessage(socket, serialize());
 
-            string userStats = Utillities.recieveMessage(socket);
-
-            label6.Text = CreateVectorFromString(userStats)[3];
-            label12.Text = CreateVectorFromString(userStats)[1];
-            label11.Text = (int.Parse(CreateVectorFromString(userStats)[2]) - int.Parse(CreateVectorFromString(userStats)[1])).ToString();
-            label8.Text = CreateVectorFromString(userStats)[0];
-        }
-
-        string serialize()
-        {
             var personalStats = new statisticsMsg
             {
                 code = USER_STATISTICS_CODE
             };
 
-            string jsonString = JsonSerializer.Serialize(personalStats);
+            Utillities.sendMessage(socket, Utillities.serialize(personalStats, USER_STATISTICS_CODE));
 
-            jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
+            string userStats = Utillities.recieveMessage(socket);
 
-            string message = USER_STATISTICS_CODE.ToString("D8") +
-                Utillities.ConvertStringToBinary(jsonString.Length.ToString(), 4) +
-                Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
-
-            return message;
+            gamesPlayedBox.Text = CreateVectorFromString(userStats)[3];
+            rightAnswersBox.Text = CreateVectorFromString(userStats)[1];
+            wrongAnswersBox.Text = (int.Parse(CreateVectorFromString(userStats)[2]) - int.Parse(CreateVectorFromString(userStats)[1])).ToString();
+            avgTimeBox.Text = CreateVectorFromString(userStats)[0];
         }
 
         public static List<string> CreateVectorFromString(string inputString)
@@ -82,25 +65,6 @@ namespace TriviaGUI
 
             return numbers;
         }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label12_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

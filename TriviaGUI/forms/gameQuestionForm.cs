@@ -15,22 +15,44 @@ namespace TriviaGUI
         public gameQuestionForm(string answerTime, string numOfQuestions, int score)
         {
             InitializeComponent();
-            label2.Text = answerTime;
-            label1.Text = numOfQuestions;   
+            questionCountBox.Text = answerTime;
+            questionCountLabel.Text = numOfQuestions;
 
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void timer_Tick(object sender, EventArgs e)
         {
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        
+
+        private void gameQuestionForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void option1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void option3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void option2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void option4_Click(object sender, EventArgs e)
         {
 
         }

@@ -36,10 +36,10 @@ namespace TriviaGUI
             this.serverHandler = server;
 
             roomName.Text = roomNameINPUT;
-            adminLabel.Text = admin;
-            maxNumber.Text = maxNumberINPUT;
-            numQuestions.Text = numQueestionsINPUT;
-            answerTimeout.Text = answerTimeoutINPUT;
+            adminBox.Text = admin;
+            maxNumberBox.Text = maxNumberINPUT;
+            questionsNumBox.Text = numQueestionsINPUT;
+            answerTimeoutBox.Text = answerTimeoutINPUT;
 
             this.id = id;
         }
@@ -50,31 +50,32 @@ namespace TriviaGUI
             Application.Exit();
         }
 
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void roomForm_Load(object sender, EventArgs e)
         {
-            if(isAdmin)
+            if (isAdmin)
             {
                 roomName.Text = info.roomName;
-                adminLabel.Text = admin;
-                maxNumber.Text = info.maxUsers;
-                numQuestions.Text = info.questionCount;
-                answerTimeout.Text = info.answerTimeout;
+                adminBox.Text = admin;
+                maxNumberBox.Text = info.maxUsers;
+                questionsNumBox.Text = info.questionCount;
+                answerTimeoutBox.Text = info.answerTimeout;
             }
-            else 
+            else
             {
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void StartGame_Click(object sender, EventArgs e)
         {
-            gameQuestionForm game = new gameQuestionForm(answerTimeout.Text, numQuestions.Text, 0);
+            // TODO
+            gameQuestionForm game = new gameQuestionForm(answerTimeoutBox.Text, questionsNumBox.Text, 0);
             this.Hide();
             game.Show();
+        }
+
+        private void closeRoom_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

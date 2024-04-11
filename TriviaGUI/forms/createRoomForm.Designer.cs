@@ -29,28 +29,28 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(createRoomForm));
-            label2 = new Label();
+            roomNameLabel = new Label();
             name = new TextBox();
-            button1 = new Button();
-            label1 = new Label();
-            label3 = new Label();
-            label4 = new Label();
+            createRoom = new Button();
+            questionTimeLabel = new Label();
+            playersNumLabel = new Label();
+            questionsNumLabel = new Label();
             numPlayers = new TextBox();
             numQuestions = new TextBox();
             time = new TextBox();
-            button3 = new Button();
+            BackArrow = new Button();
             SuspendLayout();
             // 
-            // label2
+            // roomNameLabel
             // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.Gold;
-            label2.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(99, 72);
-            label2.Name = "label2";
-            label2.Size = new Size(190, 32);
-            label2.TabIndex = 5;
-            label2.Text = "Roon Name:";
+            roomNameLabel.AutoSize = true;
+            roomNameLabel.BackColor = Color.Gold;
+            roomNameLabel.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            roomNameLabel.Location = new Point(99, 72);
+            roomNameLabel.Name = "roomNameLabel";
+            roomNameLabel.Size = new Size(190, 32);
+            roomNameLabel.TabIndex = 5;
+            roomNameLabel.Text = "Roon Name:";
             // 
             // name
             // 
@@ -60,50 +60,50 @@
             name.Size = new Size(241, 38);
             name.TabIndex = 6;
             // 
-            // button1
+            // createRoom
             // 
-            button1.BackColor = Color.Gold;
-            button1.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.Location = new Point(294, 334);
-            button1.Name = "button1";
-            button1.Size = new Size(188, 64);
-            button1.TabIndex = 11;
-            button1.Text = "CREATE";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            createRoom.BackColor = Color.Gold;
+            createRoom.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            createRoom.Location = new Point(294, 334);
+            createRoom.Name = "createRoom";
+            createRoom.Size = new Size(188, 64);
+            createRoom.TabIndex = 11;
+            createRoom.Text = "CREATE";
+            createRoom.UseVisualStyleBackColor = false;
+            createRoom.Click += CreateRoom_Click;
             // 
-            // label1
+            // questionTimeLabel
             // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.Gold;
-            label1.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(99, 278);
-            label1.Name = "label1";
-            label1.Size = new Size(305, 32);
-            label1.TabIndex = 12;
-            label1.Text = "Time Per question:";
+            questionTimeLabel.AutoSize = true;
+            questionTimeLabel.BackColor = Color.Gold;
+            questionTimeLabel.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            questionTimeLabel.Location = new Point(99, 278);
+            questionTimeLabel.Name = "questionTimeLabel";
+            questionTimeLabel.Size = new Size(305, 32);
+            questionTimeLabel.TabIndex = 12;
+            questionTimeLabel.Text = "Time Per question:";
             // 
-            // label3
+            // playersNumLabel
             // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Gold;
-            label3.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(99, 139);
-            label3.Name = "label3";
-            label3.Size = new Size(315, 32);
-            label3.TabIndex = 13;
-            label3.Text = "Number Of Players:";
+            playersNumLabel.AutoSize = true;
+            playersNumLabel.BackColor = Color.Gold;
+            playersNumLabel.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            playersNumLabel.Location = new Point(99, 139);
+            playersNumLabel.Name = "playersNumLabel";
+            playersNumLabel.Size = new Size(315, 32);
+            playersNumLabel.TabIndex = 13;
+            playersNumLabel.Text = "Number Of Players:";
             // 
-            // label4
+            // questionsNumLabel
             // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.Gold;
-            label4.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(99, 210);
-            label4.Name = "label4";
-            label4.Size = new Size(347, 32);
-            label4.TabIndex = 14;
-            label4.Text = "Number Of Questions:";
+            questionsNumLabel.AutoSize = true;
+            questionsNumLabel.BackColor = Color.Gold;
+            questionsNumLabel.Font = new Font("Ravie", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            questionsNumLabel.Location = new Point(99, 210);
+            questionsNumLabel.Name = "questionsNumLabel";
+            questionsNumLabel.Size = new Size(347, 32);
+            questionsNumLabel.TabIndex = 14;
+            questionsNumLabel.Text = "Number Of Questions:";
             // 
             // numPlayers
             // 
@@ -132,19 +132,18 @@
             time.TabIndex = 17;
             time.KeyPress += time_KeyPress;
             // 
-            // button3
+            // BackArrow
             // 
-            button3.BackColor = Color.Transparent;
-            button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
-            button3.BackgroundImageLayout = ImageLayout.Stretch;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.ForeColor = SystemColors.ControlText;
-            button3.Location = new Point(12, 373);
-            button3.Name = "button3";
-            button3.Size = new Size(44, 44);
-            button3.TabIndex = 18;
-            button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click;
+            BackArrow.BackColor = Color.Transparent;
+            BackArrow.BackgroundImage = (Image)resources.GetObject("BackArrow.BackgroundImage");
+            BackArrow.BackgroundImageLayout = ImageLayout.Stretch;
+            BackArrow.FlatStyle = FlatStyle.Flat;
+            BackArrow.ForeColor = SystemColors.ControlText;
+            BackArrow.Location = new Point(734, 375);
+            BackArrow.Name = "BackArrow";
+            BackArrow.Size = new Size(44, 44);
+            BackArrow.TabIndex = 34;
+            BackArrow.UseVisualStyleBackColor = false;
             // 
             // createRoomForm
             // 
@@ -153,38 +152,38 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
-            Controls.Add(button3);
+            Controls.Add(BackArrow);
             Controls.Add(time);
             Controls.Add(numQuestions);
             Controls.Add(numPlayers);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label1);
-            Controls.Add(button1);
+            Controls.Add(questionsNumLabel);
+            Controls.Add(playersNumLabel);
+            Controls.Add(questionTimeLabel);
+            Controls.Add(createRoom);
             Controls.Add(name);
-            Controls.Add(label2);
-            FormClosed += createRoomForm_Close;
+            Controls.Add(roomNameLabel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "createRoomForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
+            FormClosed += createRoomForm_Close;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label label2;
+        private Label roomNameLabel;
         private TextBox name;
-        private Button button1;
-        private Label label1;
-        private Label label3;
-        private Label label4;
+        private Button createRoom;
+        private Label questionTimeLabel;
+        private Label playersNumLabel;
+        private Label questionsNumLabel;
         private TextBox numPlayers;
         private TextBox numQuestions;
         private TextBox time;
-        private Button button3;
+        private Button BackArrow;
     }
 }

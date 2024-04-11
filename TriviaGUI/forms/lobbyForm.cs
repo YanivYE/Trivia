@@ -15,8 +15,6 @@ namespace TriviaGUI
     public partial class lobbyForm : Form
     {
         const int LOGOUT_CODE = 0b00000011;
-        const int CODE_BYTES = 1;
-        const int LENGTH_BYTES = 4;
         string user;
         ServerHandler server;
 

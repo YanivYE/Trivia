@@ -26,25 +26,30 @@ namespace TriviaGUI
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void MyStats_Click(object sender, EventArgs e)
         {
             userStatusForm userStats = new userStatusForm(user, server);
             userStats.Show();
             this.Hide();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void LeaderBoard_Click(object sender, EventArgs e)
         {
             LeaderBoardForm leaderBoard = new LeaderBoardForm(server);
             leaderBoard.Show();
             this.Hide();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void BackArrow_Click(object sender, EventArgs e)
         {
             lobbyForm lobby = new lobbyForm(user, server);
             lobby.Show();
             this.Hide();
+        }
+
+        private void statsLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

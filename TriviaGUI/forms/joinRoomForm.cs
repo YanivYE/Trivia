@@ -18,8 +18,6 @@ namespace TriviaGUI
         ServerHandler server;
         const int GET_ROOMS_CODE = 0b00000100;
         const int JOIN_ROOM_CODE = 0b00000110;
-        const int CODE_BYTES = 1;
-        const int LENGTH_BYTES = 4;
         string[] rooms;
         bool stop = false;
 
@@ -27,11 +25,6 @@ namespace TriviaGUI
         {
             this.server = server;
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void joinRoomForm_Load(object sender, EventArgs e)
@@ -44,12 +37,19 @@ namespace TriviaGUI
         {
             Application.Exit();
         }
+
         void sendUpdateMessage()
         {
             while (!stop)
             {
                 Socket socket = server.GetSocket();
-                Utillities.sendMessage(socket, serialize(GET_ROOMS_CODE));
+
+                joinRoomMessage joinRoomMsg = new joinRoomMessage
+                {
+                    roomId = roomID.Text
+                };
+
+                Utillities.sendMessage(socket, Utillities.serialize(joinRoomMsg, GET_ROOMS_CODE));
                 string msg = Utillities.recieveMessage(socket);
 
                 if (!msg.Contains(":15}"))
@@ -86,7 +86,7 @@ namespace TriviaGUI
                             Array.Resize(ref stringArray, stringArray.Length - 1);
 
                             rooms = stringArray;
-                            
+
                             UpdateRoomList(stringList);
                         }
                     }
@@ -100,7 +100,7 @@ namespace TriviaGUI
         {
             string result = "";
 
-            foreach(string room in roomName)
+            foreach (string room in roomName)
             {
                 result += room + "\n";
             }
@@ -115,35 +115,22 @@ namespace TriviaGUI
             }
         }
 
-        string serialize(int code)
-        {
-            joinRoomMessage joinRoomMsg = new joinRoomMessage
-            {
-                roomId = joinRoomName.Text
-            };
-
-            string jsonString = JsonSerializer.Serialize(joinRoomMsg);
-
-            jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
-
-            string message = code.ToString("D8") +
-                Utillities.ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
-                Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
-
-            return message;
-        }
-
-
-        private void button2_Click(object sender, EventArgs e)
+        private void JoinRoom_Click(object sender, EventArgs e)
         {
             foreach (string id in rooms)
             {
-                if (int.Parse(joinRoomName.Text) == (id[0] - '0'))
+                if (int.Parse(roomID.Text) == (id[0] - '0'))
                 {
                     stop = true;
 
                     Socket socket = server.GetSocket();
-                    Utillities.sendMessage(socket, serialize(JOIN_ROOM_CODE));
+
+                    joinRoomMessage joinRoomMsg = new joinRoomMessage
+                    {
+                        roomId = roomID.Text
+                    };
+
+                    Utillities.sendMessage(socket, Utillities.serialize(joinRoomMsg, JOIN_ROOM_CODE));
                     string msg = Utillities.recieveMessage(socket);
 
                     if (!msg.Contains(":15}"))
@@ -169,11 +156,10 @@ namespace TriviaGUI
                         int endIndex = players.IndexOf(',', startIndex);
                         string admin = players.Substring(startIndex, endIndex - startIndex);
 
-                        roomForm lobby = new roomForm(joinRoomName.Text, server, roomName, admin, maxPlayers.ToString(), numQuestions.ToString(), answerTimeout.ToString());
+                        roomForm lobby = new roomForm(roomID.Text, server, roomName, admin, maxPlayers.ToString(), numQuestions.ToString(), answerTimeout.ToString());
                         this.Hide();
                         lobby.Show();
                     }
-                    
 
                     break;
                 }
@@ -193,6 +179,11 @@ namespace TriviaGUI
             {
                 e.Handled = true; // Ignore the input
             }
+        }
+
+        private void roomList_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

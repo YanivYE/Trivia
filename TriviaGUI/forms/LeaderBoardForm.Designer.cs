@@ -29,119 +29,114 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LeaderBoardForm));
-            pictureBox2 = new PictureBox();
-            pictureBox3 = new PictureBox();
-            pictureBox4 = new PictureBox();
-            label1 = new Label();
-            label3 = new Label();
-            label2 = new Label();
-            label4 = new Label();
-            button3 = new Button();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            medal3 = new PictureBox();
+            medal1 = new PictureBox();
+            medal2 = new PictureBox();
+            leaderboardLabel = new Label();
+            first = new Label();
+            second = new Label();
+            third = new Label();
+            BackArrow = new Button();
+            ((System.ComponentModel.ISupportInitialize)medal3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)medal1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)medal2).BeginInit();
             SuspendLayout();
             // 
-            // pictureBox2
+            // medal3
             // 
-            pictureBox2.BackColor = Color.LightSeaGreen;
-            pictureBox2.BackgroundImage = (Image)resources.GetObject("pictureBox2.BackgroundImage");
-            pictureBox2.BackgroundImageLayout = ImageLayout.Center;
-            pictureBox2.Location = new Point(170, 322);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(63, 62);
-            pictureBox2.TabIndex = 1;
-            pictureBox2.TabStop = false;
+            medal3.BackColor = Color.LightSeaGreen;
+            medal3.BackgroundImage = (Image)resources.GetObject("medal3.BackgroundImage");
+            medal3.BackgroundImageLayout = ImageLayout.Center;
+            medal3.Location = new Point(170, 322);
+            medal3.Name = "medal3";
+            medal3.Size = new Size(63, 62);
+            medal3.TabIndex = 1;
+            medal3.TabStop = false;
             // 
-            // pictureBox3
+            // medal1
             // 
-            pictureBox3.BackColor = Color.LightSeaGreen;
-            pictureBox3.BackgroundImage = (Image)resources.GetObject("pictureBox3.BackgroundImage");
-            pictureBox3.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox3.Location = new Point(170, 127);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(63, 62);
-            pictureBox3.TabIndex = 2;
-            pictureBox3.TabStop = false;
-            pictureBox3.Click += pictureBox3_Click;
+            medal1.BackColor = Color.LightSeaGreen;
+            medal1.BackgroundImage = (Image)resources.GetObject("medal1.BackgroundImage");
+            medal1.BackgroundImageLayout = ImageLayout.Stretch;
+            medal1.Location = new Point(170, 127);
+            medal1.Name = "medal1";
+            medal1.Size = new Size(63, 62);
+            medal1.TabIndex = 2;
+            medal1.TabStop = false;
             // 
-            // pictureBox4
+            // medal2
             // 
-            pictureBox4.BackColor = Color.LightSeaGreen;
-            pictureBox4.BackgroundImage = (Image)resources.GetObject("pictureBox4.BackgroundImage");
-            pictureBox4.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox4.Location = new Point(170, 224);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(63, 62);
-            pictureBox4.TabIndex = 3;
-            pictureBox4.TabStop = false;
+            medal2.BackColor = Color.LightSeaGreen;
+            medal2.BackgroundImage = (Image)resources.GetObject("medal2.BackgroundImage");
+            medal2.BackgroundImageLayout = ImageLayout.Stretch;
+            medal2.Location = new Point(170, 224);
+            medal2.Name = "medal2";
+            medal2.Size = new Size(63, 62);
+            medal2.TabIndex = 3;
+            medal2.TabStop = false;
             // 
-            // label1
+            // leaderboardLabel
             // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.Gold;
-            label1.BorderStyle = BorderStyle.Fixed3D;
-            label1.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.ForeColor = Color.Black;
-            label1.Location = new Point(253, 47);
-            label1.Name = "label1";
-            label1.Size = new Size(313, 42);
-            label1.TabIndex = 4;
-            label1.Text = "LEADERBOARD";
-            label1.Click += label1_Click;
+            leaderboardLabel.AutoSize = true;
+            leaderboardLabel.BackColor = Color.Gold;
+            leaderboardLabel.BorderStyle = BorderStyle.Fixed3D;
+            leaderboardLabel.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            leaderboardLabel.ForeColor = Color.Black;
+            leaderboardLabel.Location = new Point(253, 47);
+            leaderboardLabel.Name = "leaderboardLabel";
+            leaderboardLabel.Size = new Size(313, 42);
+            leaderboardLabel.TabIndex = 4;
+            leaderboardLabel.Text = "LEADERBOARD";
             // 
-            // label3
+            // first
             // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.LightSeaGreen;
-            label3.Font = new Font("Ravie", 36F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.ForeColor = Color.Black;
-            label3.Location = new Point(151, 117);
-            label3.Name = "label3";
-            label3.Size = new Size(515, 81);
-            label3.TabIndex = 6;
-            label3.Text = "                    ";
-            label3.Click += label3_Click;
+            first.AutoSize = true;
+            first.BackColor = Color.LightSeaGreen;
+            first.Font = new Font("Ravie", 36F, FontStyle.Regular, GraphicsUnit.Point);
+            first.ForeColor = Color.Black;
+            first.Location = new Point(151, 117);
+            first.Name = "first";
+            first.Size = new Size(515, 81);
+            first.TabIndex = 6;
+            first.Text = "                    ";
             // 
-            // label2
+            // second
             // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.LightSeaGreen;
-            label2.Font = new Font("Ravie", 36F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.ForeColor = Color.Black;
-            label2.Location = new Point(151, 215);
-            label2.Name = "label2";
-            label2.Size = new Size(515, 81);
-            label2.TabIndex = 7;
-            label2.Text = "                    ";
-            label2.Click += label2_Click_1;
+            second.AutoSize = true;
+            second.BackColor = Color.LightSeaGreen;
+            second.Font = new Font("Ravie", 36F, FontStyle.Regular, GraphicsUnit.Point);
+            second.ForeColor = Color.Black;
+            second.Location = new Point(151, 215);
+            second.Name = "second";
+            second.Size = new Size(515, 81);
+            second.TabIndex = 7;
+            second.Text = "                    ";
             // 
-            // label4
+            // third
             // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.LightSeaGreen;
-            label4.Font = new Font("Ravie", 36F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.ForeColor = Color.Black;
-            label4.Location = new Point(151, 312);
-            label4.Name = "label4";
-            label4.Size = new Size(515, 81);
-            label4.TabIndex = 8;
-            label4.Text = "                    ";
-            label4.Click += label4_Click;
+            third.AutoSize = true;
+            third.BackColor = Color.LightSeaGreen;
+            third.Font = new Font("Ravie", 36F, FontStyle.Regular, GraphicsUnit.Point);
+            third.ForeColor = Color.Black;
+            third.Location = new Point(151, 312);
+            third.Name = "third";
+            third.Size = new Size(515, 81);
+            third.TabIndex = 8;
+            third.Text = "                    ";
             // 
-            // button3
+            // BackArrow
             // 
-            button3.BackColor = Color.Transparent;
-            button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
-            button3.BackgroundImageLayout = ImageLayout.Stretch;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.ForeColor = SystemColors.ControlText;
-            button3.Location = new Point(737, 372);
-            button3.Name = "button3";
-            button3.Size = new Size(44, 44);
-            button3.TabIndex = 9;
-            button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click;
+            BackArrow.BackColor = Color.Transparent;
+            BackArrow.BackgroundImage = (Image)resources.GetObject("BackArrow.BackgroundImage");
+            BackArrow.BackgroundImageLayout = ImageLayout.Stretch;
+            BackArrow.FlatStyle = FlatStyle.Flat;
+            BackArrow.ForeColor = SystemColors.ControlText;
+            BackArrow.Location = new Point(737, 372);
+            BackArrow.Name = "BackArrow";
+            BackArrow.Size = new Size(44, 44);
+            BackArrow.TabIndex = 9;
+            BackArrow.UseVisualStyleBackColor = false;
+            BackArrow.Click += BackArrow_Click;
             // 
             // LeaderBoardForm
             // 
@@ -150,14 +145,14 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
-            Controls.Add(button3);
-            Controls.Add(pictureBox2);
-            Controls.Add(pictureBox4);
-            Controls.Add(label4);
-            Controls.Add(label2);
-            Controls.Add(pictureBox3);
-            Controls.Add(label3);
-            Controls.Add(label1);
+            Controls.Add(BackArrow);
+            Controls.Add(medal3);
+            Controls.Add(medal2);
+            Controls.Add(third);
+            Controls.Add(second);
+            Controls.Add(medal1);
+            Controls.Add(first);
+            Controls.Add(leaderboardLabel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
@@ -165,21 +160,21 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
             Load += LeaderBoardForm_Load;
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)medal3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)medal1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)medal2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private PictureBox pictureBox2;
-        private PictureBox pictureBox3;
-        private PictureBox pictureBox4;
-        private Label label1;
-        private Label label3;
-        private Label label2;
-        private Label label4;
-        private Button button3;
+        private PictureBox medal3;
+        private PictureBox medal1;
+        private PictureBox medal2;
+        private Label leaderboardLabel;
+        private Label first;
+        private Label second;
+        private Label third;
+        private Button BackArrow;
     }
 }

@@ -29,62 +29,63 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(statisticsForm));
-            button1 = new Button();
-            button3 = new Button();
-            button2 = new Button();
-            label1 = new Label();
+            leaderBoard = new Button();
+            myStats = new Button();
+            BackArrow = new Button();
+            statsLabel = new Label();
             SuspendLayout();
             // 
-            // button1
+            // leaderBoard
             // 
-            button1.BackColor = Color.Gold;
-            button1.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.Location = new Point(314, 257);
-            button1.Name = "button1";
-            button1.Size = new Size(187, 79);
-            button1.TabIndex = 4;
-            button1.Text = "LeaderBoard";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            leaderBoard.BackColor = Color.Gold;
+            leaderBoard.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
+            leaderBoard.Location = new Point(314, 257);
+            leaderBoard.Name = "leaderBoard";
+            leaderBoard.Size = new Size(187, 79);
+            leaderBoard.TabIndex = 4;
+            leaderBoard.Text = "LeaderBoard";
+            leaderBoard.UseVisualStyleBackColor = false;
+            leaderBoard.Click += LeaderBoard_Click;
             // 
-            // button3
+            // myStats
             // 
-            button3.BackColor = Color.Gold;
-            button3.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
-            button3.Location = new Point(314, 152);
-            button3.Name = "button3";
-            button3.Size = new Size(187, 79);
-            button3.TabIndex = 5;
-            button3.Text = "My Stats";
-            button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click;
+            myStats.BackColor = Color.Gold;
+            myStats.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
+            myStats.Location = new Point(314, 152);
+            myStats.Name = "myStats";
+            myStats.Size = new Size(187, 79);
+            myStats.TabIndex = 5;
+            myStats.Text = "My Stats";
+            myStats.UseVisualStyleBackColor = false;
+            myStats.Click += MyStats_Click;
             // 
-            // button2
+            // BackArrow
             // 
-            button2.BackColor = Color.Transparent;
-            button2.BackgroundImage = (Image)resources.GetObject("button2.BackgroundImage");
-            button2.BackgroundImageLayout = ImageLayout.Stretch;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.ForeColor = SystemColors.ControlText;
-            button2.Location = new Point(740, 375);
-            button2.Name = "button2";
-            button2.Size = new Size(44, 44);
-            button2.TabIndex = 8;
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += button2_Click;
+            BackArrow.BackColor = Color.Transparent;
+            BackArrow.BackgroundImage = (Image)resources.GetObject("BackArrow.BackgroundImage");
+            BackArrow.BackgroundImageLayout = ImageLayout.Stretch;
+            BackArrow.FlatStyle = FlatStyle.Flat;
+            BackArrow.ForeColor = SystemColors.ControlText;
+            BackArrow.Location = new Point(740, 375);
+            BackArrow.Name = "BackArrow";
+            BackArrow.Size = new Size(44, 44);
+            BackArrow.TabIndex = 8;
+            BackArrow.UseVisualStyleBackColor = false;
+            BackArrow.Click += BackArrow_Click;
             // 
-            // label1
+            // statsLabel
             // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.Gold;
-            label1.BorderStyle = BorderStyle.Fixed3D;
-            label1.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.ForeColor = Color.Black;
-            label1.Location = new Point(283, 74);
-            label1.Name = "label1";
-            label1.Size = new Size(251, 42);
-            label1.TabIndex = 9;
-            label1.Text = "STATISTICS";
+            statsLabel.AutoSize = true;
+            statsLabel.BackColor = Color.Gold;
+            statsLabel.BorderStyle = BorderStyle.Fixed3D;
+            statsLabel.Font = new Font("Ravie", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            statsLabel.ForeColor = Color.Black;
+            statsLabel.Location = new Point(283, 74);
+            statsLabel.Name = "statsLabel";
+            statsLabel.Size = new Size(251, 42);
+            statsLabel.TabIndex = 9;
+            statsLabel.Text = "STATISTICS";
+            statsLabel.Click += statsLabel_Click;
             // 
             // statisticsForm
             // 
@@ -93,10 +94,10 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
-            Controls.Add(label1);
-            Controls.Add(button2);
-            Controls.Add(button3);
-            Controls.Add(button1);
+            Controls.Add(statsLabel);
+            Controls.Add(BackArrow);
+            Controls.Add(myStats);
+            Controls.Add(leaderBoard);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
@@ -110,9 +111,9 @@
 
         #endregion
 
-        private Button button1;
-        private Button button3;
-        private Button button2;
-        private Label label1;
+        private Button leaderBoard;
+        private Button myStats;
+        private Button BackArrow;
+        private Label statsLabel;
     }
 }

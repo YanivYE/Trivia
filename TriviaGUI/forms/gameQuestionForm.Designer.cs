@@ -30,166 +30,169 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(gameQuestionForm));
-            button3 = new Button();
+            Exit = new Button();
             timer1 = new System.Windows.Forms.Timer(components);
-            pictureBox2 = new PictureBox();
-            label6 = new Label();
-            button2 = new Button();
-            label5 = new Label();
-            button4 = new Button();
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            button1 = new Button();
-            button5 = new Button();
-            pictureBox1 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            logo = new PictureBox();
+            questionLabel = new Label();
+            option2 = new Button();
+            timeLabel = new Label();
+            option4 = new Button();
+            questionCountLabel = new Label();
+            questionCountBox = new Label();
+            scoreLabel = new Label();
+            scoreBox = new Label();
+            option1 = new Button();
+            option3 = new Button();
+            timer = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)timer).BeginInit();
             SuspendLayout();
             // 
-            // button3
+            // Exit
             // 
-            button3.BackColor = Color.Transparent;
-            button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
-            button3.BackgroundImageLayout = ImageLayout.Stretch;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.ForeColor = SystemColors.ControlText;
-            button3.Location = new Point(12, 376);
-            button3.Name = "button3";
-            button3.Size = new Size(44, 44);
-            button3.TabIndex = 3;
-            button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click;
+            Exit.BackColor = Color.Transparent;
+            Exit.BackgroundImage = (Image)resources.GetObject("Exit.BackgroundImage");
+            Exit.BackgroundImageLayout = ImageLayout.Stretch;
+            Exit.FlatStyle = FlatStyle.Flat;
+            Exit.ForeColor = SystemColors.ControlText;
+            Exit.Location = new Point(12, 376);
+            Exit.Name = "Exit";
+            Exit.Size = new Size(44, 44);
+            Exit.TabIndex = 3;
+            Exit.UseVisualStyleBackColor = false;
+            Exit.Click += Exit_Click;
             // 
             // timer1
             // 
-            timer1.Tick += timer1_Tick;
+            timer1.Tick += timer_Tick;
             // 
-            // pictureBox2
+            // logo
             // 
-            pictureBox2.BackColor = Color.Transparent;
-            pictureBox2.BackgroundImage = (Image)resources.GetObject("pictureBox2.BackgroundImage");
-            pictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox2.Location = new Point(275, 99);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(256, 159);
-            pictureBox2.TabIndex = 4;
-            pictureBox2.TabStop = false;
+            logo.BackColor = Color.Transparent;
+            logo.BackgroundImage = (Image)resources.GetObject("logo.BackgroundImage");
+            logo.BackgroundImageLayout = ImageLayout.Stretch;
+            logo.Location = new Point(275, 99);
+            logo.Name = "logo";
+            logo.Size = new Size(256, 159);
+            logo.TabIndex = 4;
+            logo.TabStop = false;
             // 
-            // label6
+            // questionLabel
             // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.Location = new Point(142, 34);
-            label6.Name = "label6";
-            label6.Size = new Size(536, 62);
-            label6.TabIndex = 29;
-            label6.Text = "                                                                                   \r\n                                                                                       ";
+            questionLabel.AutoSize = true;
+            questionLabel.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            questionLabel.Location = new Point(142, 34);
+            questionLabel.Name = "questionLabel";
+            questionLabel.Size = new Size(536, 62);
+            questionLabel.TabIndex = 29;
+            questionLabel.Text = "                                                                                   \r\n                                                                                       ";
             // 
-            // button2
+            // option2
             // 
-            button2.BackColor = Color.Blue;
-            button2.Location = new Point(420, 253);
-            button2.Name = "button2";
-            button2.Size = new Size(270, 72);
-            button2.TabIndex = 31;
-            button2.Text = "Option 2";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += button2_Click;
+            option2.BackColor = Color.Blue;
+            option2.Location = new Point(420, 253);
+            option2.Name = "option2";
+            option2.Size = new Size(270, 72);
+            option2.TabIndex = 31;
+            option2.Text = "Option 2";
+            option2.UseVisualStyleBackColor = false;
+            option2.Click += option2_Click;
             // 
-            // label5
+            // timeLabel
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(705, 99);
-            label5.Name = "label5";
-            label5.Size = new Size(62, 31);
-            label5.TabIndex = 34;
-            label5.Text = "        ";
+            timeLabel.AutoSize = true;
+            timeLabel.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            timeLabel.Location = new Point(705, 99);
+            timeLabel.Name = "timeLabel";
+            timeLabel.Size = new Size(62, 31);
+            timeLabel.TabIndex = 34;
+            timeLabel.Text = "        ";
             // 
-            // button4
+            // option4
             // 
-            button4.BackColor = Color.Green;
-            button4.Location = new Point(420, 330);
-            button4.Name = "button4";
-            button4.Size = new Size(270, 72);
-            button4.TabIndex = 39;
-            button4.Text = "Option 4";
-            button4.UseVisualStyleBackColor = false;
+            option4.BackColor = Color.Green;
+            option4.Location = new Point(420, 330);
+            option4.Name = "option4";
+            option4.Size = new Size(270, 72);
+            option4.TabIndex = 39;
+            option4.Text = "Option 4";
+            option4.UseVisualStyleBackColor = false;
+            option4.Click += option4_Click;
             // 
-            // label1
+            // questionCountLabel
             // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Showcard Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(324, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(90, 18);
-            label1.TabIndex = 42;
-            label1.Text = "Question: ";
+            questionCountLabel.AutoSize = true;
+            questionCountLabel.BackColor = Color.Transparent;
+            questionCountLabel.Font = new Font("Showcard Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            questionCountLabel.Location = new Point(324, 9);
+            questionCountLabel.Name = "questionCountLabel";
+            questionCountLabel.Size = new Size(90, 18);
+            questionCountLabel.TabIndex = 42;
+            questionCountLabel.Text = "Question: ";
             // 
-            // label2
+            // questionCountBox
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(414, 7);
-            label2.Name = "label2";
-            label2.Size = new Size(41, 20);
-            label2.TabIndex = 43;
-            label2.Text = "        ";
+            questionCountBox.AutoSize = true;
+            questionCountBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            questionCountBox.Location = new Point(414, 7);
+            questionCountBox.Name = "questionCountBox";
+            questionCountBox.Size = new Size(41, 20);
+            questionCountBox.TabIndex = 43;
+            questionCountBox.Text = "        ";
             // 
-            // label3
+            // scoreLabel
             // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Showcard Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(3, 105);
-            label3.Name = "label3";
-            label3.Size = new Size(71, 21);
-            label3.TabIndex = 44;
-            label3.Text = "Score: ";
+            scoreLabel.AutoSize = true;
+            scoreLabel.BackColor = Color.Transparent;
+            scoreLabel.Font = new Font("Showcard Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
+            scoreLabel.Location = new Point(3, 105);
+            scoreLabel.Name = "scoreLabel";
+            scoreLabel.Size = new Size(71, 21);
+            scoreLabel.TabIndex = 44;
+            scoreLabel.Text = "Score: ";
             // 
-            // label4
+            // scoreBox
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(69, 103);
-            label4.Name = "label4";
-            label4.Size = new Size(65, 23);
-            label4.TabIndex = 45;
-            label4.Text = "           ";
+            scoreBox.AutoSize = true;
+            scoreBox.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
+            scoreBox.Location = new Point(69, 103);
+            scoreBox.Name = "scoreBox";
+            scoreBox.Size = new Size(65, 23);
+            scoreBox.TabIndex = 45;
+            scoreBox.Text = "           ";
             // 
-            // button1
+            // option1
             // 
-            button1.BackColor = Color.Red;
-            button1.Location = new Point(126, 253);
-            button1.Name = "button1";
-            button1.Size = new Size(270, 72);
-            button1.TabIndex = 46;
-            button1.Text = "Option 1";
-            button1.UseVisualStyleBackColor = false;
+            option1.BackColor = Color.Red;
+            option1.Location = new Point(126, 253);
+            option1.Name = "option1";
+            option1.Size = new Size(270, 72);
+            option1.TabIndex = 46;
+            option1.Text = "Option 1";
+            option1.UseVisualStyleBackColor = false;
+            option1.Click += option1_Click;
             // 
-            // button5
+            // option3
             // 
-            button5.BackColor = Color.Orange;
-            button5.Location = new Point(126, 330);
-            button5.Name = "button5";
-            button5.Size = new Size(270, 72);
-            button5.TabIndex = 47;
-            button5.Text = "Option 3";
-            button5.UseVisualStyleBackColor = false;
+            option3.BackColor = Color.Orange;
+            option3.Location = new Point(126, 330);
+            option3.Name = "option3";
+            option3.Size = new Size(270, 72);
+            option3.TabIndex = 47;
+            option3.Text = "Option 3";
+            option3.UseVisualStyleBackColor = false;
+            option3.Click += option3_Click;
             // 
-            // pictureBox1
+            // timer
             // 
-            pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
-            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox1.Location = new Point(707, 42);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(59, 54);
-            pictureBox1.TabIndex = 48;
-            pictureBox1.TabStop = false;
+            timer.BackColor = Color.Transparent;
+            timer.BackgroundImage = (Image)resources.GetObject("timer.BackgroundImage");
+            timer.BackgroundImageLayout = ImageLayout.Stretch;
+            timer.Location = new Point(707, 42);
+            timer.Name = "timer";
+            timer.Size = new Size(59, 54);
+            timer.TabIndex = 48;
+            timer.TabStop = false;
             // 
             // gameQuestionForm
             // 
@@ -198,45 +201,46 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
-            Controls.Add(pictureBox1);
-            Controls.Add(button5);
-            Controls.Add(button1);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(button4);
-            Controls.Add(label5);
-            Controls.Add(button2);
-            Controls.Add(label6);
-            Controls.Add(pictureBox2);
-            Controls.Add(button3);
+            Controls.Add(timer);
+            Controls.Add(option3);
+            Controls.Add(option1);
+            Controls.Add(scoreBox);
+            Controls.Add(scoreLabel);
+            Controls.Add(questionCountBox);
+            Controls.Add(questionCountLabel);
+            Controls.Add(option4);
+            Controls.Add(timeLabel);
+            Controls.Add(option2);
+            Controls.Add(questionLabel);
+            Controls.Add(logo);
+            Controls.Add(Exit);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "gameQuestionForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            Load += gameQuestionForm_Load;
+            ((System.ComponentModel.ISupportInitialize)logo).EndInit();
+            ((System.ComponentModel.ISupportInitialize)timer).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private Button button3;
+        private Button Exit;
         private System.Windows.Forms.Timer timer1;
-        private PictureBox pictureBox2;
-        private Label label6;
-        private Button button2;
-        private Label label5;
-        private Button button4;
-        private Label label1;
-        private Label label2;
-        private Label label3;
-        private Label label4;
-        private Button button1;
-        private Button button5;
-        private PictureBox pictureBox1;
+        private PictureBox logo;
+        private Label questionLabel;
+        private Button option2;
+        private Label timeLabel;
+        private Button option4;
+        private Label questionCountLabel;
+        private Label questionCountBox;
+        private Label scoreLabel;
+        private Label scoreBox;
+        private Button option1;
+        private Button option3;
+        private PictureBox timer;
     }
 }

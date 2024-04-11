@@ -35,10 +35,10 @@ namespace TriviaGUI
                             // Process the key-value pair
                             switch (key)
                             {
-                                case "server_ip":
+                                case serverIpValue:
                                     serverIp = value;
                                     break;
-                                case "port":
+                                case portValue:
                                     port = int.Parse(value);
                                     break;
                                 default:

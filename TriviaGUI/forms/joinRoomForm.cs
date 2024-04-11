@@ -150,6 +150,7 @@ namespace TriviaGUI
                     {
                         MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+                    else
                     {
                         // Parse the JSON string
                         JsonDocument jsonDocument = JsonDocument.Parse(msg.Substring(msg.IndexOf('{')));

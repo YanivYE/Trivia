@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Text.Json;
+using TriviaGUI.messages;
 
 namespace TriviaGUI
 {
@@ -71,7 +72,9 @@ namespace TriviaGUI
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            gameQuestionForm game = new gameQuestionForm(answerTimeout.Text, numQuestions.Text, 0);
+            this.Hide();
+            game.Show();
         }
     }
 }

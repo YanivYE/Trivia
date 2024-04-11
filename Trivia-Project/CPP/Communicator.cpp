@@ -218,9 +218,9 @@ void Communicator::acceptClient()
 	std::cout << "Client accepted. Server and client can speak" << std::endl;
 
 	// the function that handle the conversation with the client
-	std::thread handleThread(&Communicator::handleNewClient, this, client_socket);
+	std::thread clientThread(&Communicator::handleNewClient, this, client_socket);
 
-	handleThread.detach();
+	clientThread.detach();
 }
 
 void Communicator::setUser(LoggedUser user)

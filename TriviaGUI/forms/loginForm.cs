@@ -11,7 +11,6 @@ namespace TriviaGUI
     public partial class loginForm : Form
     {
         const int LOGIN_CODE = 0b00000001;
-        const int CODE_BYTES = 1;
         const int LENGTH_BYTES = 4;
         ServerHandler server;
 
@@ -20,25 +19,17 @@ namespace TriviaGUI
             InitializeComponent();
             this.server = server;
         }
+        private void loginForm_Load(object sender, EventArgs e)
+        {
+
+        }
 
         private void loginForm_Close(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            mainForm main = new mainForm();
-            main.Show();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void Login_Click(object sender, EventArgs e)
         {
             Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
 
@@ -63,7 +54,7 @@ namespace TriviaGUI
             var loginMsg = new loginMessage
             {
                 username = usernameBox.Text,
-                password = passBox.Text
+                password = passwordBox.Text
             };
 
             string jsonString = JsonSerializer.Serialize(loginMsg);
@@ -77,15 +68,11 @@ namespace TriviaGUI
             return message;
         }
 
-        private void button3_Click_1(object sender, EventArgs e)
+        private void Back_Click(object sender, EventArgs e)
         {
             mainForm main = new mainForm();
             main.Show();
             this.Hide();
-        }
-        private void loginForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

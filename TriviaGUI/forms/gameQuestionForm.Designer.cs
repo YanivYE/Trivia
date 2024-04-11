@@ -71,7 +71,7 @@
             pictureBox2.BackColor = Color.Transparent;
             pictureBox2.BackgroundImage = (Image)resources.GetObject("pictureBox2.BackgroundImage");
             pictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox2.Location = new Point(278, 96);
+            pictureBox2.Location = new Point(275, 99);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(256, 159);
             pictureBox2.TabIndex = 4;
@@ -96,6 +96,7 @@
             button2.TabIndex = 31;
             button2.Text = "Option 2";
             button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // label5
             // 

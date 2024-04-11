@@ -33,7 +33,13 @@ namespace TriviaGUI
         {
             Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
 
-            Utillities.sendMessage(socket, serialize());
+            var loginMsg = new loginMessage
+            {
+                username = usernameBox.Text,
+                password = passwordBox.Text
+            };
+
+            Utillities.sendMessage(socket, Utillities.serialize(loginMsg, LOGIN_CODE));
 
             string msg = Utillities.recieveMessage(socket);
 
@@ -47,25 +53,6 @@ namespace TriviaGUI
                 lobby.Show();
                 this.Hide();
             }
-        }
-
-        string serialize()
-        {
-            var loginMsg = new loginMessage
-            {
-                username = usernameBox.Text,
-                password = passwordBox.Text
-            };
-
-            string jsonString = JsonSerializer.Serialize(loginMsg);
-
-            jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
-
-            string message = LOGIN_CODE.ToString("D8") +
-                Utillities.ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
-                Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
-
-            return message;
         }
 
         private void Back_Click(object sender, EventArgs e)

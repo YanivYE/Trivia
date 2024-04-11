@@ -1,14 +1,19 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.ApplicationServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace TriviaGUI
 {
     internal class Utillities
     {
+        const int LENGTH_BYTES = 4;
+
         public static string recieveMessage(Socket socket)
         {
             byte[] getMsg = new byte[2048]; // Buffer to store the received data
@@ -91,6 +96,19 @@ namespace TriviaGUI
             paddedString.Append('0', remainingBits);
 
             return paddedString.ToString() + binaryString.ToString();
+        }
+
+        public static string serialize<T>(T msg, int code)
+        {
+            string jsonString = JsonSerializer.Serialize(msg);
+
+            jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
+
+            string message = code.ToString("D8") +
+                Utillities.ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
+                Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
+
+            return message;
         }
     }
 }

@@ -29,41 +29,36 @@ namespace TriviaGUI
 
         private void lobbyForm_Load(object sender, EventArgs e)
         {
-
+            username.Text = user;
         }
 
-        private void lobbyForm_Load_1(object sender, EventArgs e)
+        private void username_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
+        private void CreateRoom_Click(object sender, EventArgs e)
         {
             createRoomForm createRoom = new createRoomForm(server, user);
             this.Hide();
             createRoom.Show();
         }
 
-        private void lobbyForm_Load_2(object sender, EventArgs e)
-        {
-            username.Text = user;
-        }
-
-        private void button3_Click(object sender, EventArgs e)
+        private void Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void Logout_Click(object sender, EventArgs e)
         {
             Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
 
-            Utillities.sendMessage(socket, serialize());
+            var logoutMsg = new logoutMessage
+            {
+                username = user
+            };
+
+            Utillities.sendMessage(socket, Utillities.serialize(logoutMsg, LOGOUT_CODE));
 
             string msg = Utillities.recieveMessage(socket);
 
@@ -79,32 +74,14 @@ namespace TriviaGUI
             }
         }
 
-        string serialize()
-        {
-            var logoutMsg = new logoutMessage
-            {
-                username = user
-            };
-
-            string jsonString = JsonSerializer.Serialize(logoutMsg);
-
-            jsonString = jsonString.Replace(":", ": ").Replace(",", ", ");
-
-            string message = LOGOUT_CODE.ToString("D8") +
-                Utillities.ConvertStringToBinary(jsonString.Length.ToString(), LENGTH_BYTES) +
-                Utillities.ConvertStringToBinary(jsonString, jsonString.Length);
-
-            return message;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void JoinRoom_Click(object sender, EventArgs e)
         {
             joinRoomForm joinRoom = new joinRoomForm(server);
             joinRoom.Show();
             this.Hide();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void Stats_Click(object sender, EventArgs e)
         {
             statisticsForm statistics = new statisticsForm(user, server);
             statistics.Show();

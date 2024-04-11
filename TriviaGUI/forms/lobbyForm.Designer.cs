@@ -30,12 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(lobbyForm));
             username = new Label();
-            label3 = new Label();
-            button3 = new Button();
-            button2 = new Button();
-            button1 = new Button();
-            button4 = new Button();
-            button5 = new Button();
+            welcome = new Label();
+            exit = new Button();
+            createRoom = new Button();
+            joinRoom = new Button();
+            stats = new Button();
+            logout = new Button();
             SuspendLayout();
             // 
             // username
@@ -48,80 +48,80 @@
             username.Size = new Size(59, 26);
             username.TabIndex = 47;
             username.Text = "test";
-            username.Click += label4_Click;
+            username.Click += username_Click;
             // 
-            // label3
+            // welcome
             // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Showcard Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(321, 42);
-            label3.Name = "label3";
-            label3.Size = new Size(95, 21);
-            label3.TabIndex = 46;
-            label3.Text = "Welcome ";
+            welcome.AutoSize = true;
+            welcome.BackColor = Color.Transparent;
+            welcome.Font = new Font("Showcard Gothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
+            welcome.Location = new Point(321, 42);
+            welcome.Name = "welcome";
+            welcome.Size = new Size(95, 21);
+            welcome.TabIndex = 46;
+            welcome.Text = "Welcome ";
             // 
-            // button3
+            // exit
             // 
-            button3.BackColor = Color.Transparent;
-            button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
-            button3.BackgroundImageLayout = ImageLayout.Stretch;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.ForeColor = SystemColors.ControlText;
-            button3.Location = new Point(23, 372);
-            button3.Name = "button3";
-            button3.Size = new Size(44, 44);
-            button3.TabIndex = 48;
-            button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click;
+            exit.BackColor = Color.Transparent;
+            exit.BackgroundImage = (Image)resources.GetObject("exit.BackgroundImage");
+            exit.BackgroundImageLayout = ImageLayout.Stretch;
+            exit.FlatStyle = FlatStyle.Flat;
+            exit.ForeColor = SystemColors.ControlText;
+            exit.Location = new Point(23, 372);
+            exit.Name = "exit";
+            exit.Size = new Size(44, 44);
+            exit.TabIndex = 48;
+            exit.UseVisualStyleBackColor = false;
+            exit.Click += Exit_Click;
             // 
-            // button2
+            // createRoom
             // 
-            button2.BackColor = Color.Gold;
-            button2.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
-            button2.Location = new Point(315, 173);
-            button2.Name = "button2";
-            button2.Size = new Size(187, 84);
-            button2.TabIndex = 49;
-            button2.Text = "Create Room";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += button2_Click;
+            createRoom.BackColor = Color.Gold;
+            createRoom.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
+            createRoom.Location = new Point(315, 173);
+            createRoom.Name = "createRoom";
+            createRoom.Size = new Size(187, 84);
+            createRoom.TabIndex = 49;
+            createRoom.Text = "Create Room";
+            createRoom.UseVisualStyleBackColor = false;
+            createRoom.Click += CreateRoom_Click;
             // 
-            // button1
+            // joinRoom
             // 
-            button1.BackColor = Color.Gold;
-            button1.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.Location = new Point(315, 83);
-            button1.Name = "button1";
-            button1.Size = new Size(187, 84);
-            button1.TabIndex = 50;
-            button1.Text = "Join Room";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            joinRoom.BackColor = Color.Gold;
+            joinRoom.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
+            joinRoom.Location = new Point(315, 83);
+            joinRoom.Name = "joinRoom";
+            joinRoom.Size = new Size(187, 84);
+            joinRoom.TabIndex = 50;
+            joinRoom.Text = "Join Room";
+            joinRoom.UseVisualStyleBackColor = false;
+            joinRoom.Click += JoinRoom_Click;
             // 
-            // button4
+            // stats
             // 
-            button4.BackColor = Color.Gold;
-            button4.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
-            button4.Location = new Point(315, 263);
-            button4.Name = "button4";
-            button4.Size = new Size(187, 84);
-            button4.TabIndex = 51;
-            button4.Text = "Statistics";
-            button4.UseVisualStyleBackColor = false;
-            button4.Click += button4_Click;
+            stats.BackColor = Color.Gold;
+            stats.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
+            stats.Location = new Point(315, 263);
+            stats.Name = "stats";
+            stats.Size = new Size(187, 84);
+            stats.TabIndex = 51;
+            stats.Text = "Statistics";
+            stats.UseVisualStyleBackColor = false;
+            stats.Click += Stats_Click;
             // 
-            // button5
+            // logout
             // 
-            button5.BackColor = Color.Firebrick;
-            button5.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
-            button5.Location = new Point(331, 356);
-            button5.Name = "button5";
-            button5.Size = new Size(143, 44);
-            button5.TabIndex = 52;
-            button5.Text = "Log Out";
-            button5.UseVisualStyleBackColor = false;
-            button5.Click += button5_Click;
+            logout.BackColor = Color.Firebrick;
+            logout.Font = new Font("Ravie", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
+            logout.Location = new Point(331, 356);
+            logout.Name = "logout";
+            logout.Size = new Size(143, 44);
+            logout.TabIndex = 52;
+            logout.Text = "Log Out";
+            logout.UseVisualStyleBackColor = false;
+            logout.Click += Logout_Click;
             // 
             // lobbyForm
             // 
@@ -130,20 +130,20 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
-            Controls.Add(button5);
-            Controls.Add(button4);
-            Controls.Add(button1);
-            Controls.Add(button2);
-            Controls.Add(button3);
+            Controls.Add(logout);
+            Controls.Add(stats);
+            Controls.Add(joinRoom);
+            Controls.Add(createRoom);
+            Controls.Add(exit);
             Controls.Add(username);
-            Controls.Add(label3);
+            Controls.Add(welcome);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "lobbyForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
-            Load += lobbyForm_Load_2;
+            Load += lobbyForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -151,11 +151,11 @@
         #endregion
 
         private Label username;
-        private Label label3;
-        private Button button3;
-        private Button button2;
-        private Button button1;
-        private Button button4;
-        private Button button5;
+        private Label welcome;
+        private Button exit;
+        private Button createRoom;
+        private Button joinRoom;
+        private Button stats;
+        private Button logout;
     }
 }

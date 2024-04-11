@@ -93,5 +93,10 @@ namespace TriviaGUI
                 lobby.Show();
             }
         }
+
+        private void createRoomForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace TriviaGUI
 
         public roomForm(string admin, ServerHandler server, createRoomMessage info)
         {
-            isAdmin = true;
+            this.isAdmin = true;
             InitializeComponent();
             this.admin = admin;
             this.serverHandler = server;

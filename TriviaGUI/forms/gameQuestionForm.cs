@@ -12,11 +12,11 @@ namespace TriviaGUI
 {
     public partial class gameQuestionForm : Form
     {
-        public gameQuestionForm(string answerTime, string numOfQuestions, int score)
+        public gameQuestionForm(string answerTime, string numOfQuestions, int questionIndex, int score)
         {
             InitializeComponent();
             timeBox.Text = answerTime;
-            questionCountBox.Text = numOfQuestions;
+            questionCountBox.Text = questionIndex.ToString() + '/' + numOfQuestions;
             scoreBox.Text = score.ToString();
         }
 

@@ -10,12 +10,15 @@ using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Text.Json;
 using TriviaGUI.messages;
+using Microsoft.VisualBasic.ApplicationServices;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using System.Xml.Linq;
 
 namespace TriviaGUI
 {
     public partial class roomForm : Form
     {
-        ServerHandler serverHandler;
+        ServerHandler server;
         string admin;
         createRoomMessage info;
         string id;
@@ -26,14 +29,14 @@ namespace TriviaGUI
             this.isAdmin = true;
             InitializeComponent();
             this.admin = admin;
-            this.serverHandler = server;
+            this.server = server;
             this.info = info;
         }
 
         public roomForm(string id, ServerHandler server, string roomNameINPUT, string admin, string maxNumberINPUT, string numQueestionsINPUT, string answerTimeoutINPUT)
         {
             InitializeComponent();
-            this.serverHandler = server;
+            this.server = server;
 
             roomName.Text = roomNameINPUT;
             adminBox.Text = admin;
@@ -67,10 +70,30 @@ namespace TriviaGUI
 
         private void StartGame_Click(object sender, EventArgs e)
         {
-            // TODO
-            gameQuestionForm game = new gameQuestionForm(answerTimeoutBox.Text, questionsNumBox.Text, 0);
-            this.Hide();
-            game.Show();
+            //Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
+
+            //startGameMsg = new startGameMessage
+            //{
+            //    roomName = name.Text,
+            //    maxUsers = numPlayers.Text,
+            //    questionCount = numQuestions.Text,
+            //    answerTimeout = time.Text
+            //};
+
+            //Utillities.sendMessage(socket, Utillities.serialize(createRoomMsg, CREATE_ROOM_CODE));
+
+            //string msg = Utillities.recieveMessage(socket);
+
+            //if (!msg.Contains(":15"))
+            //{
+            //    MessageBox.Show("Coldn't create room! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+            //else
+            //{
+            //    gameQuestionForm game = new gameQuestionForm(answerTimeoutBox.Text, questionsNumBox.Text, 1, 0);
+            //    this.Hide();
+            //    game.Show();
+            //}
         }
 
         private void closeRoom_Click(object sender, EventArgs e)

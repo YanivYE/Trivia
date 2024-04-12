@@ -35,7 +35,7 @@
             logo = new PictureBox();
             questionLabel = new Label();
             option2 = new Button();
-            timeLabel = new Label();
+            timeBox = new Label();
             option4 = new Button();
             questionCountLabel = new Label();
             questionCountBox = new Label();
@@ -98,15 +98,15 @@
             option2.UseVisualStyleBackColor = false;
             option2.Click += option2_Click;
             // 
-            // timeLabel
+            // timeBox
             // 
-            timeLabel.AutoSize = true;
-            timeLabel.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            timeLabel.Location = new Point(705, 99);
-            timeLabel.Name = "timeLabel";
-            timeLabel.Size = new Size(62, 31);
-            timeLabel.TabIndex = 34;
-            timeLabel.Text = "        ";
+            timeBox.AutoSize = true;
+            timeBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            timeBox.Location = new Point(705, 99);
+            timeBox.Name = "timeBox";
+            timeBox.Size = new Size(62, 31);
+            timeBox.TabIndex = 34;
+            timeBox.Text = "        ";
             // 
             // option4
             // 
@@ -209,7 +209,7 @@
             Controls.Add(questionCountBox);
             Controls.Add(questionCountLabel);
             Controls.Add(option4);
-            Controls.Add(timeLabel);
+            Controls.Add(timeBox);
             Controls.Add(option2);
             Controls.Add(questionLabel);
             Controls.Add(logo);
@@ -233,7 +233,7 @@
         private PictureBox logo;
         private Label questionLabel;
         private Button option2;
-        private Label timeLabel;
+        private Label timeBox;
         private Button option4;
         private Label questionCountLabel;
         private Label questionCountBox;

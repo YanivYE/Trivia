@@ -15,9 +15,9 @@ namespace TriviaGUI
         public gameQuestionForm(string answerTime, string numOfQuestions, int score)
         {
             InitializeComponent();
-            questionCountBox.Text = answerTime;
-            questionCountLabel.Text = numOfQuestions;
-
+            timeBox.Text = answerTime;
+            questionCountBox.Text = numOfQuestions;
+            scoreBox.Text = score.ToString();
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -30,7 +30,7 @@ namespace TriviaGUI
             Application.Exit();
         }
 
-        
+
 
         private void gameQuestionForm_Load(object sender, EventArgs e)
         {

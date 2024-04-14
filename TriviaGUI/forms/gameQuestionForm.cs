@@ -9,8 +9,8 @@ namespace TriviaGUI
         ServerHandler server;
         const int GAME_QUESTION_CODE = 0b00010000;
         string questionsNum = "";
-        string time = "";
-        int correctAnswer = 0;
+        int questionsIndex = 0;
+        string correctAnswer = "";
         Random random = new Random();
         List<int> availableAnswers = new List<int> { 1, 2, 3, 4 };
 
@@ -19,16 +19,9 @@ namespace TriviaGUI
             InitializeComponent();
             this.server = server;
             timeBox.Text = answerTime;
-            time = answerTime;
             questionsNum = numOfQuestions;
+            questionsIndex = questionIndex;
             questionCountBox.Text = questionIndex.ToString() + '/' + numOfQuestions;
-            scoreBox.Text = score.ToString();
-        }
-
-        public gameQuestionForm(int index, int score)
-        {
-            InitializeComponent();
-            questionCountBox.Text = index.ToString() + '/' + questionsNum;
             scoreBox.Text = score.ToString();
         }
 
@@ -67,14 +60,13 @@ namespace TriviaGUI
                 if (question != null)
                 {
                     questionLabel.Text = question.question;
+                    correctAnswer = question.answers[0];
                     option1.Text = getRandomAnswer(question.answers);
                     option2.Text = getRandomAnswer(question.answers);
                     option3.Text = getRandomAnswer(question.answers);
                     option4.Text = getRandomAnswer(question.answers);
                 }
-                //gameQuestionForm nextQquestion = new gameQuestionForm(0, 1);
-                //this.Hide();
-                //nextQquestion.Show();
+                
             }
         }
 
@@ -124,22 +116,42 @@ namespace TriviaGUI
 
         private void option1_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void option3_Click(object sender, EventArgs e)
-        {
-
+            if(option1.Text == correctAnswer)
+            {
+                gameQuestionForm nextQquestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
+                this.Hide();
+                nextQquestion.Show();
+            }
         }
 
         private void option2_Click(object sender, EventArgs e)
         {
+            if (option2.Text == correctAnswer)
+            {
+                gameQuestionForm nextQquestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
+                this.Hide();
+                nextQquestion.Show();
+            }
+        }
 
+        private void option3_Click(object sender, EventArgs e)
+        {
+            if (option3.Text == correctAnswer)
+            {
+                gameQuestionForm nextQquestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
+                this.Hide();
+                nextQquestion.Show();
+            }
         }
 
         private void option4_Click(object sender, EventArgs e)
         {
-
+            if (option4.Text == correctAnswer)
+            {
+                gameQuestionForm nextQquestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
+                this.Hide();
+                nextQquestion.Show();
+            }
         }
     }
 

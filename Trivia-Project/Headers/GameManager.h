@@ -13,11 +13,29 @@ class GameManager
 public:
 	Game createGame(Room room); // create new room
 	void deleteGame(int gameId); // delete room
-
 	IDataBase* getDataBase();
 
+	// get database manager instance
+	static GameManager& getInstance(IDataBase* database)
+	{
+		static GameManager instance(database);
+		return instance;
+	}
+
 private:
-	std::map<LoggedUser, GameData> getPlayers(Room room);
+	// ctor
+	GameManager(IDataBase* database)
+	{
+		this->m_database = database;
+	}
+
+	// dtor
+	~GameManager()
+	{
+		m_database->close();
+	}
+
+	std::map<LoggedUser, GameData> getPlayers(Room room, std::vector<Question> questions);
 	IDataBase* m_database;
 	std::vector<Game> m_games; 
 };

@@ -74,8 +74,6 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 			// get buffer string
 			string bufferString(result.response._bytes.begin(), result.response._bytes.end());
 
-			std::cout << "Sent message: " << bufferString << std::endl;
-
 			// send buffer string
 			send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
 		}

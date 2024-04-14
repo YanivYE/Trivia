@@ -95,7 +95,8 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)
 
 			if (returnCode == StartGame)
 			{
-				result.newHandler = nullptr;
+				Game game = this->m_handleFactory->getGameManager().createGame(this->m_room);
+				result.newHandler = this->m_handleFactory->createGameRequestHandler(user, game);
 			}
 			else
 			{

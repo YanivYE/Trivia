@@ -211,7 +211,7 @@ int QuestionsCallback(void* data, int argc, char** argv, char** azColName)
 {
 	std::vector<Question>* questions = static_cast<std::vector<Question>*>(data);
 	Question question;
-	std::vector<std::string> possibleAnswers;
+	std::vector<std::string> possibleAnswers(4);
 	for (int i = 0; i < argc; i++) {
 		if (std::string(azColName[i]) == "question") {
 			question.setQuestion(argv[i]);

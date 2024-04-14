@@ -37,7 +37,7 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 	{
 	case CreateRoom:
 		return createRoom(info);
-		break;
+		break;  
 	case GetRooms:
 		return getRooms(info);
 		break;

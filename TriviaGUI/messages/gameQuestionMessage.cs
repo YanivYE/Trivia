@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TriviaGUI.messages
 {
-    internal class startGameMessage
+    internal class gameQuestionMessage
     {
         [DataMember(Order = 1)]
         public int code { get; set; }

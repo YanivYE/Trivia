@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <map>
 
 #define CORRECT_ANSWER_ID 1
 
@@ -10,7 +11,7 @@ public:
 	Question();
 
 	std::string getQuestion();
-	std::vector<std::string> getPossibleAnswers();
+	std::map<unsigned int, std::string> getPossibleAnswers();
 	int getCorrectAnswerId();
 
 	void setQuestion(std::string question);

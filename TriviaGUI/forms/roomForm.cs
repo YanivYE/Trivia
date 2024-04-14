@@ -24,6 +24,8 @@ namespace TriviaGUI
         string id;
         bool isAdmin = false;
 
+        const int START_GAME_CODE = 0b00001011;
+
         public roomForm(string admin, ServerHandler server, createRoomMessage info)
         {
             this.isAdmin = true;
@@ -70,30 +72,27 @@ namespace TriviaGUI
 
         private void StartGame_Click(object sender, EventArgs e)
         {
-            //Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
+            Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
 
-            //startGameMsg = new startGameMessage
-            //{
-            //    roomName = name.Text,
-            //    maxUsers = numPlayers.Text,
-            //    questionCount = numQuestions.Text,
-            //    answerTimeout = time.Text
-            //};
+            var startGameMsg = new startGameMessage
+            {
+                code = START_GAME_CODE
+            };
 
-            //Utillities.sendMessage(socket, Utillities.serialize(createRoomMsg, CREATE_ROOM_CODE));
+            Utillities.sendMessage(socket, Utillities.serialize(startGameMsg, START_GAME_CODE));
 
-            //string msg = Utillities.recieveMessage(socket);
+            string msg = Utillities.recieveMessage(socket);
 
-            //if (!msg.Contains(":15"))
-            //{
-            //    MessageBox.Show("Coldn't create room! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-            //else
-            //{
-            //    gameQuestionForm game = new gameQuestionForm(answerTimeoutBox.Text, questionsNumBox.Text, 1, 0);
-            //    this.Hide();
-            //    game.Show();
-            //}
+            if (!msg.Contains(":11"))
+            {
+                MessageBox.Show("Coldn't create room! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                gameQuestionForm game = new gameQuestionForm(server, answerTimeoutBox.Text, questionsNumBox.Text, 1, 0);
+                this.Hide();
+                game.Show();
+            }
         }
 
         private void closeRoom_Click(object sender, EventArgs e)

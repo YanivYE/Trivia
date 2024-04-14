@@ -40,7 +40,7 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo info)
 
     try
     {
-        Question question = this->m_gameManager->createGame(*(this->m_handleFactory->getRoomManager().getRoom(this->m_game.getGameId()))).getQuestionForUser(this->m_user);
+        Question question = this->m_game.getQuestionForUser(this->m_user);
         if (question.getQuestion() != "")
         {
             result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
@@ -57,6 +57,8 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo info)
 
         GetQuestionResponse getQuestion;
         getQuestion._status = GetQuestion;
+        getQuestion._question = question.getQuestion();
+        getQuestion._answers = question.getPossibleAnswers();
 
         result.response = serializer.serializeResponse(getQuestion);
     }

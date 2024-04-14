@@ -51,7 +51,7 @@ private:
 		this->m_loginManager = &(LoginManager::getInstance(m_database));
 		this->m_statisticsManager = new StatisticsManager(m_database);
 		this->m_roomManager = new RoomManager();
-		this->m_gameManager = new GameManager();
+		this->m_gameManager = &(GameManager::getInstance(m_database));
 	}
 
 	// dtor

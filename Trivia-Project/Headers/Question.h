@@ -11,7 +11,7 @@ public:
 	Question();
 
 	std::string getQuestion();
-	std::map<unsigned int, std::string> getPossibleAnswers();
+	std::vector<std::string> getPossibleAnswers();
 	int getCorrectAnswerId();
 
 	void setQuestion(std::string question);

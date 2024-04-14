@@ -153,7 +153,7 @@ struct GetQuestionResponse
 {
 	unsigned int _status;
 	std::string _question;
-	std::map<unsigned int, std::string> _answers;
+	std::vector<std::string> _answers;
 } typedef GetQuestionResponse;
 
 struct SubmitAnswerResponse

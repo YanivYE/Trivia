@@ -10,6 +10,9 @@ namespace TriviaGUI
         const int GAME_QUESTION_CODE = 0b00010000;
         string questionsNum = "";
         string time = "";
+        int correctAnswer = 0;
+        Random random = new Random();
+        List<int> availableAnswers = new List<int> { 1, 2, 3, 4 };
 
         public gameQuestionForm(ServerHandler server, string answerTime, string numOfQuestions, int questionIndex, int score)
         {
@@ -50,9 +53,6 @@ namespace TriviaGUI
                 code = GAME_QUESTION_CODE,
             };
 
-            //221{ "Answers":[[1,"Michael Emerson"],[2,"Jim Caviezel"],[3,"Taraji P. Henson"],[4,"Kevin Chapman"]]
-            //    ,"question":"In the TV series &quot;Person of Interest&quot;, who plays the character &quot;Harold Finch&quot;?","status":16}
-
             Utillities.sendMessage(socket, Utillities.serialize(gameQuestionMsg, GAME_QUESTION_CODE));
 
             string msg = Utillities.recieveMessage(socket);
@@ -67,6 +67,10 @@ namespace TriviaGUI
                 if (question != null)
                 {
                     questionLabel.Text = question.question;
+                    option1.Text = getRandomAnswer(question.answers);
+                    option2.Text = getRandomAnswer(question.answers);
+                    option3.Text = getRandomAnswer(question.answers);
+                    option4.Text = getRandomAnswer(question.answers);
                 }
                 //gameQuestionForm nextQquestion = new gameQuestionForm(0, 1);
                 //this.Hide();
@@ -91,13 +95,13 @@ namespace TriviaGUI
                     // Copy data from jsonObject to parsedQuestion
                     parsedQuestion.question = jsonObject.question;
                     parsedQuestion.status = jsonObject.status;
-                    parsedQuestion.Answers = new List<List<string>>();
+                    parsedQuestion.answers = new List<string>();
 
                     // Copy each answer to the new Question object
-                    foreach (var answer in jsonObject.Answers)
+                    foreach (var answer in jsonObject.answers)
                     {
                         // Since Answer is a List<string>, add a new list containing the same elements
-                        parsedQuestion.Answers.Add(new List<string>(answer));
+                        parsedQuestion.answers.Add(new string(answer));
                     }
                 }
             }
@@ -108,6 +112,14 @@ namespace TriviaGUI
             }
 
             return parsedQuestion; // Return the fully populated Question object
+        }
+
+        private string getRandomAnswer(List<string> answers)
+        {
+            int randomAnswerIndex = random.Next(0, availableAnswers.Count);
+            int val = availableAnswers[randomAnswerIndex];
+            availableAnswers.RemoveAt(randomAnswerIndex);
+            return answers[val - 1];
         }
 
         private void option1_Click(object sender, EventArgs e)
@@ -133,7 +145,7 @@ namespace TriviaGUI
 
     public class Question
     {
-        public List<List<string>> Answers { get; set; }
+        public List<string> answers { get; set; }
         public string question { get; set; }
         public int status { get; set; }
     }

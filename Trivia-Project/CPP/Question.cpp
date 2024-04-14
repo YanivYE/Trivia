@@ -10,17 +10,9 @@ std::string Question::getQuestion()
     return this->m_question;
 }
 
-std::map<unsigned int, std::string> Question::getPossibleAnswers()
+std::vector<std::string> Question::getPossibleAnswers()
 {
-    unsigned int id = 1;
-    std::map<unsigned int, std::string> answersMap;
-
-    for (auto& answer : this->m_possibleAnswers)
-    {
-        answersMap[id++] = answer;
-    }
-
-    return answersMap;
+    return this->m_possibleAnswers;
 }
 
 int Question::getCorrectAnswerId()

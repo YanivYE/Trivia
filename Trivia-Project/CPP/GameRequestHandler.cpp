@@ -1,4 +1,4 @@
-#include "GameRequestHandler.h"
+#include "../Headers/GameRequestHandler.h"
 
 GameRequestHandler::GameRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Game game)
 {

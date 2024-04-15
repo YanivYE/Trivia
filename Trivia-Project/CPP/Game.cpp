@@ -1,10 +1,10 @@
-#include "Game.h"
+#include "../Headers/Game.h"
 
 Game::Game()
 {
 }
 
-Game::Game(std::vector<Question> questions, std::map<LoggedUser, GameData> players, int gameId)
+Game::Game(QuestionsList* questions, std::map<LoggedUser, GameData> players, int gameId)
 {
 	this->m_questions = questions;
 	this->m_players = players;
@@ -13,7 +13,15 @@ Game::Game(std::vector<Question> questions, std::map<LoggedUser, GameData> playe
 
 Question Game::getQuestionForUser(LoggedUser user)
 {
-	return this->m_players[user].currentQuestion;
+	Question currentQuestion = this->m_players[user].currentQuestion;
+	// set next question
+	this->m_questions->head = this->m_questions->head->next;
+	if (this->m_questions->head)
+	{
+		this->m_players[user].currentQuestion = this->m_questions->head->data;
+	}
+
+	return currentQuestion;
 }
 
 int Game::submitAnswer(LoggedUser user, int answerId)

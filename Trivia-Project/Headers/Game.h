@@ -15,14 +15,14 @@ class Game
 {
 public:
 	Game(); // empty ctor
-	Game(std::vector<Question> questions, std::map<LoggedUser, GameData> players, int gameId); // ctor for game
+	Game(QuestionsList* questions, std::map<LoggedUser, GameData> players, int gameId); // ctor for game
 
 	Question getQuestionForUser(LoggedUser user);
 	int submitAnswer(LoggedUser user, int answerId);
 	void removePlayer(LoggedUser user);
 	int getGameId();
 private:
-	std::vector<Question> m_questions; 
+	QuestionsList* m_questions;
 	std::map<LoggedUser, GameData> m_players;
 	int m_gameId;
 };

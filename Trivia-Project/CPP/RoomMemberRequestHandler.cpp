@@ -1,4 +1,4 @@
-#include "RoomMemberRequestHandler.h"
+#include "../Headers/RoomMemberRequestHandler.h"
 
 RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Room room)
 {

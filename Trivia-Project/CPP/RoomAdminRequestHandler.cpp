@@ -36,8 +36,8 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 	JsonResponsePacketSerializer serializer;
 	int returnCode = 0;
 
-    for (int i = 0; i < this->m_room.getAllUsers().size(); i++)
-    {
+	for (int i = 0; i < this->m_room.getAllUsers().size(); i++)
+	{
 		LoggedUser user(this->m_room.getAllUsers()[i]);
 
 		try
@@ -73,9 +73,10 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 
 			result.response = serializer.serializeResponse(errResponse);
 		}
-    }
+	}
 
 	return result;
+    
 }
 
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)

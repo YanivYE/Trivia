@@ -48,6 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPP\Communicator.cpp" />
+    <ClCompile Include="CPP\Game.cpp" />
+    <ClCompile Include="CPP\GameManager.cpp" />
+    <ClCompile Include="CPP\GameRequestHandler.cpp" />
     <ClCompile Include="CPP\JsonRequestPacketDeserializer.cpp" />
     <ClCompile Include="CPP\JsonResponsePacketSerializer.cpp" />
     <ClCompile Include="CPP\LoggedUser.cpp" />
@@ -59,16 +62,13 @@
     <ClCompile Include="CPP\Room.cpp" />
     <ClCompile Include="CPP\RoomAdminRequestHandler.cpp" />
     <ClCompile Include="CPP\RoomManager.cpp" />
+    <ClCompile Include="CPP\RoomMemberRequestHandler.cpp" />
     <ClCompile Include="CPP\Server.cpp" />
     <ClCompile Include="CPP\Source.cpp" />
     <ClCompile Include="CPP\sqlite3.c" />
     <ClCompile Include="CPP\SqliteDatabase.cpp" />
     <ClCompile Include="CPP\StatisticsManager.cpp" />
     <ClCompile Include="CPP\WSAInitializer.cpp" />
-    <ClCompile Include="Headers\Game.cpp" />
-    <ClCompile Include="Headers\GameManager.cpp" />
-    <ClCompile Include="Headers\GameRequestHandler.cpp" />
-    <ClCompile Include="Headers\RoomMemberRequestHandler.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

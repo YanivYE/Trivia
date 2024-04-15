@@ -207,9 +207,8 @@ void SqliteDatabase::createStatisticsTable()
 * azColName - array of strings that contains the names of the columns in the current row of the query result
 * Output: code 0
 */
-int QuestionsCallback(void* data, int argc, char** argv, char** azColName)
-{
-	std::vector<Question>* questions = static_cast<std::vector<Question>*>(data);
+int QuestionsCallback(void* data, int argc, char** argv, char** azColName) {
+	QuestionsList* questions = static_cast<QuestionsList*>(data);
 	Question question;
 	std::vector<std::string> possibleAnswers(4);
 	for (int i = 0; i < argc; i++) {
@@ -230,8 +229,9 @@ int QuestionsCallback(void* data, int argc, char** argv, char** azColName)
 		}
 	}
 	question.setPossibleAnswers(possibleAnswers);
-	// add question to list
-	questions->push_back(question);
+
+	// Add the question to the linked list
+	questions->add(question);
 
 	return 0;
 }
@@ -241,12 +241,12 @@ int QuestionsCallback(void* data, int argc, char** argv, char** azColName)
 * Input: amount - the amount of questions to get
 * Output: question list
 */
-std::vector<Question> SqliteDatabase::getQuestions(int amount)
+QuestionsList* SqliteDatabase::getQuestions(int amount)
 {
-	std::vector<Question> questions;
+	QuestionsList* questions = new QuestionsList();
 	std::string getQuestionsQuery = "SELECT * FROM questions LIMIT " + std::to_string(amount) + "; ";
 	// run the query with the questions callback function
-	executeQuery(getQuestionsQuery, QuestionsCallback, &questions);
+	executeQuery(getQuestionsQuery, QuestionsCallback, questions);
 	return questions;
 }
 

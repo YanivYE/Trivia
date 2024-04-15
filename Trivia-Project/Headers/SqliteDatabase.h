@@ -19,7 +19,7 @@ public:
 	int addNewUser(std::string username, std::string password, std::string mail) override; // add new user to db
 
 	// Statistics
-	std::vector<Question> getQuestions(int amount) override;
+	QuestionsList* getQuestions(int amount) override;
 	float getPlayerAverageAnswerTime(std::string username) override;
 	int getNumOfCorrectAnswers(std::string username) override;
 	int getNumOfTotalAnswers(std::string username) override;

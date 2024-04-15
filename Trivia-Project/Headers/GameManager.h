@@ -35,7 +35,7 @@ private:
 		m_database->close();
 	}
 
-	std::map<LoggedUser, GameData> getPlayers(Room room, std::vector<Question> questions);
+	std::map<LoggedUser, GameData> getPlayers(Room room, QuestionsList* questions);
 	IDataBase* m_database;
 	std::vector<Game> m_games; 
 };

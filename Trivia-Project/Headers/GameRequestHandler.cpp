@@ -97,7 +97,7 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 
     try
     {
-        returnCode = this->m_handleFactory->getGameManager().createGame(*(this->m_handleFactory->getRoomManager().getRoom(this->m_game.getGameId()))).submitAnswer(this->m_user, submitAnswerRequest._answerId);
+        returnCode = this->m_game.submitAnswer(this->m_user, submitAnswerRequest._answerId);
 
         if (returnCode == SubmitAnswer)
         {
@@ -110,6 +110,7 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 
         SubmitAnswerResponse submitAnswerResponse;
         submitAnswerResponse._status = returnCode;
+        submitAnswerResponse._correctAnswerId = 1;
         result.response = serializer.serializeResponse(submitAnswerResponse);
     }
     catch (std::exception& e)

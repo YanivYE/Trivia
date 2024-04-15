@@ -7,17 +7,24 @@ namespace TriviaGUI
     public partial class gameQuestionForm : Form
     {
         ServerHandler server;
+        Socket socket; 
         const int GAME_QUESTION_CODE = 0b00010000;
+        const int SUBMIT_ANSWER_CODE = 0b00001111;
         string questionsNum = "";
         int questionsIndex = 0;
         string correctAnswer = "";
         Random random = new Random();
         List<int> availableAnswers = new List<int> { 1, 2, 3, 4 };
+        int option1ID = 0;
+        int option2ID = 0;
+        int option3ID = 0;
+        int option4ID = 0;
 
         public gameQuestionForm(ServerHandler server, string answerTime, string numOfQuestions, int questionIndex, int score)
         {
             InitializeComponent();
             this.server = server;
+            this.socket = server.GetSocket();
             timeBox.Text = answerTime;
             questionsNum = numOfQuestions;
             questionsIndex = questionIndex;
@@ -39,8 +46,6 @@ namespace TriviaGUI
 
         private void gameQuestionForm_Load(object sender, EventArgs e)
         {
-            Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
-
             var gameQuestionMsg = new gameQuestionMessage
             {
                 code = GAME_QUESTION_CODE,
@@ -61,10 +66,14 @@ namespace TriviaGUI
                 {
                     questionLabel.Text = question.question;
                     correctAnswer = question.answers[0];
-                    option1.Text = getRandomAnswer(question.answers);
-                    option2.Text = getRandomAnswer(question.answers);
-                    option3.Text = getRandomAnswer(question.answers);
-                    option4.Text = getRandomAnswer(question.answers);
+                    option1ID = getRandomAnswerID();
+                    option2ID = getRandomAnswerID();
+                    option3ID = getRandomAnswerID();
+                    option4ID = getRandomAnswerID();
+                    option1.Text = question.answers[option1ID - 1];
+                    option2.Text = question.answers[option2ID - 1];
+                    option3.Text = question.answers[option3ID - 1];
+                    option4.Text = question.answers[option4ID - 1];
                 }
                 
             }
@@ -106,17 +115,25 @@ namespace TriviaGUI
             return parsedQuestion; // Return the fully populated Question object
         }
 
-        private string getRandomAnswer(List<string> answers)
+        private int getRandomAnswerID()
         {
             int randomAnswerIndex = random.Next(0, availableAnswers.Count);
             int val = availableAnswers[randomAnswerIndex];
             availableAnswers.RemoveAt(randomAnswerIndex);
-            return answers[val - 1];
+            return val;
         }
 
         private void option1_Click(object sender, EventArgs e)
         {
-            if(option1.Text == correctAnswer)
+            var submitAnswerMsg = new submitAnswer
+            {
+                ID = option1ID.ToString(),
+            };
+
+            Utillities.sendMessage(socket, Utillities.serialize(submitAnswerMsg, SUBMIT_ANSWER_CODE));
+
+            string msg = Utillities.recieveMessage(socket);
+            if (option1.Text == correctAnswer)
             {
                 gameQuestionForm nextQquestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
                 this.Hide();
@@ -153,6 +170,8 @@ namespace TriviaGUI
                 nextQquestion.Show();
             }
         }
+
+        
     }
 
     public class Question

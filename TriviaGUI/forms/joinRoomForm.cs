@@ -42,10 +42,10 @@ namespace TriviaGUI
 
         void sendUpdateMessage()
         {
+            Socket socket = server.GetSocket();
+
             while (!stop)
             {
-                Socket socket = server.GetSocket();
-
                 joinRoomMessage joinRoomMsg = new joinRoomMessage
                 {
                     roomId = roomID.Text

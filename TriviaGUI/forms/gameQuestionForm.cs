@@ -13,7 +13,7 @@ namespace TriviaGUI
         const int GAME_RESULT_CODE = 0b00001110;
         string questionsNum = "";
         int questionsIndex = 0;
-        Boolean lastQuestion = false;
+        bool lastQuestion = false;
         Random random = new Random();
         List<int> availableAnswers = new List<int> { 1, 2, 3, 4 };
         int option1ID = 0;

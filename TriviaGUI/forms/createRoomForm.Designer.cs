@@ -144,6 +144,7 @@
             BackArrow.Size = new Size(44, 44);
             BackArrow.TabIndex = 34;
             BackArrow.UseVisualStyleBackColor = false;
+            BackArrow.Click += BackArrow_Click_1;
             // 
             // createRoomForm
             // 

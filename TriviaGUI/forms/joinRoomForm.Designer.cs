@@ -49,7 +49,6 @@
             roomsListLabel.Size = new Size(276, 42);
             roomsListLabel.TabIndex = 5;
             roomsListLabel.Text = "ROOMS LIST:";
-            roomsListLabel.Click += roomList_Click;
             // 
             // roomList
             // 
@@ -85,6 +84,7 @@
             BackArrow.Size = new Size(44, 44);
             BackArrow.TabIndex = 33;
             BackArrow.UseVisualStyleBackColor = false;
+            BackArrow.Click += BackArrow_Click;
             // 
             // roomID
             // 

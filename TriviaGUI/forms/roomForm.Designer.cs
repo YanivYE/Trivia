@@ -38,7 +38,7 @@
             questionsNumBox = new Label();
             answerTimeoutBox = new Label();
             closeRoom = new Button();
-            roomList = new Label();
+            playersList = new Label();
             adminBox = new Label();
             adminLabel = new Label();
             roomName = new Label();
@@ -142,15 +142,15 @@
             closeRoom.UseVisualStyleBackColor = false;
             closeRoom.Click += closeRoom_Click;
             // 
-            // roomList
+            // playersList
             // 
-            roomList.AutoSize = true;
-            roomList.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            roomList.Location = new Point(133, 212);
-            roomList.Name = "roomList";
-            roomList.Size = new Size(536, 124);
-            roomList.TabIndex = 30;
-            roomList.Text = "        \r\n\r\n                                                                       \r\n                                                                                       ";
+            playersList.AutoSize = true;
+            playersList.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            playersList.Location = new Point(133, 212);
+            playersList.Name = "playersList";
+            playersList.Size = new Size(536, 124);
+            playersList.TabIndex = 30;
+            playersList.Text = "        \r\n\r\n                                                                       \r\n                                                                                       ";
             // 
             // adminBox
             // 
@@ -195,7 +195,7 @@
             Controls.Add(roomName);
             Controls.Add(adminLabel);
             Controls.Add(adminBox);
-            Controls.Add(roomList);
+            Controls.Add(playersList);
             Controls.Add(closeRoom);
             Controls.Add(answerTimeoutBox);
             Controls.Add(questionsNumBox);
@@ -228,7 +228,7 @@
         private Label questionsNumBox;
         private Label answerTimeoutBox;
         private Button closeRoom;
-        private Label roomList;
+        private Label playersList;
         private Label adminBox;
         private Label adminLabel;
         private Label roomName;

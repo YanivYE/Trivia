@@ -20,10 +20,12 @@ namespace TriviaGUI
         const int JOIN_ROOM_CODE = 0b00000110;
         string[] rooms;
         bool stop = false;
+        string user;
 
-        public joinRoomForm(ServerHandler server)
+        public joinRoomForm(ServerHandler server, string user)
         {
             this.server = server;
+            this.user = user;
             InitializeComponent();
         }
 
@@ -181,9 +183,11 @@ namespace TriviaGUI
             }
         }
 
-        private void roomList_Click(object sender, EventArgs e)
+        private void BackArrow_Click(object sender, EventArgs e)
         {
-
+            lobbyForm lobby = new lobbyForm(this.user, server);
+            lobby.Show();
+            this.Hide();
         }
     }
 }

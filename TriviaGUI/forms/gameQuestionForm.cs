@@ -10,6 +10,7 @@ namespace TriviaGUI
         Socket socket; 
         const int GAME_QUESTION_CODE = 0b00010000;
         const int SUBMIT_ANSWER_CODE = 0b00001111;
+        const int GAME_RESULT_CODE = 0b00001110;
         string questionsNum = "";
         int questionsIndex = 0;
         Boolean lastQuestion = false;
@@ -149,9 +150,13 @@ namespace TriviaGUI
                 {
                     if (!lastQuestion)
                     {
-                        gameQuestionForm nextQquestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
+                        gameQuestionForm nextQuestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
                         this.Hide();
-                        nextQquestion.Show();
+                        nextQuestion.Show();
+                    }
+                    else
+                    {
+                        GetGameResults();
                     }
                     
                 }
@@ -184,9 +189,13 @@ namespace TriviaGUI
                 {
                     if (!lastQuestion)
                     { 
-                        gameQuestionForm nextQquestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
+                        gameQuestionForm nextQuestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
                         this.Hide();
-                        nextQquestion.Show();
+                        nextQuestion.Show();
+                    }
+                    else
+                    {
+                        GetGameResults();
                     }
                 }
             }
@@ -218,9 +227,13 @@ namespace TriviaGUI
                 {
                     if (!lastQuestion)
                     {
-                        gameQuestionForm nextQquestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
+                        gameQuestionForm nextQuestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
                         this.Hide();
-                        nextQquestion.Show();
+                        nextQuestion.Show();
+                    }
+                    else
+                    {
+                        GetGameResults();
                     }
                 }
             }
@@ -252,16 +265,31 @@ namespace TriviaGUI
                 {
                     if (!lastQuestion)
                     {
-                        gameQuestionForm nextQquestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
+                        gameQuestionForm nextQuestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
                         this.Hide();
-                        nextQquestion.Show();
+                        nextQuestion.Show();
+                    }
+                    else
+                    {
+                        GetGameResults();
                     }
                 }
             }
         }
 
-        
+        private void GetGameResults()
+        {
+            var gameResultMsg = new gameResultsMessage
+            {
+                code = GAME_RESULT_CODE
+            };
+
+            Utillities.sendMessage(socket, Utillities.serialize(gameResultMsg, GAME_RESULT_CODE));
+
+            string msg1 = Utillities.recieveMessage(socket);
+        }
     }
+    
 
     public class Question
     {

@@ -74,7 +74,7 @@ namespace TriviaGUI
 
         private void JoinRoom_Click(object sender, EventArgs e)
         {
-            joinRoomForm joinRoom = new joinRoomForm(server);
+            joinRoomForm joinRoom = new joinRoomForm(server, user);
             joinRoom.Show();
             this.Hide();
         }

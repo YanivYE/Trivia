@@ -98,5 +98,12 @@ namespace TriviaGUI
         {
 
         }
+
+        private void BackArrow_Click_1(object sender, EventArgs e)
+        {
+            lobbyForm lobby = new lobbyForm(this.user, server);
+            lobby.Show();
+            this.Hide();
+        }
     }
 }

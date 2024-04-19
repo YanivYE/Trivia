@@ -20,9 +20,6 @@ namespace TriviaGUI
     public partial class roomForm : Form
     {
         ServerHandler server;
-        string admin;
-        createRoomMessage info;
-        string id;
         bool isAdmin = false;
         bool stop = false;
 
@@ -33,23 +30,19 @@ namespace TriviaGUI
         {
             this.isAdmin = true;
             InitializeComponent();
-            this.admin = admin;
             this.server = server;
-            this.info = info;
+            adminBox.Text = admin;
+            roomName.Text = info.roomName;
+            maxNumberBox.Text = info.maxUsers;
+            questionsNumBox.Text = info.questionCount;
+            answerTimeoutBox.Text = info.answerTimeout;
         }
 
-        public roomForm(string id, ServerHandler server, string roomNameINPUT, string admin, string maxNumberINPUT, string numQueestionsINPUT, string answerTimeoutINPUT)
+        public roomForm(ServerHandler server, string name)
         {
             InitializeComponent();
             this.server = server;
-
-            roomName.Text = roomNameINPUT;
-            adminBox.Text = admin;
-            maxNumberBox.Text = maxNumberINPUT;
-            questionsNumBox.Text = numQueestionsINPUT;
-            answerTimeoutBox.Text = answerTimeoutINPUT;
-
-            this.id = id;
+            roomName.Text = name;
         }
 
 
@@ -60,14 +53,6 @@ namespace TriviaGUI
 
         private void roomForm_Load(object sender, EventArgs e)
         {
-            if (isAdmin)
-            {
-                roomName.Text = info.roomName;
-                adminBox.Text = admin;
-                maxNumberBox.Text = info.maxUsers;
-                questionsNumBox.Text = info.questionCount;
-                answerTimeoutBox.Text = info.answerTimeout;
-            }
             Thread refreshThread = new Thread(sendUpdateMessage);
             refreshThread.Start();
         }
@@ -95,6 +80,10 @@ namespace TriviaGUI
                     roomUpdatedState state = parseRoomStateResponse(msg);
                     if(state != null)
                     {
+                        adminBox.Text = state.players[0];
+                        maxNumberBox.Text = state.maxPlayers.ToString();
+                        questionsNumBox.Text = state.AnswerCount.ToString();
+                        answerTimeoutBox.Text = state.answerTimeOut.ToString();
                         UpdatePlayersList(state.players);
                         if(state.hasGameBegun)
                         {
@@ -206,6 +195,7 @@ namespace TriviaGUI
     {
         public int AnswerCount { get; set; }
         public int answerTimeOut { get; set; }
+        public int maxPlayers { get; set; }
         public bool hasGameBegun { get; set; }
         public List<string> players { get; set; }
         public int status { get; set; }

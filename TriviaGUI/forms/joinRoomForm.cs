@@ -141,24 +141,13 @@ namespace TriviaGUI
                     }
                     else
                     {
-                        // Parse the JSON string
                         JsonDocument jsonDocument = JsonDocument.Parse(msg.Substring(msg.IndexOf('{')));
 
                         // Access individual properties using the root element
                         JsonElement rootElement = jsonDocument.RootElement;
-                        int answerTimeout = rootElement.GetProperty("answerTimeOut").GetInt32();
-                        bool hasGameBegun = rootElement.GetProperty("hasGameBegun").GetBoolean();
-                        int maxPlayers = rootElement.GetProperty("maxPlayers").GetInt32();
-                        int numQuestions = rootElement.GetProperty("numQuestions").GetInt32();
-                        string players = rootElement.GetProperty("players").GetString();
-                        string roomName = rootElement.GetProperty("roomName").GetString();
-                        int status = rootElement.GetProperty("status").GetInt32();
 
-                        int startIndex = players.IndexOf('"') + 1;
-                        int endIndex = players.IndexOf(',', startIndex);
-                        string admin = players.Substring(startIndex, endIndex - startIndex);
-
-                        roomForm lobby = new roomForm(roomID.Text, server, roomName, admin, maxPlayers.ToString(), numQuestions.ToString(), answerTimeout.ToString());
+                        string roomName = rootElement.GetProperty("name").GetString();
+                        roomForm lobby = new roomForm(server, roomName);
                         this.Hide();
                         lobby.Show();
                     }

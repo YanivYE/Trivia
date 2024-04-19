@@ -97,6 +97,7 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo info)
 			getRoomState._hasGameBegun = returnCode == inGame ? true : false;
 			getRoomState._answerTimeout = this->m_room.getRoomData().timePerQuestion;
 			getRoomState._questionCount = this->m_room.getRoomData().numOfQuestionsInGame;
+			getRoomState._maxPlayers = this->m_room.getRoomData().maxPlayers;
 			getRoomState._players = this->m_room.getAllUsers();
 
 			result.response = serializer.serializeResponse(getRoomState);

@@ -41,7 +41,7 @@ struct ErrorResponse
 struct JoinRoomResponse
 {
 	unsigned int _status;
-	Room* _room;
+	std::string _name;
 }typedef JoinRoomResponse;
 
 struct CreateRoomResponse
@@ -137,6 +137,7 @@ struct GetRoomStateResponse
 	std::vector<std::string> _players;
 	unsigned int _questionCount;
 	unsigned int _answerTimeout;
+	unsigned int _maxPlayers;
 } typedef GetRoomStateResponse;
 
 struct LeaveRoomResponse

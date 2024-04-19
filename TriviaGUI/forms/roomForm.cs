@@ -80,10 +80,9 @@ namespace TriviaGUI
                     roomUpdatedState state = parseRoomStateResponse(msg);
                     if(state != null)
                     {
-                        adminBox.Text = state.players[0];
-                        maxNumberBox.Text = state.maxPlayers.ToString();
-                        questionsNumBox.Text = state.AnswerCount.ToString();
-                        answerTimeoutBox.Text = state.answerTimeOut.ToString();
+                        UpdateRoomState(state);
+
+
                         UpdatePlayersList(state.players);
                         if(state.hasGameBegun)
                         {
@@ -119,6 +118,7 @@ namespace TriviaGUI
                     state.status = Convert.ToInt32(jsonObject["status"]);
                     state.hasGameBegun = Convert.ToBoolean(jsonObject["hasGameBegun"]);
                     state.AnswerCount = Convert.ToInt32(jsonObject["AnswerCount"]);
+                    state.maxPlayers = Convert.ToInt32(jsonObject["maxPlayers"]);
 
                     // Split the players string and add them to the players list
                     // Split the players string and add non-empty players to the players list
@@ -154,6 +154,46 @@ namespace TriviaGUI
             {
                 playersList.Text = result.ToString();
             }
+        }
+
+        void UpdateQuestionsNumBox(int value)
+        {
+            UpdateControl(questionsNumBox, value.ToString());
+        }
+
+        void UpdateAnswerTimeoutBox(int value)
+        {
+            UpdateControl(answerTimeoutBox, value.ToString());
+        }
+
+        void UpdateMaxNumberBox(int value)
+        {
+            UpdateControl(maxNumberBox, value.ToString());
+        }
+
+        void UpdateAdminBox(string value)
+        {
+            UpdateControl(adminBox, value);
+        }
+
+        void UpdateControl(Control control, string value)
+        {
+            if (control.InvokeRequired)
+            {
+                control.Invoke((MethodInvoker)(() => control.Text = value));
+            }
+            else
+            {
+                control.Text = value;
+            }
+        }
+
+        void UpdateRoomState(roomUpdatedState state)
+        {
+            UpdateQuestionsNumBox(state.AnswerCount);
+            UpdateAnswerTimeoutBox(state.answerTimeOut);
+            UpdateMaxNumberBox(state.maxPlayers);
+            UpdateAdminBox(state.players[0]); // Assuming the first player is the admin
         }
 
 
@@ -195,8 +235,9 @@ namespace TriviaGUI
     {
         public int AnswerCount { get; set; }
         public int answerTimeOut { get; set; }
-        public int maxPlayers { get; set; }
         public bool hasGameBegun { get; set; }
+        public int maxPlayers { get; set; }
+
         public List<string> players { get; set; }
         public int status { get; set; }
     }

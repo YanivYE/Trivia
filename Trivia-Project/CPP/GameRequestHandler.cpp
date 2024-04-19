@@ -176,7 +176,7 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo info)
     try
     {
         // try to remove user
-        returnCode = this->m_handleFactory->getRoomManager().getRoom(this->m_game.getGameId())->removeUser(this->m_user);
+        returnCode = this->m_handleFactory->getRoomManager().getRoom(this->m_game.getGameId()).removeUser(this->m_user);
 
         if (returnCode == LeaveRoom)
         {

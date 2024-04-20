@@ -71,7 +71,7 @@ namespace TriviaGUI
                 Utillities.sendMessage(socket, Utillities.serialize(roomStateMsg, ROOM_STATE_CODE));
                 string msg = Utillities.recieveMessage(socket);
 
-                if (!msg.Contains(":2}"))
+                if (!msg.Contains(":2}") && !msg.Contains(":1}"))
                 {
                     MessageBox.Show("Couldn't refresh room list. please restart client.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -86,9 +86,7 @@ namespace TriviaGUI
                         UpdatePlayersList(state.players);
                         if(state.hasGameBegun)
                         {
-                            gameQuestionForm game = new gameQuestionForm(server, answerTimeoutBox.Text, questionsNumBox.Text, 1, 0);
-                            this.Hide();
-                            game.Show();
+                            CreateGameForm(server, answerTimeoutBox.Text, questionsNumBox.Text);
                         }
                     }
 
@@ -98,6 +96,23 @@ namespace TriviaGUI
                 Thread.Sleep(3000);
             }
         }
+
+        delegate void CreateGameFormDelegate(ServerHandler server, string answerTimeout, string questionsNum);
+
+        private void CreateGameForm(ServerHandler server, string answerTimeout, string questionsNum)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new CreateGameFormDelegate(CreateGameForm), server, answerTimeout, questionsNum);
+            }
+            else
+            {
+                gameQuestionForm game = new gameQuestionForm(server, answerTimeout, questionsNum, 1, 0);
+                game.Show();
+            }
+        }
+
+        // Call this method from the UI thread to start the game
 
         private roomUpdatedState parseRoomStateResponse(string response)
         {

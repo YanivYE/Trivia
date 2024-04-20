@@ -50,12 +50,12 @@ StatisticsManager& RequestHandlerFactory::getStatisticsManager()
     return *m_statisticsManager;
 }
 
-RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser user, Room& room)
+RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser user, Room* room)
 {
     return new RoomAdminRequestHandler(this, user, room);
 }
 
-RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUser user, Room& room)
+RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUser user, Room* room)
 {
     return new RoomMemberRequestHandler(this, user, room);
 }

@@ -206,7 +206,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 		// get playser from room 
 		GetPlayersInRoomResponse getPlayersInRoomResponse;
 
-		getPlayersInRoomResponse._players = this->m_handlerFactory->getRoomManager().getRoom(getPlayersInRoomRequest._roomId).getAllUsers();
+		getPlayersInRoomResponse._players = this->m_handlerFactory->getRoomManager().getRoom(getPlayersInRoomRequest._roomId)->getAllUsers();
 		
 		if (returnCode == Success)
 		{
@@ -333,8 +333,8 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 		// join rooms 
 		JoinRoomResponse joinRoomResponse;
 
-		joinRoomResponse._status = this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest._roomId).addUser(m_user);
-		joinRoomResponse._name = this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest._roomId).getRoomData().name;
+		joinRoomResponse._status = this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest._roomId)->addUser(m_user);
+		joinRoomResponse._name = this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest._roomId)->getRoomData().name;
 
 		if (joinRoomResponse._status == Success)
 		{
@@ -346,7 +346,7 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 			return returnError(result, "Error! Couldn't join room! maybe full :0", serializer);
 		}
 
-		joinRoomResponse._name = this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest._roomId).getRoomData().name;
+		joinRoomResponse._name = this->m_handlerFactory->getRoomManager().getRoom(joinRoomRequest._roomId)->getRoomData().name;
 		result.response = serializer.serializeResponse(joinRoomResponse);
 	}
 	catch (std::exception& e)

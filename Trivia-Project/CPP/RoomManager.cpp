@@ -79,14 +79,14 @@ std::vector<RoomData> RoomManager::getRooms()
 * Input: id - the id of the room to return
 * Output: the room by id
 */
-Room& RoomManager::getRoom(int ID)
+Room* RoomManager::getRoom(int ID)
 {
 	for (auto i : m_rooms)   
 	{
 		// check if id is this
 		if (i.first == ID)
 		{
-			return *i.second;
+			return i.second;
 		}
 	}
 }

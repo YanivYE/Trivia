@@ -35,8 +35,8 @@ public:
 	StatisticsManager& getStatisticsManager(); // return stats manager
 	GameManager& getGameManager(); // return game manager
 
-	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser user, Room& room);
-	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser user, Room& room);
+	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser user, Room* room);
+	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser user, Room* room);
 	void setCommunicator(Communicator* communicator);
 	void setUser(LoggedUser user);
 

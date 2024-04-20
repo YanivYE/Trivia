@@ -11,7 +11,7 @@
 class GameManager
 {
 public:
-	Game createGame(Room room); // create new room
+	Game createGame(Room* room); // create new room
 	void deleteGame(int gameId); // delete room
 	IDataBase* getDataBase();
 
@@ -35,7 +35,7 @@ private:
 		m_database->close();
 	}
 
-	std::map<LoggedUser, GameData> getPlayers(Room room, QuestionsList* questions);
+	std::map<LoggedUser, GameData> getPlayers(Room* room, QuestionsList* questions);
 	IDataBase* m_database;
 	std::vector<Game> m_games; 
 };

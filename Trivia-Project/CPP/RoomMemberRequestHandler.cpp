@@ -1,6 +1,6 @@
 #include "../Headers/RoomMemberRequestHandler.h"
 
-RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Room& room)
+RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Room* room)
 {
     this->m_handleFactory = requestHandlerFactory;
     this->m_roomManager = &requestHandlerFactory->getRoomManager();
@@ -33,14 +33,14 @@ RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo info)
 	JsonResponsePacketSerializer serializer;
 	int returnCode = 0;
 
-	for (int i = 0; i < this->m_room.getAllUsers().size(); i++)
+	for (int i = 0; i < this->m_room->getAllUsers().size(); i++)
 	{
-		LoggedUser user(this->m_room.getAllUsers()[i]);
+		LoggedUser user(this->m_room->getAllUsers()[i]);
 
 		try
 		{
 			// try to remove user
-			returnCode = this->m_room.removeUser(user);
+			returnCode = this->m_room->removeUser(user);
 
 			if (returnCode == LeaveRoom)
 			{
@@ -81,24 +81,24 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo info)
 	JsonResponsePacketSerializer serializer;
 	int returnCode = 0;
 
-	for (int i = 0; i < this->m_room.getAllUsers().size(); i++)
+	for (int i = 0; i < this->m_room->getAllUsers().size(); i++)
 	{
-		LoggedUser user(this->m_room.getAllUsers()[i]);
+		LoggedUser user(this->m_room->getAllUsers()[i]);
 
 		try
 		{
 			// try to get room state
-			returnCode = this->m_roomManager->getRoomState(this->m_room.getId());
+			returnCode = this->m_roomManager->getRoomState(this->m_room->getId());
 
 			result.newHandler = this->m_handleFactory->createRoomMemberRequestHandler(user, this->m_room);;
 
 			GetRoomStateResponse getRoomState;
 			getRoomState._status = returnCode;
 			getRoomState._hasGameBegun = returnCode == inGame ? true : false;
-			getRoomState._answerTimeout = this->m_room.getRoomData().timePerQuestion;
-			getRoomState._questionCount = this->m_room.getRoomData().numOfQuestionsInGame;
-			getRoomState._maxPlayers = this->m_room.getRoomData().maxPlayers;
-			getRoomState._players = this->m_room.getAllUsers();
+			getRoomState._answerTimeout = this->m_room->getRoomData().timePerQuestion;
+			getRoomState._questionCount = this->m_room->getRoomData().numOfQuestionsInGame;
+			getRoomState._maxPlayers = this->m_room->getRoomData().maxPlayers;
+			getRoomState._players = this->m_room->getAllUsers();
 
 			result.response = serializer.serializeResponse(getRoomState);
 		}

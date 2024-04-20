@@ -1,17 +1,17 @@
 #include "../Headers/GameManager.h"
 
-Game GameManager::createGame(Room room)
+Game GameManager::createGame(Room* room)
 {
-    QuestionsList* questions = this->m_database->getQuestions(room.getRoomData().numOfQuestionsInGame);
-    Game game(questions, getPlayers(room, questions), room.getId());
+    QuestionsList* questions = this->m_database->getQuestions(room->getRoomData().numOfQuestionsInGame);
+    Game game(questions, getPlayers(room, questions), room->getId());
     this->m_games.push_back(game);
     return game;
 }
 
-std::map<LoggedUser, GameData> GameManager::getPlayers(Room room, QuestionsList* questions)
+std::map<LoggedUser, GameData> GameManager::getPlayers(Room* room, QuestionsList* questions)
 {
     std::map<LoggedUser, GameData> players;
-    std::vector<std::string> userNames = room.getAllUsers();
+    std::vector<std::string> userNames = room->getAllUsers();
     for (const std::string& name : userNames)
     {
         LoggedUser user(name);

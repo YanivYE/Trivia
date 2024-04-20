@@ -74,43 +74,56 @@ namespace TriviaGUI
                 if (!msg.Contains(":2}") && !msg.Contains(":1}"))
                 {
                     MessageBox.Show("Couldn't refresh room list. please restart client.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
                 }
                 else
                 {
                     roomUpdatedState state = parseRoomStateResponse(msg);
-                    if(state != null)
+                    if (state != null)
                     {
-                        UpdateRoomState(state);
-
-
-                        UpdatePlayersList(state.players);
-                        if(state.hasGameBegun)
+                        // Invoke the method to update UI elements
+                        UpdateUI(state);
+                        if (state.hasGameBegun)
                         {
-                            CreateGameForm(server, answerTimeoutBox.Text, questionsNumBox.Text);
+                            stop = true;
+                            // Invoke the method to start the game
+                            StartGameScreen();
                         }
                     }
-
-
                 }
 
                 Thread.Sleep(3000);
             }
         }
 
-        delegate void CreateGameFormDelegate(ServerHandler server, string answerTimeout, string questionsNum);
-
-        private void CreateGameForm(ServerHandler server, string answerTimeout, string questionsNum)
+        void UpdateUI(roomUpdatedState state)
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new CreateGameFormDelegate(CreateGameForm), server, answerTimeout, questionsNum);
+                this.Invoke((MethodInvoker)(() => UpdateUI(state)));
             }
             else
             {
-                gameQuestionForm game = new gameQuestionForm(server, answerTimeout, questionsNum, 1, 0);
+                // Update UI elements here
+                UpdateRoomState(state);
+                UpdatePlayersList(state.players);
+            }
+        }
+
+        void StartGameScreen()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke((MethodInvoker)StartGameScreen);
+            }
+            else
+            {
+                gameQuestionForm game = new gameQuestionForm(server, answerTimeoutBox.Text, questionsNumBox.Text, 1, 0);
+                this.Hide();
                 game.Show();
             }
         }
+
 
         // Call this method from the UI thread to start the game
 

@@ -1,6 +1,6 @@
 #include "..\Headers\RoomAdminRequestHandler.h"
 
-RoomAdminRequestHandler::RoomAdminRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Room room)
+RoomAdminRequestHandler::RoomAdminRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Room& room)
 {
     this->m_handleFactory = requestHandlerFactory;
     this->m_roomManager = &requestHandlerFactory->getRoomManager();

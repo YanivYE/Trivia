@@ -1,6 +1,6 @@
 #include "../Headers/RoomMemberRequestHandler.h"
 
-RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Room room)
+RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Room& room)
 {
     this->m_handleFactory = requestHandlerFactory;
     this->m_roomManager = &requestHandlerFactory->getRoomManager();

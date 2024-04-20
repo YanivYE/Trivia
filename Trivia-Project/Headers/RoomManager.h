@@ -15,5 +15,5 @@ public:
 	std::vector<RoomData> getRooms(); // return all rooms
 	Room& getRoom(int ID); // get room object by id
 private:
-	std::map<int, Room> m_rooms; // map of rooms and id
+	std::map<int, Room*> m_rooms; // map of rooms and id
 };

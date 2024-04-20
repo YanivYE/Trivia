@@ -11,15 +11,15 @@ int RoomManager::createRoom(LoggedUser user, RoomData& roomData)
 	try
 	{
 		// craete room
-		Room room(roomData.name, roomData.maxPlayers, roomData.timePerQuestion, roomData.numOfQuestionsInGame);
+		Room* room = new Room(roomData.name, roomData.maxPlayers, roomData.timePerQuestion, roomData.numOfQuestionsInGame);
 
 		// add user to new room
-		room.addUser(user);
+		room->addUser(user);
 		
 		// add new room to map
-		m_rooms.insert(std::pair<int, Room>(room.getId(), room));
+		m_rooms.insert(std::pair<int, Room*>(room->getId(), room));
 
-		roomData = room.getRoomData();
+		roomData = room->getRoomData();
 
 		return Success;
 	}
@@ -36,7 +36,7 @@ int RoomManager::createRoom(LoggedUser user, RoomData& roomData)
 */
 void RoomManager::deleteRoom(int ID)
 {
-	m_rooms[ID].stopGame();
+	m_rooms[ID]->stopGame();
 	m_rooms.erase(ID);
 }
 
@@ -47,7 +47,7 @@ void RoomManager::deleteRoom(int ID)
 */
 unsigned int RoomManager::getRoomState(int ID)
 {
-	if (this->m_rooms[ID].gameStarted())
+	if (this->m_rooms[ID]->gameStarted())
 	{
 		return inGame;
 	}
@@ -68,7 +68,7 @@ std::vector<RoomData> RoomManager::getRooms()
 	for (auto i : m_rooms)
 	{
 		// add room to vector
-		rooms.push_back(i.second.getRoomData());
+		rooms.push_back(i.second->getRoomData());
 	}
 
 	return rooms;
@@ -86,7 +86,7 @@ Room& RoomManager::getRoom(int ID)
 		// check if id is this
 		if (i.first == ID)
 		{
-			return i.second;
+			return *i.second;
 		}
 	}
 }

@@ -20,7 +20,6 @@ namespace TriviaGUI
     public partial class roomForm : Form
     {
         ServerHandler server;
-        bool isAdmin = false;
         bool stop = false;
 
         const int START_GAME_CODE = 0b00001011;
@@ -28,7 +27,6 @@ namespace TriviaGUI
 
         public roomForm(string admin, ServerHandler server, createRoomMessage info)
         {
-            this.isAdmin = true;
             InitializeComponent();
             this.server = server;
             adminBox.Text = admin;
@@ -81,47 +79,32 @@ namespace TriviaGUI
                     roomUpdatedState state = parseRoomStateResponse(msg);
                     if (state != null)
                     {
-                        // Invoke the method to update UI elements
-                        UpdateUI(state);
+                        UpdateRoomState(state);
+                        UpdatePlayersList(state.players);
                         if (state.hasGameBegun)
                         {
                             stop = true;
-                            // Invoke the method to start the game
-                            StartGameScreen();
                         }
                     }
                 }
 
                 Thread.Sleep(3000);
             }
-        }
+            StartGameScreen();
 
-        void UpdateUI(roomUpdatedState state)
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke((MethodInvoker)(() => UpdateUI(state)));
-            }
-            else
-            {
-                // Update UI elements here
-                UpdateRoomState(state);
-                UpdatePlayersList(state.players);
-            }
         }
 
         void StartGameScreen()
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.Invoke((MethodInvoker)StartGameScreen);
+                Invoke(new MethodInvoker(StartGameScreen));
+                return;
             }
-            else
-            {
-                gameQuestionForm game = new gameQuestionForm(server, answerTimeoutBox.Text, questionsNumBox.Text, 1, 0);
-                this.Hide();
-                game.Show();
-            }
+
+            gameQuestionForm game = new gameQuestionForm(server, answerTimeoutBox.Text, questionsNumBox.Text, 1, 0);
+            this.Hide();
+            game.Show();
         }
 
 

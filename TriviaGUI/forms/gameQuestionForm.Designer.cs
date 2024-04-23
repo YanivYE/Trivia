@@ -43,9 +43,9 @@
             scoreBox = new Label();
             option1 = new Button();
             option3 = new Button();
-            timer = new PictureBox();
+            timerPic = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)timer).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)timerPic).BeginInit();
             SuspendLayout();
             // 
             // Exit
@@ -185,14 +185,14 @@
             // 
             // timer
             // 
-            timer.BackColor = Color.Transparent;
-            timer.BackgroundImage = (Image)resources.GetObject("timer.BackgroundImage");
-            timer.BackgroundImageLayout = ImageLayout.Stretch;
-            timer.Location = new Point(707, 42);
-            timer.Name = "timer";
-            timer.Size = new Size(59, 54);
-            timer.TabIndex = 48;
-            timer.TabStop = false;
+            timerPic.BackColor = Color.Transparent;
+            timerPic.BackgroundImage = (Image)resources.GetObject("timer.BackgroundImage");
+            timerPic.BackgroundImageLayout = ImageLayout.Stretch;
+            timerPic.Location = new Point(707, 42);
+            timerPic.Name = "timer";
+            timerPic.Size = new Size(59, 54);
+            timerPic.TabIndex = 48;
+            timerPic.TabStop = false;
             // 
             // gameQuestionForm
             // 
@@ -201,7 +201,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
-            Controls.Add(timer);
+            Controls.Add(timerPic);
             Controls.Add(option3);
             Controls.Add(option1);
             Controls.Add(scoreBox);
@@ -222,7 +222,7 @@
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
             Load += gameQuestionForm_Load;
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
-            ((System.ComponentModel.ISupportInitialize)timer).EndInit();
+            ((System.ComponentModel.ISupportInitialize)timerPic).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -241,6 +241,6 @@
         private Label scoreBox;
         private Button option1;
         private Button option3;
-        private PictureBox timer;
+        private PictureBox timerPic;
     }
 }

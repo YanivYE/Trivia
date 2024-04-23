@@ -42,7 +42,7 @@ int Room::addUser(LoggedUser user)
 {
 	try
 	{
-		if (this->m_users->size() <= this->m_metadata->maxPlayers && std::find(this->m_users->begin(), this->m_users->end(), user) == this->m_users->end())
+		if (this->m_users->size() < this->m_metadata->maxPlayers && std::find(this->m_users->begin(), this->m_users->end(), user) == this->m_users->end())
 		{
 			// sdd user to users vector
 			this->m_users->push_back(user);

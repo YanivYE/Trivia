@@ -1,6 +1,8 @@
 ﻿using System.Net.Sockets;
 using TriviaGUI.messages;
 using Newtonsoft.Json;
+using System;
+using System.Windows.Forms;
 
 namespace TriviaGUI
 {
@@ -13,7 +15,10 @@ namespace TriviaGUI
         const int GAME_RESULT_CODE = 0b00001110;
         string questionsNum = "";
         int questionsIndex = 0;
+        string answerTimeHolder;
         bool lastQuestion = false;
+        int countdownSeconds;
+        private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         Random random = new Random();
         List<int> availableAnswers = new List<int> { 1, 2, 3, 4 };
         int option1ID = 0;
@@ -26,7 +31,10 @@ namespace TriviaGUI
             InitializeComponent();
             this.server = server;
             this.socket = server.GetSocket();
-            timeBox.Text = answerTime;
+            answerTimeHolder = answerTime;
+            countdownSeconds = int.Parse(answerTime);
+            timer.Interval = 1000; // 1 second
+            timer.Tick += timer_Tick;
             questionsNum = numOfQuestions;
             questionsIndex = questionIndex;
             questionCountBox.Text = questionIndex.ToString() + '/' + numOfQuestions;
@@ -36,7 +44,15 @@ namespace TriviaGUI
 
         private void timer_Tick(object sender, EventArgs e)
         {
+            timeBox.Text = countdownSeconds.ToString();
+            countdownSeconds--;
 
+            if (countdownSeconds < 0)
+            {
+                // Stop the timer
+                timer.Stop();
+                // Move to the next page
+            }
         }
 
         private void Exit_Click(object sender, EventArgs e)
@@ -48,6 +64,7 @@ namespace TriviaGUI
 
         private void gameQuestionForm_Load(object sender, EventArgs e)
         {
+            timer.Start();
             var gameQuestionMsg = new gameQuestionMessage
             {
                 code = GAME_QUESTION_CODE,
@@ -150,7 +167,7 @@ namespace TriviaGUI
                 {
                     if (!lastQuestion)
                     {
-                        gameQuestionForm nextQuestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
+                        gameQuestionForm nextQuestion = new gameQuestionForm(server, answerTimeHolder, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
                         this.Hide();
                         nextQuestion.Show();
                     }
@@ -189,7 +206,7 @@ namespace TriviaGUI
                 {
                     if (!lastQuestion)
                     { 
-                        gameQuestionForm nextQuestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
+                        gameQuestionForm nextQuestion = new gameQuestionForm(server, answerTimeHolder, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
                         this.Hide();
                         nextQuestion.Show();
                     }
@@ -227,7 +244,7 @@ namespace TriviaGUI
                 {
                     if (!lastQuestion)
                     {
-                        gameQuestionForm nextQuestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
+                        gameQuestionForm nextQuestion = new gameQuestionForm(server, answerTimeHolder, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
                         this.Hide();
                         nextQuestion.Show();
                     }
@@ -265,7 +282,7 @@ namespace TriviaGUI
                 {
                     if (!lastQuestion)
                     {
-                        gameQuestionForm nextQuestion = new gameQuestionForm(server, timeBox.Text, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
+                        gameQuestionForm nextQuestion = new gameQuestionForm(server, answerTimeHolder, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
                         this.Hide();
                         nextQuestion.Show();
                     }

@@ -24,17 +24,17 @@ private:
 };
 
 // Define a node in the linked list
-struct Node {
+struct QuestionNode {
 	Question data;
-	Node* next;
+	QuestionNode* next;
 
-	Node(const Question& q) : data(q), next(nullptr) {}
+	QuestionNode(const Question& q) : data(q), next(nullptr) {}
 };
 
 // Define the linked list
 class QuestionsList {
 public:
-	Node* head;
+	QuestionNode* head;
 
 	QuestionsList();
 	~QuestionsList();

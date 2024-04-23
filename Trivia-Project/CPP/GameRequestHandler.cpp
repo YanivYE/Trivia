@@ -40,27 +40,25 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo info)
 
     try
     {
-        Question question = this->m_game.getQuestionForUser(this->m_user);
-        if (question.getQuestion() != "")
-        {
-            result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
-        }
-        else
-        {
-            result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
+        Question question = this->m_game.getQuestionForUser(this->m_user)->data;
+        result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
 
+        if (question.getQuestion() == "")
+        {
             ErrorResponse errResponse;
             errResponse._data = "Error! Couldn't get question!";
 
             result.response = serializer.serializeResponse(errResponse);
         }
+        else
+        {
+            GetQuestionResponse getQuestion;
+            getQuestion._status = GetQuestion;
+            getQuestion._question = question.getQuestion();
+            getQuestion._answers = question.getPossibleAnswers();
 
-        GetQuestionResponse getQuestion;
-        getQuestion._status = GetQuestion;
-        getQuestion._question = question.getQuestion();
-        getQuestion._answers = question.getPossibleAnswers();
-
-        result.response = serializer.serializeResponse(getQuestion);
+            result.response = serializer.serializeResponse(getQuestion);
+        }
     }
     catch (std::exception& e)
     {
@@ -99,14 +97,7 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
     {
         returnCode = this->m_game.submitAnswer(this->m_user, submitAnswerRequest._answerId);
 
-        if (returnCode == SubmitAnswer)
-        {
-            result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
-        }
-        else
-        {
-            result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
-        }
+        result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
 
         SubmitAnswerResponse submitAnswerResponse;
         submitAnswerResponse._status = returnCode;
@@ -138,21 +129,20 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
         if (!results.empty())
         {
             result.newHandler = this->m_handleFactory->createMenuRequestHandlers(this->m_user);
+            GetGameResultsResponse getGameResults;
+            getGameResults._status = returnCode;
+
+            result.response = serializer.serializeResponse(getGameResults);
         }
         else
         {
             result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
 
             ErrorResponse errResponse;
-            errResponse._data = "Error! Couldn't remove user from room!";
+            errResponse._data = "Error! Couldn't get game results!";
 
             result.response = serializer.serializeResponse(errResponse);
         }
-
-        GetGameResultsResponse getGameResults;
-        getGameResults._status = returnCode;
-
-        result.response = serializer.serializeResponse(getGameResults);
     }
     catch (std::exception& e)
     {
@@ -181,6 +171,10 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo info)
         if (returnCode == LeaveRoom)
         {
             result.newHandler = this->m_handleFactory->createMenuRequestHandlers(this->m_user);
+            LeaveGameResponse leaveGame;
+            leaveGame._status = returnCode;
+
+            result.response = serializer.serializeResponse(leaveGame);
         }
         else
         {
@@ -191,11 +185,6 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo info)
 
             result.response = serializer.serializeResponse(errResponse);
         }
-
-        LeaveGameResponse leaveGame;
-        leaveGame._status = returnCode;
-
-        result.response = serializer.serializeResponse(leaveGame);
     }
     catch (std::exception& e)
     {

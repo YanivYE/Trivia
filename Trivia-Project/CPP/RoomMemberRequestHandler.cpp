@@ -90,8 +90,6 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo info)
 			// try to get room state
 			returnCode = this->m_roomManager->getRoomState(this->m_room->getId());
 
-			result.newHandler = this->m_handleFactory->createRoomMemberRequestHandler(user, this->m_room);;
-
 			GetRoomStateResponse getRoomState;
 			getRoomState._status = returnCode;
 			getRoomState._hasGameBegun = returnCode == inGame ? true : false;
@@ -99,6 +97,15 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo info)
 			getRoomState._questionCount = this->m_room->getRoomData().numOfQuestionsInGame;
 			getRoomState._maxPlayers = this->m_room->getRoomData().maxPlayers;
 			getRoomState._players = this->m_room->getAllUsers();
+
+			if (getRoomState._hasGameBegun)
+			{
+				result.newHandler = this->m_handleFactory->createGameRequestHandler(user, this->m_handleFactory->getGameManager().createGame(this->m_room));
+			}
+			else
+			{
+				result.newHandler = this->m_handleFactory->createRoomMemberRequestHandler(user, this->m_room);
+			}
 
 			result.response = serializer.serializeResponse(getRoomState);
 		}

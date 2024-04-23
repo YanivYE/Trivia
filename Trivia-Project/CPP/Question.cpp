@@ -29,9 +29,9 @@ QuestionsList::QuestionsList() : head(nullptr) {}
 
 // LinkedList destructor
 QuestionsList::~QuestionsList() {
-    Node* current = head;
+    QuestionNode* current = head;
     while (current != nullptr) {
-        Node* next = current->next;
+        QuestionNode* next = current->next;
         delete current;
         current = next;
     }
@@ -39,12 +39,12 @@ QuestionsList::~QuestionsList() {
 
 // Method to add a question at the end of the list
 void QuestionsList::add(const Question& question) {
-    Node* newNode = new Node(question);
+    QuestionNode* newNode = new QuestionNode(question);
     if (!head) {
         head = newNode;
     }
     else {
-        Node* current = head;
+        QuestionNode* current = head;
         while (current->next) {
             current = current->next;
         }

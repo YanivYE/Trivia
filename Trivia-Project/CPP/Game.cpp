@@ -11,23 +11,19 @@ Game::Game(QuestionsList* questions, std::map<LoggedUser, GameData> players, int
 	this->m_gameId = gameId;
 }
 
-Question Game::getQuestionForUser(LoggedUser user)
+QuestionNode* Game::getQuestionForUser(LoggedUser user)
 {
-	Question currentQuestion = this->m_players[user].currentQuestion;
-	// set next question
-	this->m_questions->head = this->m_questions->head->next;
-	if (this->m_questions->head)
-	{
-		this->m_players[user].currentQuestion = this->m_questions->head->data;
-	}
+	QuestionNode* currentQuestion = this->m_players[user].currentQuestion;
+	
+	this->m_players[user].currentQuestion = this->m_players[user].currentQuestion->next;
 
 	return currentQuestion;
 }
 
 int Game::submitAnswer(LoggedUser user, int answerId)
 {
-	Question currQuestion = this->m_players[user].currentQuestion;
-	if (currQuestion.getCorrectAnswerId() == answerId)
+	QuestionNode* currQuestion = this->m_players[user].currentQuestion;
+	if (currQuestion->data.getCorrectAnswerId() == answerId)
 	{
 		this->m_players[user].correctAnswerCount += 1;
 	}

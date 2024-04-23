@@ -84,13 +84,13 @@ namespace TriviaGUI
                         if (state.hasGameBegun)
                         {
                             stop = true;
+                            StartGameScreen();
                         }
                     }
                 }
 
                 Thread.Sleep(3000);
             }
-            StartGameScreen();
 
         }
 

@@ -5,7 +5,7 @@
 
 struct GameData
 {
-	Question currentQuestion;
+	QuestionNode* currentQuestion;
 	unsigned int correctAnswerCount;
 	unsigned int wrongAnswerCount;
 	float averageAnswerTime;
@@ -17,7 +17,7 @@ public:
 	Game(); // empty ctor
 	Game(QuestionsList* questions, std::map<LoggedUser, GameData> players, int gameId); // ctor for game
 
-	Question getQuestionForUser(LoggedUser user);
+	QuestionNode* getQuestionForUser(LoggedUser user);
 	int submitAnswer(LoggedUser user, int answerId);
 	void removePlayer(LoggedUser user);
 	int getGameId();

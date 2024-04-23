@@ -21,6 +21,7 @@ namespace TriviaGUI
     {
         ServerHandler server;
         bool stop = false;
+        bool isAdmin;
 
         const int START_GAME_CODE = 0b00001011;
         const int ROOM_STATE_CODE = 0b00001100;
@@ -29,6 +30,7 @@ namespace TriviaGUI
         {
             InitializeComponent();
             this.server = server;
+            this.isAdmin = true;
             adminBox.Text = admin;
             roomName.Text = info.roomName;
             maxNumberBox.Text = info.maxUsers;
@@ -40,6 +42,7 @@ namespace TriviaGUI
         {
             InitializeComponent();
             this.server = server;
+            this.isAdmin = false;
             roomName.Text = name;
         }
 
@@ -210,29 +213,32 @@ namespace TriviaGUI
 
         private void StartGame_Click(object sender, EventArgs e)
         {
-            Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
-
-            stop = true;
-
-            var startGameMsg = new startGameMessage
+            if(this.isAdmin)
             {
-                code = START_GAME_CODE
-            };
+                Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
 
-            Utillities.sendMessage(socket, Utillities.serialize(startGameMsg, START_GAME_CODE));
+                stop = true;
 
-            string msg = Utillities.recieveMessage(socket);
+                var startGameMsg = new startGameMessage
+                {
+                    code = START_GAME_CODE
+                };
 
-            if (!msg.Contains(":11"))
-            {
-                MessageBox.Show("Coldn't create room! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                stop = false;
-            }
-            else
-            {
-                gameQuestionForm game = new gameQuestionForm(server, answerTimeoutBox.Text, questionsNumBox.Text, 1, 0);
-                this.Hide();
-                game.Show();
+                Utillities.sendMessage(socket, Utillities.serialize(startGameMsg, START_GAME_CODE));
+
+                string msg = Utillities.recieveMessage(socket);
+
+                if (!msg.Contains(":11"))
+                {
+                    MessageBox.Show("Coldn't create room! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    stop = false;
+                }
+                else
+                {
+                    gameQuestionForm game = new gameQuestionForm(server, answerTimeoutBox.Text, questionsNumBox.Text, 1, 0);
+                    this.Hide();
+                    game.Show();
+                }
             }
         }
 

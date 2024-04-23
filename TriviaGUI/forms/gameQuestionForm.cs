@@ -24,6 +24,7 @@ namespace TriviaGUI
         Button[] buttonsArray;
         Dictionary<Button, int> buttons;
         Button pressedButton = null;
+        int answerPressTime;
 
 
 
@@ -157,6 +158,7 @@ namespace TriviaGUI
         private void optionCLick(int id)
         {
             disableAllButtons();
+            answerPressTime = countdownSeconds;
             pressedButton = buttonsArray[id - 1];
         }
 
@@ -212,12 +214,12 @@ namespace TriviaGUI
 
             // add score update
 
-            int score = int.Parse(scoreBox.Text);
-            score += isCorrectAnswer ? 1000 : 0;
+            int currentScore = int.Parse(scoreBox.Text);
+            currentScore += isCorrectAnswer ? calculateScore() : 0;
 
             if (!lastQuestion)
             {
-                gameQuestionForm nextQuestion = new gameQuestionForm(server, answerTimeHolder, questionsNum, questionsIndex + 1, score);
+                gameQuestionForm nextQuestion = new gameQuestionForm(server, answerTimeHolder, questionsNum, questionsIndex + 1, currentScore);
                 this.Hide();
                 nextQuestion.Show();
             }
@@ -225,6 +227,11 @@ namespace TriviaGUI
             {
                 GetGameResults();
             }
+        }
+
+        int calculateScore()
+        {
+            return answerPressTime * 100;
         }
 
         private Dictionary<Button, int> initButtonsDict(List<string> answers)

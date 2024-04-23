@@ -92,7 +92,7 @@ namespace TriviaGUI
                     }
                 }
 
-                Thread.Sleep(3000);
+                Thread.Sleep(1000);
             }
 
         }

@@ -9,7 +9,7 @@ namespace TriviaGUI
     public partial class gameQuestionForm : Form
     {
         ServerHandler server;
-        Socket socket; 
+        Socket socket;
         const int GAME_QUESTION_CODE = 0b00010000;
         const int SUBMIT_ANSWER_CODE = 0b00001111;
         const int GAME_RESULT_CODE = 0b00001110;
@@ -21,10 +21,11 @@ namespace TriviaGUI
         private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         Random random = new Random();
         List<int> availableAnswers = new List<int> { 1, 2, 3, 4 };
-        int option1ID = 0;
-        int option2ID = 0;
-        int option3ID = 0;
-        int option4ID = 0;
+        Button[] buttonsArray;
+        Dictionary<Button, int> buttons;
+        Button pressedButton = null;
+
+
 
         public gameQuestionForm(ServerHandler server, string answerTime, string numOfQuestions, int questionIndex, int score)
         {
@@ -40,6 +41,7 @@ namespace TriviaGUI
             questionCountBox.Text = questionIndex.ToString() + '/' + numOfQuestions;
             lastQuestion = questionIndex == int.Parse(numOfQuestions) ? true : false;
             scoreBox.Text = score.ToString();
+
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -51,7 +53,9 @@ namespace TriviaGUI
             {
                 // Stop the timer
                 timer.Stop();
+                checkSubmitedAnswer();
                 // Move to the next page
+
             }
         }
 
@@ -65,6 +69,8 @@ namespace TriviaGUI
         private void gameQuestionForm_Load(object sender, EventArgs e)
         {
             timer.Start();
+            this.buttonsArray = new Button[] { option1, option2, option3, option4 };
+            
             var gameQuestionMsg = new gameQuestionMessage
             {
                 code = GAME_QUESTION_CODE,
@@ -84,16 +90,9 @@ namespace TriviaGUI
                 if (question != null)
                 {
                     questionLabel.Text = question.question;
-                    option1ID = getRandomAnswerID();
-                    option2ID = getRandomAnswerID();
-                    option3ID = getRandomAnswerID();
-                    option4ID = getRandomAnswerID();
-                    option1.Text = question.answers[option1ID - 1];
-                    option2.Text = question.answers[option2ID - 1];
-                    option3.Text = question.answers[option3ID - 1];
-                    option4.Text = question.answers[option4ID - 1];
+                    this.buttons = initButtonsDict(question.answers);
                 }
-                
+
             }
         }
 
@@ -133,6 +132,113 @@ namespace TriviaGUI
             return parsedQuestion; // Return the fully populated Question object
         }
 
+        
+
+        private void option1_Click(object sender, EventArgs e)
+        {
+            optionCLick(1);
+        }
+
+        private void option2_Click(object sender, EventArgs e)
+        {
+            optionCLick(2);
+        }
+
+        private void option3_Click(object sender, EventArgs e)
+        {
+            optionCLick(3);
+        }
+
+        private void option4_Click(object sender, EventArgs e)
+        {
+            optionCLick(4);
+        }
+
+        private void optionCLick(int id)
+        {
+            disableAllButtons();
+            pressedButton = buttonsArray[id - 1];
+        }
+
+        void checkSubmitedAnswer()
+        {
+            if (pressedButton != null)
+            {
+                var submitAnswerMsg = new submitAnswer
+                {
+                    ID = buttons[pressedButton].ToString(),
+                };
+
+                Utillities.sendMessage(socket, Utillities.serialize(submitAnswerMsg, SUBMIT_ANSWER_CODE));
+
+                string msg = Utillities.recieveMessage(socket);
+
+                if (!msg.Contains(":15"))
+                {
+                    MessageBox.Show("Coldn't submit answer! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    int startIndex = msg.IndexOf('{');
+                    string jsonString = msg.Substring(startIndex);
+
+                    // Deserialize the JSON string to an object
+                    CorrectAnswer correctAnswer = JsonConvert.DeserializeObject<CorrectAnswer>(jsonString);
+
+
+                    if (buttons[pressedButton] == correctAnswer.ID)
+                    {
+                        pressedButton.BackColor = Color.Green;
+                        preccceedGame(true);
+                    }
+                    else
+                    {
+                        pressedButton.BackColor = Color.Red;
+                        preccceedGame(false);
+                    }
+                }
+            }
+            else
+            {
+                // run out of time
+                disableAllButtons();
+                preccceedGame(false);
+            }
+        }
+
+        async void preccceedGame(bool isCorrectAnswer)
+        {
+            await Task.Delay(2000);
+
+            // add score update
+
+            int score = int.Parse(scoreBox.Text);
+            score += isCorrectAnswer ? 1000 : 0;
+
+            if (!lastQuestion)
+            {
+                gameQuestionForm nextQuestion = new gameQuestionForm(server, answerTimeHolder, questionsNum, questionsIndex + 1, score);
+                this.Hide();
+                nextQuestion.Show();
+            }
+            else
+            {
+                GetGameResults();
+            }
+        }
+
+        private Dictionary<Button, int> initButtonsDict(List<string> answers)
+        {
+            Dictionary<Button, int> buttons = new Dictionary<Button, int>();
+            foreach (Button button in buttonsArray)
+            {
+                int randomID = getRandomAnswerID();
+                buttons.Add(button, randomID);
+                button.Text = answers[randomID - 1];
+            }
+            return buttons;
+        }
+
         private int getRandomAnswerID()
         {
             int randomAnswerIndex = random.Next(0, availableAnswers.Count);
@@ -141,156 +247,12 @@ namespace TriviaGUI
             return val;
         }
 
-        private void option1_Click(object sender, EventArgs e)
+        private void disableAllButtons()
         {
-            var submitAnswerMsg = new submitAnswer
+            foreach(Button button in buttonsArray)
             {
-                ID = option1ID.ToString(),
-            };
-
-            Utillities.sendMessage(socket, Utillities.serialize(submitAnswerMsg, SUBMIT_ANSWER_CODE));
-
-            string msg = Utillities.recieveMessage(socket);
-
-            if (!msg.Contains(":15"))
-            {
-                MessageBox.Show("Coldn't submit answer! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                int startIndex = msg.IndexOf('{');
-                string jsonString = msg.Substring(startIndex);
-
-                // Deserialize the JSON string to an object
-                CorrectAnswer correctAnswer = JsonConvert.DeserializeObject<CorrectAnswer>(jsonString);
-                if(option1ID == correctAnswer.ID)
-                {
-                    if (!lastQuestion)
-                    {
-                        gameQuestionForm nextQuestion = new gameQuestionForm(server, answerTimeHolder, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
-                        this.Hide();
-                        nextQuestion.Show();
-                    }
-                    else
-                    {
-                        GetGameResults();
-                    }
-                    
-                }
-            }
-        }
-
-        private void option2_Click(object sender, EventArgs e)
-        {
-            var submitAnswerMsg = new submitAnswer
-            {
-                ID = option2ID.ToString(),
-            };
-
-            Utillities.sendMessage(socket, Utillities.serialize(submitAnswerMsg, SUBMIT_ANSWER_CODE));
-
-            string msg = Utillities.recieveMessage(socket);
-
-            if (!msg.Contains(":15"))
-            {
-                MessageBox.Show("Coldn't submit answer! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                int startIndex = msg.IndexOf('{');
-                string jsonString = msg.Substring(startIndex);
-
-                // Deserialize the JSON string to an object
-                CorrectAnswer correctAnswer = JsonConvert.DeserializeObject<CorrectAnswer>(jsonString);
-                if (option2ID == correctAnswer.ID)
-                {
-                    if (!lastQuestion)
-                    { 
-                        gameQuestionForm nextQuestion = new gameQuestionForm(server, answerTimeHolder, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
-                        this.Hide();
-                        nextQuestion.Show();
-                    }
-                    else
-                    {
-                        GetGameResults();
-                    }
-                }
-            }
-        }
-
-        private void option3_Click(object sender, EventArgs e)
-        {
-            var submitAnswerMsg = new submitAnswer
-            {
-                ID = option3ID.ToString(),
-            };
-
-            Utillities.sendMessage(socket, Utillities.serialize(submitAnswerMsg, SUBMIT_ANSWER_CODE));
-
-            string msg = Utillities.recieveMessage(socket);
-
-            if (!msg.Contains(":15"))
-            {
-                MessageBox.Show("Coldn't submit answer! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                int startIndex = msg.IndexOf('{');
-                string jsonString = msg.Substring(startIndex);
-
-                // Deserialize the JSON string to an object
-                CorrectAnswer correctAnswer = JsonConvert.DeserializeObject<CorrectAnswer>(jsonString);
-                if (option3ID == correctAnswer.ID)
-                {
-                    if (!lastQuestion)
-                    {
-                        gameQuestionForm nextQuestion = new gameQuestionForm(server, answerTimeHolder, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
-                        this.Hide();
-                        nextQuestion.Show();
-                    }
-                    else
-                    {
-                        GetGameResults();
-                    }
-                }
-            }
-        }
-
-        private void option4_Click(object sender, EventArgs e)
-        {
-            var submitAnswerMsg = new submitAnswer
-            {
-                ID = option4ID.ToString(),
-            };
-
-            Utillities.sendMessage(socket, Utillities.serialize(submitAnswerMsg, SUBMIT_ANSWER_CODE));
-
-            string msg = Utillities.recieveMessage(socket);
-
-            if (!msg.Contains(":15"))
-            {
-                MessageBox.Show("Coldn't submit answer! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                int startIndex = msg.IndexOf('{');
-                string jsonString = msg.Substring(startIndex);
-
-                // Deserialize the JSON string to an object
-                CorrectAnswer correctAnswer = JsonConvert.DeserializeObject<CorrectAnswer>(jsonString);
-                if (option4ID == correctAnswer.ID)
-                {
-                    if (!lastQuestion)
-                    {
-                        gameQuestionForm nextQuestion = new gameQuestionForm(server, answerTimeHolder, questionsNum, questionsIndex + 1, int.Parse(scoreBox.Text) + 1000);
-                        this.Hide();
-                        nextQuestion.Show();
-                    }
-                    else
-                    {
-                        GetGameResults();
-                    }
-                }
+                button.BackColor = SystemColors.ControlDarkDark;
+                button.Enabled = false;
             }
         }
 
@@ -306,7 +268,7 @@ namespace TriviaGUI
             string msg1 = Utillities.recieveMessage(socket);
         }
     }
-    
+
 
     public class Question
     {

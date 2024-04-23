@@ -174,7 +174,7 @@
             // 
             // option3
             // 
-            option3.BackColor = Color.Orange;
+            option3.BackColor = Color.Goldenrod;
             option3.Location = new Point(126, 330);
             option3.Name = "option3";
             option3.Size = new Size(270, 72);
@@ -183,13 +183,13 @@
             option3.UseVisualStyleBackColor = false;
             option3.Click += option3_Click;
             // 
-            // timer
+            // timerPic
             // 
             timerPic.BackColor = Color.Transparent;
-            timerPic.BackgroundImage = (Image)resources.GetObject("timer.BackgroundImage");
+            timerPic.BackgroundImage = (Image)resources.GetObject("timerPic.BackgroundImage");
             timerPic.BackgroundImageLayout = ImageLayout.Stretch;
             timerPic.Location = new Point(707, 42);
-            timerPic.Name = "timer";
+            timerPic.Name = "timerPic";
             timerPic.Size = new Size(59, 54);
             timerPic.TabIndex = 48;
             timerPic.TabStop = false;

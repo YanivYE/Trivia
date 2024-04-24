@@ -22,6 +22,7 @@ public:
 	CreateRoomRequest deserializeCreateRoomRequest(Buffer buffer); // deserailize create room request
 
 	SubmitAnswerRequest deserializeSubmitAnswerRequest(Buffer buffer); // deserailize submit answer request
+	GameResultRequest deserializeGameResultRequest(Buffer buffer);
 private:
 	nlohmann::json convertBytesToJson(const std::vector<unsigned char>& bytes); // convert bytes vector to json
 	std::string binaryToAscii(const std::vector<unsigned char>& bytes); // convert bytes to ascii

@@ -6,8 +6,7 @@
 struct GameData
 {
 	QuestionNode* currentQuestion;
-	unsigned int correctAnswerCount;
-	unsigned int wrongAnswerCount;
+	unsigned int score;
 	float averageAnswerTime;
 } typedef GameData;
 

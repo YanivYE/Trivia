@@ -225,7 +225,7 @@ namespace TriviaGUI
             }
             else
             {
-                GetGameResults();
+                GetGameResults(currentScore);
             }
         }
 
@@ -263,11 +263,12 @@ namespace TriviaGUI
             }
         }
 
-        private void GetGameResults()
+        private void GetGameResults(int totalGameScore)
         {
+            // add total score sending for comparison on server side
             var gameResultMsg = new gameResultsMessage
             {
-                code = GAME_RESULT_CODE
+                score = totalGameScore.ToString()
             };
 
             Utillities.sendMessage(socket, Utillities.serialize(gameResultMsg, GAME_RESULT_CODE));

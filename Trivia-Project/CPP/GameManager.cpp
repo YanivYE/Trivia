@@ -17,8 +17,7 @@ std::map<LoggedUser, GameData> GameManager::getPlayers(Room* room, QuestionsList
         LoggedUser user(name);
         players[user] = GameData();
         players[user].averageAnswerTime = 0;
-        players[user].correctAnswerCount = 0;
-        players[user].wrongAnswerCount = 0;
+        players[user].score = 0;
         players[user].currentQuestion = questions->head;
     }
     return players;

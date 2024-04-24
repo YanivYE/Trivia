@@ -10,6 +10,6 @@ namespace TriviaGUI.messages
     internal class gameResultsMessage
     {
         [DataMember(Order = 1)]
-        public int code { get; set; }
+        public string score { get; set; }
     }
 }

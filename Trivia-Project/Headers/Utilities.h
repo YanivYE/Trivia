@@ -181,3 +181,8 @@ struct SubmitAnswerRequest
 {
 	unsigned int _answerId;
 } typedef SubmitAnswerRequest;
+
+struct GameResultRequest
+{
+	unsigned int _totalScore;
+} typedef GameResultRequest;

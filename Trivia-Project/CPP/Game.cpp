@@ -25,11 +25,11 @@ int Game::submitAnswer(LoggedUser user, int answerId)
 	QuestionNode* currQuestion = this->m_players[user].currentQuestion;
 	if (currQuestion->data.getCorrectAnswerId() == answerId)
 	{
-		this->m_players[user].correctAnswerCount += 1;
+		// DB with correct answer(true)
 	}
 	else
 	{
-		this->m_players[user].wrongAnswerCount += 1;
+		// DB with wrong answer(false)
 	}
 	return SubmitAnswer;
 }

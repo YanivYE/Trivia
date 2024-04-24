@@ -119,9 +119,23 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 
 RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 {
+    GameResultRequest gameResultRequest;
     RequestResult result;
     JsonResponsePacketSerializer serializer;
+    JsonRequestPacketDeserializer deserializer;
     int returnCode = 0;
+
+    try
+    {
+        gameResultRequest = deserializer.deserializeGameResultRequest(info.buffer);
+    }
+    catch (...)
+    {
+        ErrorResponse errResponse;
+        errResponse._data = "Error! Couldn't parse submit answer request";
+        result.response = serializer.serializeResponse(errResponse);
+        return result;
+    }
 
     try
     {        

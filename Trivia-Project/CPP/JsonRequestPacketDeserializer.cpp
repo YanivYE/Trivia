@@ -117,20 +117,6 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
     return submitAnswerRequest;
 }  
 
-GameResultRequest JsonRequestPacketDeserializer::deserializeGameResultRequest(Buffer buffer)
-{
-    GameResultRequest gameResultRequest = GameResultRequest();
-
-    std::vector<unsigned char> bytes(buffer._bytes.begin(), buffer._bytes.end());
-
-    json data = convertBytesToJson(bytes);
-
-    std::string score = data["score"];
-    gameResultRequest._totalScore = stoi(score);
-
-    return gameResultRequest;
-}
-
 /*
 * Function gets a vector of bits and converts it to json
 * Input: bytes - a vector of bits

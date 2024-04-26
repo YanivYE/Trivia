@@ -118,28 +118,14 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 
 RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 {
-    GameResultRequest gameResultRequest;
     RequestResult result;
     JsonResponsePacketSerializer serializer;
-    JsonRequestPacketDeserializer deserializer;
     int returnCode = 0;
 
     try
-    {
-        gameResultRequest = deserializer.deserializeGameResultRequest(info.buffer);
-    }
-    catch (...)
-    {
-        ErrorResponse errResponse;
-        errResponse._data = "Error! Couldn't parse submit answer request";
-        result.response = serializer.serializeResponse(errResponse);
-        return result;
-    }
-
-    try
     {        
-        std::vector<std::string> results= this->m_handleFactory->getGameManager().getDataBase()->getHighScores();
-        if (!results.empty())
+        this->m_game.getGameResult(this->m_user);
+        /*if (!results.empty())
         {
             result.newHandler = this->m_handleFactory->createMenuRequestHandlers(this->m_user);
             GetGameResultsResponse getGameResults;
@@ -155,7 +141,7 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
             errResponse._data = "Error! Couldn't get game results!";
 
             result.response = serializer.serializeResponse(errResponse);
-        }
+        }*/
     }
     catch (std::exception& e)
     {

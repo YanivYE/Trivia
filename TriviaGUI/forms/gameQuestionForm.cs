@@ -218,9 +218,9 @@ namespace TriviaGUI
                 this.Hide();
                 nextQuestion.Show();
             }
-            else
+            else 
             {
-                GetGameResults(currentScore);
+                GetGameResults();
             }
         }
 
@@ -253,7 +253,7 @@ namespace TriviaGUI
             }
         }
 
-        private void GetGameResults(int totalGameScore)
+        private void GetGameResults()
         {
             // add total score sending for comparison on server side
             var gameResultMsg = new gameResultsMessage

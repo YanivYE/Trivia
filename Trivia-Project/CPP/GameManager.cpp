@@ -8,16 +8,17 @@ Game GameManager::createGame(Room* room)
     return game;
 }
 
-std::map<LoggedUser, GameData> GameManager::getPlayers(Room* room, QuestionsList* questions)
+std::map<LoggedUser, GameData*> GameManager::getPlayers(Room* room, QuestionsList* questions)
 {
-    std::map<LoggedUser, GameData> players;
+    std::map<LoggedUser, GameData*> players;
     std::vector<std::string> userNames = room->getAllUsers();
     for (const std::string& name : userNames)
     {
         LoggedUser user(name);
-        players[user] = GameData();
-        players[user].score = 0;
-        players[user].currentQuestion = questions->head;
+        players[user] = new GameData();
+        players[user]->score = 0;
+        players[user]->isGameFinished = false;
+        players[user]->currentQuestion = questions->head;
     }
     return players;
 }

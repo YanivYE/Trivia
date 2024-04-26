@@ -183,8 +183,3 @@ struct SubmitAnswerRequest
 	unsigned int _answerId;
 	unsigned int _answerPressTime;
 } typedef SubmitAnswerRequest;
-
-struct GameResultRequest
-{
-	unsigned int _totalScore;
-} typedef GameResultRequest;

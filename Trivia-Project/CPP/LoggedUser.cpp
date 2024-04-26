@@ -20,7 +20,7 @@ LoggedUser::LoggedUser(std::string username)
 * Input: none
 * Output: username
 */
-std::string LoggedUser::getUsername()
+std::string LoggedUser::getUsername() const
 {
 	return this->m_username;
 }

@@ -109,7 +109,10 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
     json data = convertBytesToJson(bytes);
 
     std::string correntAnswerID = data["ID"];
+    std::string time = data["time"];
+
     submitAnswerRequest._answerId = stoi(correntAnswerID);
+    submitAnswerRequest._answerPressTime = stoi(time);
 
     return submitAnswerRequest;
 }  

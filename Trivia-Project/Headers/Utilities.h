@@ -160,7 +160,8 @@ struct GetQuestionResponse
 struct SubmitAnswerResponse
 {
 	unsigned int _status;
-	unsigned int _correctAnswerId;
+	bool _isCorretAnswer;
+	unsigned int _answerScore;
 } typedef SubmitAnswerResponse;
 
 struct PlayerResults
@@ -180,6 +181,7 @@ struct GetGameResultsResponse
 struct SubmitAnswerRequest
 {
 	unsigned int _answerId;
+	unsigned int _answerPressTime;
 } typedef SubmitAnswerRequest;
 
 struct GameResultRequest

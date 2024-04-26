@@ -169,6 +169,7 @@ namespace TriviaGUI
                 var submitAnswerMsg = new submitAnswer
                 {
                     ID = buttons[pressedButton].ToString(),
+                    time = answerPressTime.ToString()
                 };
 
                 Utillities.sendMessage(socket, Utillities.serialize(submitAnswerMsg, SUBMIT_ANSWER_CODE));
@@ -185,37 +186,31 @@ namespace TriviaGUI
                     string jsonString = msg.Substring(startIndex);
 
                     // Deserialize the JSON string to an object
-                    CorrectAnswer correctAnswer = JsonConvert.DeserializeObject<CorrectAnswer>(jsonString);
+                    AnswerResult answerResult = JsonConvert.DeserializeObject<AnswerResult>(jsonString);
 
-
-                    if (buttons[pressedButton] == correctAnswer.ID)
-                    {
-                        pressedButton.BackColor = Color.Green;
-                        preccceedGame(true);
-                    }
-                    else
-                    {
-                        pressedButton.BackColor = Color.Red;
-                        preccceedGame(false);
-                    }
+                    preccceedGame(answerResult.isCorrect, answerResult.score);
                 }
             }
             else
             {
                 // run out of time
                 disableAllButtons();
-                preccceedGame(false);
+                preccceedGame(false, 0);
             }
         }
 
-        async void preccceedGame(bool isCorrectAnswer)
+        async void preccceedGame(bool isCorrectAnswer, int answerScore)
         {
+            if(pressedButton != null) { 
+                pressedButton.BackColor = isCorrectAnswer ? Color.Green : Color.Red;
+            }
+
             await Task.Delay(2000);
 
             // add score update
 
             int currentScore = int.Parse(scoreBox.Text);
-            currentScore += isCorrectAnswer ? calculateScore() : 0;
+            currentScore += answerScore;
 
             if (!lastQuestion)
             {
@@ -227,11 +222,6 @@ namespace TriviaGUI
             {
                 GetGameResults(currentScore);
             }
-        }
-
-        int calculateScore()
-        {
-            return answerPressTime * 100;
         }
 
         private Dictionary<Button, int> initButtonsDict(List<string> answers)
@@ -268,7 +258,7 @@ namespace TriviaGUI
             // add total score sending for comparison on server side
             var gameResultMsg = new gameResultsMessage
             {
-                score = totalGameScore.ToString()
+                code = GAME_RESULT_CODE
             };
 
             Utillities.sendMessage(socket, Utillities.serialize(gameResultMsg, GAME_RESULT_CODE));
@@ -285,9 +275,10 @@ namespace TriviaGUI
         public int status { get; set; }
     }
 
-    class CorrectAnswer
+    class AnswerResult
     {
-        public int ID { get; set; }
+        public bool isCorrect { get; set; }
+        public int score { get; set; }
         public int status { get; set; }
     }
 }

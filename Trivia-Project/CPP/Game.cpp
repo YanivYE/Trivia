@@ -20,18 +20,22 @@ QuestionNode* Game::getQuestionForUser(LoggedUser user)
 	return currentQuestion;
 }
 
-int Game::submitAnswer(LoggedUser user, int answerId)
+SubmitAnswerResponse Game::submitAnswer(LoggedUser user, int answerId, int answerPressTime)
 {
+	SubmitAnswerResponse submitAnswerResponse;
+	int answerScore = 0;
+	bool isCorrectAnswer = false;
 	QuestionNode* currQuestion = this->m_players[user].currentQuestion;
 	if (currQuestion->data.getCorrectAnswerId() == answerId)
 	{
-		// DB with correct answer(true)
+		answerScore = 100 * answerPressTime;
+		isCorrectAnswer = true;
 	}
-	else
-	{
-		// DB with wrong answer(false)
-	}
-	return SubmitAnswer;
+	this->m_players[user].score += answerScore;
+	submitAnswerResponse._status = SubmitAnswer;
+	submitAnswerResponse._isCorretAnswer = isCorrectAnswer;
+	submitAnswerResponse._answerScore = answerScore;
+	return submitAnswerResponse;
 }
 
 void Game::removePlayer(LoggedUser user)

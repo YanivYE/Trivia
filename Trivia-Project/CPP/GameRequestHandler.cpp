@@ -95,13 +95,12 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 
     try
     {
-        returnCode = this->m_game.submitAnswer(this->m_user, submitAnswerRequest._answerId);
+        SubmitAnswerResponse submitAnswerResponse = this->m_game.submitAnswer(this->m_user, submitAnswerRequest._answerId, submitAnswerRequest._answerPressTime);
+
+        this->m_gameManager->getDataBase()->addStatistic(this->m_user.getUsername(), std::to_string(submitAnswerRequest._answerPressTime), std::to_string(submitAnswerResponse._isCorretAnswer), std::to_string(submitAnswerResponse._answerScore));
 
         result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
 
-        SubmitAnswerResponse submitAnswerResponse;
-        submitAnswerResponse._status = returnCode;
-        submitAnswerResponse._correctAnswerId = 1;
         result.response = serializer.serializeResponse(submitAnswerResponse);
     }
     catch (std::exception& e)

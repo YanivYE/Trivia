@@ -58,7 +58,7 @@ void SqliteDatabase::createDBTables()
 */
 void SqliteDatabase::createUsersTable()
 {
-	std::string usersTableQuery = "CREATE TABLE users (username TEXT NOT NULL, password TEXT NOT NULL, mail TEXT NOT NULL);";
+	std::string usersTableQuery = "CREATE TABLE users (username TEXT NOT NULL, password TEXT NOT NULL, mail TEXT NOT NULL, games_played INTEGER NOT NULL);";
 	executeQuery(usersTableQuery, nullptr, nullptr);
 }
 
@@ -161,7 +161,7 @@ int SqliteDatabase::doesPasswordMatch(std::string name, std::string password)
 */
 int SqliteDatabase::addNewUser(std::string name, std::string password, std::string mail)
 {
-	std::string addUserQuery = "INSERT INTO users (username, password, mail) VALUES ('" + name + "','" + password + "','" + mail + "');";
+	std::string addUserQuery = "INSERT INTO users (username, password, mail, games_played) VALUES ('" + name + "','" + password + "','" + mail + "'," + "0" + "); ";
 	return executeQuery(addUserQuery, nullptr, nullptr);
 }
 
@@ -183,6 +183,7 @@ void SqliteDatabase::createQuestionsTable()
 */
 void SqliteDatabase::insertQuestions()
 {
+	// update by scrmbling all question somehow, and adding more
 	// python command to run python script to add the questions to data base. the scipt uses an api url to get a 
 	// json string of 10 random questions and inserts them to data base
 	std::system("python insertDBquestions.py");
@@ -195,7 +196,7 @@ void SqliteDatabase::insertQuestions()
 */
 void SqliteDatabase::createStatisticsTable()
 {
-	std::string statisticsTableQuery = "CREATE TABLE statistics (question TEXT NOT NULL, room_number INTEGER NOT NULL, username TEXT NOT NULL, time INTEGER NOT NULL, is_correct_answer INTEGER NOT NULL, score INTEGER NOT NULL);";
+	std::string statisticsTableQuery = "CREATE TABLE statistics (username TEXT NOT NULL, time INTEGER NOT NULL, is_correct_answer INTEGER NOT NULL, score INTEGER NOT NULL);";
 	executeQuery(statisticsTableQuery, nullptr, nullptr);
 }
 
@@ -493,4 +494,10 @@ std::vector<std::string> SqliteDatabase::getHighScoresTable(std::multimap<int, s
 			break;
 	}
 	return topUsers;
+}
+
+int SqliteDatabase::addStatistic(std::string username, std::string time, std::string isCorrectAnswer, std::string score)
+{
+	std::string addUserQuery = "INSERT INTO statistics (username, time, is_correct_answer, score) VALUES ('" + username + "','" + time + "','" + isCorrectAnswer + "','" + score + "');";
+	return executeQuery(addUserQuery, nullptr, nullptr);
 }

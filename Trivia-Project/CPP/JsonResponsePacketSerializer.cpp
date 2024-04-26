@@ -254,7 +254,8 @@ Buffer JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse resp
     json data;
 
     data["status"] = response._status;
-    data["ID"] = response._correctAnswerId;
+    data["isCorrect"] = response._isCorretAnswer;
+    data["score"] = response._answerScore;
 
     message._code = SubmitAnswer;
     message._data = data;

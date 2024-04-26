@@ -26,6 +26,7 @@ public:
 	virtual int addNewUser(std::string username, std::string password, std::string mail) = 0;
 	
 	// Statistics
+	virtual int addStatistic(std::string username, std::string time, std::string isCorrectAnswer, std::string score) = 0;
 	virtual QuestionsList* getQuestions(int amount) = 0;
 	virtual float getPlayerAverageAnswerTime(std::string username) = 0;
 	virtual int getNumOfCorrectAnswers(std::string uaername) = 0;

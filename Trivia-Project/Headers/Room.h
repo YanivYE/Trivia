@@ -29,7 +29,7 @@ public:
 	int addUser(LoggedUser user); // add user to room
 	int removeUser(LoggedUser user); // remove user from room
 
-	void setId();
+	void setId(int id);
 
 	RoomData getRoomData(); // get room data
 

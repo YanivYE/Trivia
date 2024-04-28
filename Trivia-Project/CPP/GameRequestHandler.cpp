@@ -1,6 +1,6 @@
 #include "../Headers/GameRequestHandler.h"
 
-GameRequestHandler::GameRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Game game)
+GameRequestHandler::GameRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Game* game)
 {
     this->m_handleFactory = requestHandlerFactory;
     this->m_gameManager = &requestHandlerFactory->getGameManager();
@@ -40,7 +40,7 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo info)
 
     try
     {
-        Question question = this->m_game.getQuestionForUser(this->m_user)->data;
+        Question question = this->m_game->getQuestionForUser(this->m_user)->data;
         result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_game);
 
         if (question.getQuestion() == "")
@@ -95,7 +95,7 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 
     try
     {
-        SubmitAnswerResponse submitAnswerResponse = this->m_game.submitAnswer(this->m_user, submitAnswerRequest._answerId, submitAnswerRequest._answerPressTime);
+        SubmitAnswerResponse submitAnswerResponse = this->m_game->submitAnswer(this->m_user, submitAnswerRequest._answerId, submitAnswerRequest._answerPressTime);
 
         this->m_gameManager->getDataBase()->addStatistic(this->m_user.getUsername(), std::to_string(submitAnswerRequest._answerPressTime), std::to_string(submitAnswerResponse._isCorretAnswer), std::to_string(submitAnswerResponse._answerScore));
 
@@ -124,7 +124,7 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 
     try
     {        
-        this->m_game.getGameResult(this->m_user);
+        this->m_game->getGameResult(this->m_user);
         /*if (!results.empty())
         {
             result.newHandler = this->m_handleFactory->createMenuRequestHandlers(this->m_user);
@@ -165,7 +165,7 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo info)
     try
     {
         // try to remove user
-        returnCode = this->m_handleFactory->getRoomManager().getRoom(this->m_game.getGameId())->removeUser(this->m_user);
+        returnCode = this->m_handleFactory->getRoomManager().getRoom(this->m_game->getGameId())->removeUser(this->m_user);
 
         if (returnCode == LeaveRoom)
         {

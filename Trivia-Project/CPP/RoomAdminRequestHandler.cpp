@@ -85,45 +85,41 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)
 	JsonResponsePacketSerializer serializer;
 	int returnCode = 0;
 
-	for (int i = 0; i < this->m_room->getAllUsers().size(); i++)
+	try
 	{
-		LoggedUser user(this->m_room->getAllUsers()[i]);
+		// try to start game
+		returnCode = this->m_room->startGame();
 
-		try
+		if (returnCode == StartGame)
 		{
-			// try to start game
-			returnCode = this->m_room->startGame();
-
-			if (returnCode == StartGame)
-			{
-				Game game = this->m_handleFactory->getGameManager().createGame(this->m_room);
-				result.newHandler = this->m_handleFactory->createGameRequestHandler(user, game);
-			}
-			else
-			{
-				result.newHandler = this->m_handleFactory->createRoomAdminRequestHandler(user, this->m_room);
-
-				ErrorResponse errResponse;
-				errResponse._data = "Error! Couldn't start game!";
-
-				result.response = serializer.serializeResponse(errResponse);
-			}
-
-			StartGameResponse startGame;
-			startGame._status = returnCode;
-
-			result.response = serializer.serializeResponse(startGame);
+			Game* game = this->m_handleFactory->getGameManager().createGame(this->m_room);
+			result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, game);
 		}
-		catch (std::exception& e)
+		else
 		{
-			result.newHandler = this->m_handleFactory->createRoomAdminRequestHandler(user, this->m_room);
+			result.newHandler = this->m_handleFactory->createRoomAdminRequestHandler(this->m_user, this->m_room);
 
 			ErrorResponse errResponse;
 			errResponse._data = "Error! Couldn't start game!";
 
 			result.response = serializer.serializeResponse(errResponse);
 		}
+
+		StartGameResponse startGame;
+		startGame._status = returnCode;
+
+		result.response = serializer.serializeResponse(startGame);
 	}
+	catch (std::exception& e)
+	{
+		result.newHandler = this->m_handleFactory->createRoomAdminRequestHandler(this->m_user, this->m_room);
+
+		ErrorResponse errResponse;
+		errResponse._data = "Error! Couldn't start game!";
+
+		result.response = serializer.serializeResponse(errResponse);
+	}
+	
 
 	return result;
 }
@@ -134,37 +130,33 @@ RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo info)
 	JsonResponsePacketSerializer serializer;
 	int returnCode = 0;
 
-	for (int i = 0; i < this->m_room->getAllUsers().size(); i++)
+	try
 	{
-		LoggedUser user(this->m_room->getAllUsers()[i]);
+		// try to get room state
+		returnCode = this->m_roomManager->getRoomState(this->m_room->getId());
 
-		try
-		{
-			// try to get room state
-			returnCode = this->m_roomManager->getRoomState(this->m_room->getId());
+		result.newHandler = this->m_handleFactory->createRoomAdminRequestHandler(this->m_user, this->m_room);;
 
-			result.newHandler = this->m_handleFactory->createRoomAdminRequestHandler(user, this->m_room);;
+		GetRoomStateResponse getRoomState;
+		getRoomState._status = returnCode;
+		getRoomState._hasGameBegun = returnCode == inGame ? true : false;
+		getRoomState._answerTimeout = this->m_room->getRoomData().timePerQuestion;
+		getRoomState._questionCount = this->m_room->getRoomData().numOfQuestionsInGame;
+		getRoomState._maxPlayers = this->m_room->getRoomData().maxPlayers;
+		getRoomState._players = this->m_room->getAllUsers();
 
-			GetRoomStateResponse getRoomState;
-			getRoomState._status = returnCode;
-			getRoomState._hasGameBegun = returnCode == inGame ? true : false;
-			getRoomState._answerTimeout = this->m_room->getRoomData().timePerQuestion;
-			getRoomState._questionCount = this->m_room->getRoomData().numOfQuestionsInGame;
-			getRoomState._maxPlayers = this->m_room->getRoomData().maxPlayers;
-			getRoomState._players = this->m_room->getAllUsers();
-
-			result.response = serializer.serializeResponse(getRoomState);
-		}
-		catch (std::exception& e)
-		{
-			result.newHandler = this->m_handleFactory->createRoomAdminRequestHandler(user, this->m_room);
-
-			ErrorResponse errResponse;
-			errResponse._data = "Error! Couldn't get room state!";
-
-			result.response = serializer.serializeResponse(errResponse);
-		}
+		result.response = serializer.serializeResponse(getRoomState);
 	}
+	catch (std::exception& e)
+	{
+		result.newHandler = this->m_handleFactory->createRoomAdminRequestHandler(this->m_user, this->m_room);
+
+		ErrorResponse errResponse;
+		errResponse._data = "Error! Couldn't get room state!";
+
+		result.response = serializer.serializeResponse(errResponse);
+	}
+	
 
 	return result;
 }

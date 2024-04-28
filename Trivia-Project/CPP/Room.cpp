@@ -59,10 +59,9 @@ int Room::addUser(LoggedUser user)
 	return Fail;
 }
 
-void Room::setId()
+void Room::setId(int id)
 {
-	//this->m_metadata.id = ;
-	this->m_metadata;
+	this->m_metadata->id = id;
 }
 
 /*

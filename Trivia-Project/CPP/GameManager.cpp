@@ -1,9 +1,9 @@
 #include "../Headers/GameManager.h"
 
-Game GameManager::createGame(Room* room)
+Game* GameManager::createGame(Room* room)
 {
     QuestionsList* questions = this->m_database->getQuestions(room->getRoomData().numOfQuestionsInGame);
-    Game game(questions, getPlayers(room, questions), room->getId());
+    Game* game = new Game(questions, getPlayers(room, questions), room->getId());
     this->m_games.push_back(game);
     return game;
 }
@@ -27,9 +27,20 @@ void GameManager::deleteGame(int gameId)
 {
     for (auto game = this->m_games.begin(); game != this->m_games.end(); ++game)
     {
-        if (game->getGameId() == gameId)
+        if ((*game)->getGameId() == gameId)
         {
            game = this->m_games.erase(game);
+        }
+    }
+}
+
+Game* GameManager::getGameByID(int id)
+{
+    for (Game* game : this->m_games)
+    {
+        if (game->getGameId() == id)
+        {
+            return game;
         }
     }
 }

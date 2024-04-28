@@ -9,7 +9,7 @@ class RequestHandlerFactory;
 class GameRequestHandler : public IRequestHandler
 {
 public:
-	GameRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Game game);
+	GameRequestHandler(RequestHandlerFactory* requestHandlerFactory, LoggedUser user, Game* game);
 
 	bool isRequestRelevant(RequestInfo info) override;
 	RequestResult handleRequest(RequestInfo info) override;
@@ -19,7 +19,7 @@ public:
 	RequestResult leaveGame(RequestInfo info);
 
 private:
-	Game m_game;
+	Game* m_game;
 	LoggedUser m_user;
 	GameManager* m_gameManager;
 	RequestHandlerFactory* m_handleFactory;

@@ -40,7 +40,7 @@ public:
 	void setCommunicator(Communicator* communicator);
 	void setUser(LoggedUser user);
 
-	GameRequestHandler* createGameRequestHandler(LoggedUser user, Game game);
+	GameRequestHandler* createGameRequestHandler(LoggedUser user, Game* game);
 
 private:
 	// ctor

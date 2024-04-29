@@ -20,7 +20,7 @@ public:
 	SubmitAnswerResponse submitAnswer(LoggedUser user, int answerId, int answerPressTime);
 	void removePlayer(LoggedUser user);
 	int getGameId();
-	void getGameResult(LoggedUser user);
+	GetGameResultsResponse getGameResult(LoggedUser user);
 private:
 	QuestionsList* m_questions;
 	std::map<LoggedUser, GameData*> m_players;

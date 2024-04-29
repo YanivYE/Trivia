@@ -224,7 +224,8 @@ Buffer JsonResponsePacketSerializer::serializeResponse(GetGameResultsResponse re
     Message message;
     json data;
     data["status"] = response._status;
-    data["Results"] = vectorToString(response._results);
+    data["winner"] = response._winner;
+    data["score"] = response._score;
 
     message._code = GetGameResult;
     message._data = data;
@@ -233,18 +234,6 @@ Buffer JsonResponsePacketSerializer::serializeResponse(GetGameResultsResponse re
     buffer._bytes = convertMessageToBuffer(message);
 
     return buffer;
-}
-
-std::string JsonResponsePacketSerializer::vectorToString(std::vector<PlayerResults> vec)
-{
-    std::string resultsString = "";
-    for (auto& playerResult : vec) {
-        resultsString += playerResult._username + ", " +
-            std::to_string(playerResult.correctAnswerCount) + ", " +
-            std::to_string(playerResult.wrongAnswerCount) + ", " +
-            std::to_string(playerResult.averageAnswerTime) + "\n";
-    }
-    return resultsString;
 }
 
 Buffer JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse response)

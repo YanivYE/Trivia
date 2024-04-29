@@ -22,28 +22,31 @@ namespace TriviaGUI
         ServerHandler server;
         bool stop = false;
         bool isAdmin;
+        string user;
 
         const int START_GAME_CODE = 0b00001011;
         const int ROOM_STATE_CODE = 0b00001100;
 
-        public roomForm(string admin, ServerHandler server, createRoomMessage info)
+        public roomForm(string admin, ServerHandler server, createRoomMessage info) // for admin
         {
             InitializeComponent();
             this.server = server;
             this.isAdmin = true;
             adminBox.Text = admin;
+            this.user = admin;
             roomName.Text = info.roomName;
             maxNumberBox.Text = info.maxUsers;
             questionsNumBox.Text = info.questionCount;
             answerTimeoutBox.Text = info.answerTimeout;
         }
 
-        public roomForm(ServerHandler server, string name)
+        public roomForm(ServerHandler server, string name, string user) // for member
         {
             InitializeComponent();
             this.server = server;
             this.isAdmin = false;
             roomName.Text = name;
+            this.user = user;
         }
 
 
@@ -105,7 +108,7 @@ namespace TriviaGUI
                 return;
             }
 
-            gameQuestionForm game = new gameQuestionForm(server, answerTimeoutBox.Text, questionsNumBox.Text, 1, 0);
+            gameQuestionForm game = new gameQuestionForm(server, this.user, answerTimeoutBox.Text, questionsNumBox.Text, 1, 0);
             this.Hide();
             game.Show();
         }
@@ -235,7 +238,7 @@ namespace TriviaGUI
                 }
                 else
                 {
-                    gameQuestionForm game = new gameQuestionForm(server, answerTimeoutBox.Text, questionsNumBox.Text, 1, 0);
+                    gameQuestionForm game = new gameQuestionForm(server, this.user, answerTimeoutBox.Text, questionsNumBox.Text, 1, 0);
                     this.Hide();
                     game.Show();
                 }

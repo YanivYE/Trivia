@@ -50,6 +50,4 @@ private:
 	std::string padBinaryString(const std::string& value, int numBytes); // pad binrary string 
 	std::vector<unsigned char> binaryStringToBits(const std::string& binaryString); // binrary string to vector bits
 	std::vector<unsigned char> convertMessageToBuffer(Message message); // nessage to buffer of bits
-
-	std::string vectorToString(std::vector<PlayerResults> vec);
 };

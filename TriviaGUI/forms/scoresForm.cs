@@ -12,14 +12,22 @@ namespace TriviaGUI
 {
     public partial class scoresForm : Form
     {
-        public scoresForm()
+        ServerHandler server;
+        string user;
+        public scoresForm(ServerHandler server, string user, string winner, int score)
         {
             InitializeComponent();
+            this.server = server;
+            this.user = user;
+            nameBox.Text = winner;
+            scoreBox.Text = score.ToString();
         }
 
-        private void scoresForm_Load(object sender, EventArgs e)
+        private void exit_Click(object sender, EventArgs e)
         {
-
+            lobbyForm lobby = new lobbyForm(this.user, server);
+            lobby.Show();
+            this.Hide();
         }
     }
 }

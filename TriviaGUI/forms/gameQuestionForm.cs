@@ -16,6 +16,7 @@ namespace TriviaGUI
         string questionsNum = "";
         int questionsIndex = 0;
         string answerTimeHolder;
+        string user;
         bool lastQuestion = false;
         int countdownSeconds;
         private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
@@ -28,7 +29,7 @@ namespace TriviaGUI
 
 
 
-        public gameQuestionForm(ServerHandler server, string answerTime, string numOfQuestions, int questionIndex, int score)
+        public gameQuestionForm(ServerHandler server, string user, string answerTime, string numOfQuestions, int questionIndex, int score)
         {
             InitializeComponent();
             this.server = server;
@@ -37,6 +38,7 @@ namespace TriviaGUI
             countdownSeconds = int.Parse(answerTime);
             timer.Interval = 1000; // 1 second
             timer.Tick += timer_Tick;
+            this.user = user;
             questionsNum = numOfQuestions;
             questionsIndex = questionIndex;
             questionCountBox.Text = questionIndex.ToString() + '/' + numOfQuestions;
@@ -214,7 +216,7 @@ namespace TriviaGUI
 
             if (!lastQuestion)
             {
-                gameQuestionForm nextQuestion = new gameQuestionForm(server, answerTimeHolder, questionsNum, questionsIndex + 1, currentScore);
+                gameQuestionForm nextQuestion = new gameQuestionForm(server, this.user, answerTimeHolder, questionsNum, questionsIndex + 1, currentScore);
                 this.Hide();
                 nextQuestion.Show();
             }
@@ -263,7 +265,24 @@ namespace TriviaGUI
 
             Utillities.sendMessage(socket, Utillities.serialize(gameResultMsg, GAME_RESULT_CODE));
 
-            string msg1 = Utillities.recieveMessage(socket);
+            string msg = Utillities.recieveMessage(socket);
+
+            if (!msg.Contains(":14"))
+            {
+                MessageBox.Show("Coldn't get game results! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                int startIndex = msg.IndexOf('{');
+                string jsonString = msg.Substring(startIndex);
+
+                // Deserialize the JSON string to an object
+                GameResult gameResult = JsonConvert.DeserializeObject<GameResult>(jsonString);
+
+                scoresForm nextQuestion = new scoresForm(server, this.user, gameResult.winner, gameResult.score);
+                this.Hide();
+                nextQuestion.Show();
+            }
         }
     }
 
@@ -278,6 +297,13 @@ namespace TriviaGUI
     class AnswerResult
     {
         public bool isCorrect { get; set; }
+        public int score { get; set; }
+        public int status { get; set; }
+    }
+
+    class GameResult
+    {
+        public string winner { get; set; }
         public int score { get; set; }
         public int status { get; set; }
     }

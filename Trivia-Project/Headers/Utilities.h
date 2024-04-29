@@ -164,18 +164,11 @@ struct SubmitAnswerResponse
 	unsigned int _answerScore;
 } typedef SubmitAnswerResponse;
 
-struct PlayerResults
-{
-	std::string _username;
-	unsigned int correctAnswerCount;
-	unsigned int wrongAnswerCount;
-	unsigned int averageAnswerTime;
-} typedef PlayerResults;
-
 struct GetGameResultsResponse
 {
 	unsigned int _status;
-	std::vector<PlayerResults> _results;
+	std::string _winner;
+	unsigned int _score;
 } typedef GetGameResultsResponse;
 
 struct SubmitAnswerRequest

@@ -48,8 +48,9 @@ int Game::getGameId()
 	return this->m_gameId;
 }
 
-void Game::getGameResult(LoggedUser user)
+GetGameResultsResponse Game::getGameResult(LoggedUser user)
 {
+	GetGameResultsResponse getGameResults;
 	int highestScore = 0;
 	std::string winner = "";
 	this->m_players[user]->isGameFinished = true;
@@ -60,12 +61,10 @@ void Game::getGameResult(LoggedUser user)
 			highestScore = player.second->score;
 			winner = player.first.getUsername();
 		}
-		if (!player.second->isGameFinished)
-		{
-			return;
-		}
 	}
 
-	std::cout << winner;
-	// send update to all users
+	getGameResults._status = GetGameResult;
+	getGameResults._score = highestScore;
+	getGameResults._winner = winner;
+	return getGameResults;
 }

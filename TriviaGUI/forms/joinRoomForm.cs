@@ -147,7 +147,7 @@ namespace TriviaGUI
                         JsonElement rootElement = jsonDocument.RootElement;
 
                         string roomName = rootElement.GetProperty("name").GetString();
-                        roomForm lobby = new roomForm(server, roomName);
+                        roomForm lobby = new roomForm(server, roomName, this.user);
                         this.Hide();
                         lobby.Show();
                     }

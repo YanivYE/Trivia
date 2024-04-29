@@ -33,6 +33,7 @@
             medal1 = new PictureBox();
             nameBox = new Label();
             scoreBox = new Label();
+            exit = new Button();
             ((System.ComponentModel.ISupportInitialize)medal1).BeginInit();
             SuspendLayout();
             // 
@@ -80,6 +81,20 @@
             scoreBox.TabIndex = 47;
             scoreBox.Text = "       ";
             // 
+            // exit
+            // 
+            exit.BackColor = Color.Transparent;
+            exit.BackgroundImage = (Image)resources.GetObject("exit.BackgroundImage");
+            exit.BackgroundImageLayout = ImageLayout.Stretch;
+            exit.FlatStyle = FlatStyle.Flat;
+            exit.ForeColor = SystemColors.ControlText;
+            exit.Location = new Point(22, 195);
+            exit.Name = "exit";
+            exit.Size = new Size(44, 44);
+            exit.TabIndex = 49;
+            exit.UseVisualStyleBackColor = false;
+            exit.Click += exit_Click;
+            // 
             // scoresForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -87,6 +102,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Center;
             ClientSize = new Size(573, 251);
+            Controls.Add(exit);
             Controls.Add(scoreBox);
             Controls.Add(nameBox);
             Controls.Add(medal1);
@@ -97,7 +113,6 @@
             Name = "scoresForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trivia Night By Elior Yousefi And Yaniv Yehezkel";
-            Load += scoresForm_Load;
             ((System.ComponentModel.ISupportInitialize)medal1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -109,5 +124,6 @@
         private PictureBox medal1;
         private Label nameBox;
         private Label scoreBox;
+        private Button exit;
     }
 }

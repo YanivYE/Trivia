@@ -119,17 +119,15 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 {
     RequestResult result;
+    GetGameResultsResponse getGameResults;
     JsonResponsePacketSerializer serializer;
-    int returnCode = 0;
 
     try
     {        
-        this->m_game->getGameResult(this->m_user);
-        /*if (!results.empty())
+        getGameResults = this->m_game->getGameResult(this->m_user);
+        if (getGameResults._status == GetGameResult)
         {
             result.newHandler = this->m_handleFactory->createMenuRequestHandlers(this->m_user);
-            GetGameResultsResponse getGameResults;
-            getGameResults._status = returnCode;
 
             result.response = serializer.serializeResponse(getGameResults);
         }
@@ -141,7 +139,7 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
             errResponse._data = "Error! Couldn't get game results!";
 
             result.response = serializer.serializeResponse(errResponse);
-        }*/
+        }
     }
     catch (std::exception& e)
     {

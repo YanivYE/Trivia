@@ -27,6 +27,7 @@ public:
 	int getNumOfPlayerGames(std::string username) override;
 	int getPlayerScore(std::string username) override;
 	std::vector<std::string> getHighScores() override;
+	int addNewGame(std::string username) override;
 
 private:
 	// ctor

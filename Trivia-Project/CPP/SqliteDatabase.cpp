@@ -438,6 +438,12 @@ std::vector<std::string> SqliteDatabase::getHighScores()
 	return getHighScoresTable(combineUserScores(usersScores));
 }
 
+int SqliteDatabase::addNewGame(std::string username)
+{
+	std::string addNewGameQuery = "UPDATE users SET games_played = games_played + 1 WHERE username = '" + username + "'";
+	return executeQuery(addNewGameQuery, nullptr, nullptr);
+}
+
 std::multimap<int, std::string> SqliteDatabase::combineUserScores(const std::multimap<int, std::string>& scoresMap)
 {
 	std::multimap<std::string, int> combinedScoresMap;
@@ -498,6 +504,6 @@ std::vector<std::string> SqliteDatabase::getHighScoresTable(std::multimap<int, s
 
 int SqliteDatabase::addStatistic(std::string username, std::string time, std::string isCorrectAnswer, std::string score)
 {
-	std::string addUserQuery = "INSERT INTO statistics (username, time, is_correct_answer, score) VALUES ('" + username + "','" + time + "','" + isCorrectAnswer + "','" + score + "');";
-	return executeQuery(addUserQuery, nullptr, nullptr);
+	std::string addStatsQuery = "INSERT INTO statistics (username, time, is_correct_answer, score) VALUES ('" + username + "','" + time + "','" + isCorrectAnswer + "','" + score + "');";
+	return executeQuery(addStatsQuery, nullptr, nullptr);
 }

@@ -94,6 +94,8 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)
 		{
 			Game* game = this->m_handleFactory->getGameManager().createGame(this->m_room);
 			result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, game);
+			// add a game played in the DB
+			this->m_handleFactory->getGameManager().getDataBase()->addNewGame(this->m_user.getUsername());
 		}
 		else
 		{

@@ -97,6 +97,8 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo info)
 		if (getRoomState._hasGameBegun)
 		{
 			result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, this->m_handleFactory->getGameManager().getGameByID(this->m_room->getId()));
+			// add a game played in the DB
+			this->m_handleFactory->getGameManager().getDataBase()->addNewGame(this->m_user.getUsername());
 		}
 		else
 		{

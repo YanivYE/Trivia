@@ -34,6 +34,7 @@ public:
 	virtual int getNumOfPlayerGames(std::string username) = 0;
 	virtual int getPlayerScore(std::string username) = 0;
 	virtual std::vector<std::string> getHighScores() = 0;
+	virtual int addNewGame(std::string username) = 0;
 
 	sqlite3* db; // db
 };

@@ -1,11 +1,38 @@
-#include "../Headers/Question.h"
+﻿#include "../Headers/Question.h"
 
 Question::Question() {
     this->m_question = "";
 }
 
 std::string Question::getQuestion() {
-    return this->m_question;
+    return replaceHtmlEntities(this->m_question);
+}
+
+std::string Question::replaceHtmlEntities(const std::string& input) {
+    std::string result = input;
+
+    // Replace "&#039;" with "'"
+    size_t pos = result.find("&#039;");
+    while (pos != std::string::npos) {
+        result.replace(pos, 6, "'");
+        pos = result.find("&#039;", pos + 1);
+    }
+
+    // Replace "&quot;" with "\""
+    pos = result.find("&quot;");
+    while (pos != std::string::npos) {
+        result.replace(pos, 6, 1, static_cast<char>(34));
+        pos = result.find("&quot;", pos + 1);
+    }
+
+    // Replace "&ouml;" with "ö"
+    pos = result.find("&ouml;");
+    while (pos != std::string::npos) {
+        result.replace(pos, 6, "ö");
+        pos = result.find("&ouml;", pos + 1);
+    }
+
+    return result;
 }
 
 std::vector<std::string> Question::getPossibleAnswers() {

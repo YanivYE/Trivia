@@ -174,6 +174,7 @@ namespace TriviaGUI
 
         private void BackArrow_Click(object sender, EventArgs e)
         {
+            stop = true;
             lobbyForm lobby = new lobbyForm(this.user, server);
             lobby.Show();
             this.Hide();

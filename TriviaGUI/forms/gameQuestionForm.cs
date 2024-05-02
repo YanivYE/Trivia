@@ -73,7 +73,7 @@ namespace TriviaGUI
         {
             timer.Start();
             this.buttonsArray = new Button[] { option1, option2, option3, option4 };
-            
+
             var gameQuestionMsg = new gameQuestionMessage
             {
                 code = GAME_QUESTION_CODE,
@@ -135,7 +135,7 @@ namespace TriviaGUI
             return parsedQuestion; // Return the fully populated Question object
         }
 
-        
+
 
         private void option1_Click(object sender, EventArgs e)
         {
@@ -203,7 +203,8 @@ namespace TriviaGUI
 
         async void preccceedGame(bool isCorrectAnswer, int answerScore)
         {
-            if(pressedButton != null) { 
+            if (pressedButton != null)
+            {
                 pressedButton.BackColor = isCorrectAnswer ? Color.Green : Color.Red;
             }
 
@@ -220,7 +221,7 @@ namespace TriviaGUI
                 this.Hide();
                 nextQuestion.Show();
             }
-            else 
+            else
             {
                 GetGameResults();
             }
@@ -248,7 +249,7 @@ namespace TriviaGUI
 
         private void disableAllButtons()
         {
-            foreach(Button button in buttonsArray)
+            foreach (Button button in buttonsArray)
             {
                 button.BackColor = SystemColors.ControlDarkDark;
                 button.Enabled = false;

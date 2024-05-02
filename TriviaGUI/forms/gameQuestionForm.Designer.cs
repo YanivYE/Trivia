@@ -80,10 +80,10 @@
             // questionLabel
             // 
             questionLabel.AutoSize = true;
-            questionLabel.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            questionLabel.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
             questionLabel.Location = new Point(142, 34);
             questionLabel.Name = "questionLabel";
-            questionLabel.Size = new Size(536, 62);
+            questionLabel.Size = new Size(357, 38);
             questionLabel.TabIndex = 29;
             questionLabel.Text = "                                                                                   \r\n                                                                                       ";
             // 

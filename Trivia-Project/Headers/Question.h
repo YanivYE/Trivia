@@ -21,6 +21,8 @@ public:
 private:
 	std::string m_question;
 	std::vector<std::string> m_possibleAnswers;
+
+	std::string replaceHtmlEntities(const std::string& input);
 };
 
 // Define a node in the linked list

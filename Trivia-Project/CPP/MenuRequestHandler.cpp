@@ -255,7 +255,7 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(m_user);
 			return returnError(result, "Error! Couldn't get personal stats!", serializer);
 		}
-
+		getPersonalStatsResponse._status = returnCode;
 		result.response = serializer.serializeResponse(getPersonalStatsResponse);
 	}
 	catch (std::exception& e)

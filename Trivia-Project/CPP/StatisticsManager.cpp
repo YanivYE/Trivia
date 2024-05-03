@@ -30,11 +30,11 @@ std::vector<std::string> StatisticsManager::getUserStatistics(std::string userna
 	std::vector<std::string> stats;	
 
 	// get all stats
-	stats.push_back(std::to_string(m_database->getPlayerAverageAnswerTime(username)));
-	stats.push_back(std::to_string(m_database->getNumOfCorrectAnswers(username)));
-	stats.push_back(std::to_string(m_database->getNumOfTotalAnswers(username)));
 	stats.push_back(std::to_string(m_database->getNumOfPlayerGames(username)));
-	stats.push_back(std::to_string(m_database->getPlayerScore(username)));
+	stats.push_back(std::to_string(m_database->getNumOfCorrectAnswers(username)));
+	stats.push_back(std::to_string(m_database->getNumOfWrongAnswers(username)));
+	stats.push_back(std::to_string(m_database->getPlayerAverageAnswerTime(username)));
+
 
 	return stats;
 }

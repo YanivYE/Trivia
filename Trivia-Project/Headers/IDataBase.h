@@ -28,11 +28,11 @@ public:
 	// Statistics
 	virtual int addStatistic(std::string username, std::string time, std::string isCorrectAnswer, std::string score) = 0;
 	virtual QuestionsList* getQuestions(int amount) = 0;
-	virtual float getPlayerAverageAnswerTime(std::string username) = 0;
+	virtual int getPlayerAverageAnswerTime(std::string username) = 0;
 	virtual int getNumOfCorrectAnswers(std::string uaername) = 0;
-	virtual int getNumOfTotalAnswers(std::string username) = 0;
+	virtual int getNumOfWrongAnswers(std::string username) = 0;
 	virtual int getNumOfPlayerGames(std::string username) = 0;
-	virtual int getPlayerScore(std::string username) = 0;
+	virtual int getPlayerTotalScore(std::string username) = 0;
 	virtual std::vector<std::string> getHighScores() = 0;
 	virtual int addNewGame(std::string username) = 0;
 

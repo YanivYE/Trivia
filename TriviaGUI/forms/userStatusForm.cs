@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -45,26 +46,22 @@ namespace TriviaGUI
 
             string userStats = Utillities.recieveMessage(socket);
 
-            gamesPlayedBox.Text = CreateVectorFromString(userStats)[3];
-            rightAnswersBox.Text = CreateVectorFromString(userStats)[1];
-            wrongAnswersBox.Text = (int.Parse(CreateVectorFromString(userStats)[2]) - int.Parse(CreateVectorFromString(userStats)[1])).ToString();
-            avgTimeBox.Text = CreateVectorFromString(userStats)[0];
+            int startIndex = userStats.IndexOf('{');
+            string jsonString = userStats.Substring(startIndex);
+
+            // Deserialize the JSON string to an object
+            UserStatistics userStatistics = JsonConvert.DeserializeObject<UserStatistics>(jsonString);
+
+            gamesPlayedBox.Text = userStatistics.UserStats[0].ToString();
+            rightAnswersBox.Text = userStatistics.UserStats[1].ToString();
+            wrongAnswersBox.Text = userStatistics.UserStats[2].ToString();
+            avgTimeBox.Text = userStatistics.UserStats[3].ToString();
         }
+    }
 
-        public static List<string> CreateVectorFromString(string inputString)
-        {
-            // Split the input string by commas
-            string[] parts = inputString.Split(',');
-
-            // Extract the numbers from the split parts
-            List<string> numbers = new List<string>();
-            for (int i = 1; i <= 4; i++)
-            {
-                numbers.Add(parts[i].Trim());
-            }
-
-            return numbers;
-        }
-        
+    class UserStatistics
+    {
+        public List<int> UserStats { get; set; }
+        public int status { get; set; }
     }
 }

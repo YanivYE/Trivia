@@ -45,6 +45,18 @@ bool SqliteDatabase::open()
 	return true;
 }
 
+/*
+* Function closes the data base
+* Output: data base closed or not
+*/
+bool SqliteDatabase::close()
+{
+	int res = sqlite3_close(db);
+	db = nullptr;
+
+	return res;
+}
+
 void SqliteDatabase::createDBTables()
 {
 	createUsersTable();
@@ -62,18 +74,42 @@ void SqliteDatabase::createUsersTable()
 	executeQuery(usersTableQuery, nullptr, nullptr);
 }
 
+/*
+* Function creates the questions table in data base
+* Output: none
+*/
+void SqliteDatabase::createQuestionsTable()
+{
+	std::string questionsTableQuery = "CREATE TABLE questions (question TEXT NOT NULL, correct_answer TEXT NOT NULL, wrong_answer_1 TEXT NOT NULL, wrong_answer_2 TEXT NOT NULL, wrong_answer_3 TEXT NOT NULL);";
+	executeQuery(questionsTableQuery, nullptr, nullptr);
+	// insert questions to data base
+	insertQuestions();
+}
 
 /*
-* Function closes the data base
-* Output: data base closed or not
+* Function inserts questions to data base questions table
+* Output: none
 */
-bool SqliteDatabase::close()
+void SqliteDatabase::insertQuestions()
 {
-	int res = sqlite3_close(db);
-	db = nullptr;
-
-	return res;
+	// update by scrmbling all question somehow, and adding more
+	// python command to run python script to add the questions to data base. the scipt uses an api url to get a 
+	// json string of 10 random questions and inserts them to data base
+	std::system("python insertDBquestions.py");
+	// MIGHT NOT WORK, RUN THE SCRYPT MANUALY
 }
+
+/*
+* Function creates the statistics table in data base
+* Output: none
+*/
+void SqliteDatabase::createStatisticsTable()
+{
+	std::string statisticsTableQuery = "CREATE TABLE statistics (username TEXT NOT NULL, time INTEGER NOT NULL, is_correct_answer INTEGER NOT NULL, score INTEGER NOT NULL);";
+	executeQuery(statisticsTableQuery, nullptr, nullptr);
+}
+
+
 
 /*
 * Function gets if a user exists
@@ -166,41 +202,6 @@ int SqliteDatabase::addNewUser(std::string name, std::string password, std::stri
 }
 
 /*
-* Function creates the questions table in data base
-* Output: none
-*/
-void SqliteDatabase::createQuestionsTable()
-{
-	std::string questionsTableQuery = "CREATE TABLE questions (question TEXT NOT NULL, correct_answer TEXT NOT NULL, wrong_answer_1 TEXT NOT NULL, wrong_answer_2 TEXT NOT NULL, wrong_answer_3 TEXT NOT NULL);";
-	executeQuery(questionsTableQuery, nullptr, nullptr);
-	// insert questions to data base
-	insertQuestions();
-}
-
-/*
-* Function inserts questions to data base questions table
-* Output: none
-*/
-void SqliteDatabase::insertQuestions()
-{
-	// update by scrmbling all question somehow, and adding more
-	// python command to run python script to add the questions to data base. the scipt uses an api url to get a 
-	// json string of 10 random questions and inserts them to data base
-	std::system("python insertDBquestions.py");
-	// MIGHT NOT WORK, RUN THE SCRYPT MANUALY
-}
-
-/*
-* Function creates the statistics table in data base
-* Output: none
-*/
-void SqliteDatabase::createStatisticsTable()
-{
-	std::string statisticsTableQuery = "CREATE TABLE statistics (username TEXT NOT NULL, time INTEGER NOT NULL, is_correct_answer INTEGER NOT NULL, score INTEGER NOT NULL);";
-	executeQuery(statisticsTableQuery, nullptr, nullptr);
-}
-
-/*
 * Function gets a list of questions
 * Input: data - additional passed data
 * argc - number of collums
@@ -265,42 +266,38 @@ int timeCallback(void* data, int argc, char** argv, char** azColName)
 	for (int i = 0; i < argc; i++) {
 		if (std::string(azColName[i]) == "time") {
 			// sum up the time in seconds
-			*time += std::atoi(argv[i]);
+			*time += std::atof(argv[i]); // Use atof for float conversion
 		}
 	}
 	return 0;
 }
 
-/*
-* Function gets the total number of answers of user
-* Input: data - additional passed data
-* argc - number of collums
-* argv - array of strings that contains the values of the columns in the current row of the query result
-* azColName - array of strings that contains the names of the columns in the current row of the query result
-* Output: code 0
-*/
-int totalUserAnswersCallBAck(void* data, int argc, char** argv, char** azColName)
+int totalUserAnswersCallBack(void* data, int argc, char** argv, char** azColName)
 {
 	float* amount = static_cast<float*>(data);
-	// set amount as the number of rows from data base
-	*amount = argc;
+	// Increment amount for each row
+	(*amount)++;
 	return 0;
 }
 
-/*
-* Function gets a player's average time to answer a question
-* Input: username - the player name
-* Output: avergae time
-*/
-float SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
+int SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
 {
 	float totalTime = 0, amount = 0;
-	std::string query = "SELECT * FROM statistics WHERE username = '" + username + "'; ";
+	std::string query = "SELECT time FROM statistics WHERE username = '" + username + "'";
 	executeQuery(query, timeCallback, &totalTime);
-	executeQuery(query, totalUserAnswersCallBAck, &amount);
+	executeQuery(query, totalUserAnswersCallBack, &amount);
 
-	// divide the total time by the amount of questions the user answered
-	return totalTime / amount;
+	// Calculate average time, handling division by zero
+	if (amount > 0) {
+		float averageTime = totalTime / amount;
+		// Convert average time to milliseconds and round to the nearest integer
+		int averageTimeMillis = static_cast<int>(round(averageTime * 1000));
+		return averageTimeMillis;
+	}
+	else {
+		// Return some default value or handle the division by zero case appropriately
+		return 0; // For example, returning 0 if no answers are found
+	}
 }
 
 /*
@@ -320,7 +317,7 @@ int correctAnswersCallback(void* data, int argc, char** argv, char** azColName)
 				// if the answer is correct
 			{
 				// raise the answers count
-				count++;
+				(*count)++;
 			}
 		}
 	}
@@ -335,22 +332,42 @@ int correctAnswersCallback(void* data, int argc, char** argv, char** azColName)
 int SqliteDatabase::getNumOfCorrectAnswers(std::string username)
 {
 	int correctAnswersCount = 0;
-	std::string getCorrectAnswersQuery = "SELECT * FROM statistics WHERE username = '" + username + "'; ";
+	std::string getCorrectAnswersQuery = "SELECT is_correct_answer FROM statistics WHERE username = '" + username + "'";
 	executeQuery(getCorrectAnswersQuery, correctAnswersCallback, &correctAnswersCount);
 	return correctAnswersCount;
 }
 
-/*
-* Function gets a player's number of answers
-* Input: username - the player name
-* Output: answers
-*/
-int SqliteDatabase::getNumOfTotalAnswers(std::string username)
+int wrongAnswersCallback(void* data, int argc, char** argv, char** azColName)
 {
-	int amount = 0;
-	std::string query = "SELECT * FROM statistics WHERE username = '" + username + "'; ";
-	executeQuery(query, totalUserAnswersCallBAck, &amount);
-	return amount;
+	int* count = static_cast<int*>(data);
+	for (int i = 0; i < argc; i++) {
+		if (std::string(azColName[i]) == "is_correct_answer") {
+			if (std::atoi(argv[i]) == wrong)
+				// if the answer is wrong
+			{
+				// raise the answers count
+				(*count)++;
+			}
+		}
+	}
+	return 0;
+}
+
+int SqliteDatabase::getNumOfWrongAnswers(std::string username)
+{
+	int wrongAnswersCount = 0;
+	std::string getWrongAnswersQuery = "SELECT is_correct_answer FROM statistics WHERE username = '" + username + "'";
+	executeQuery(getWrongAnswersQuery, wrongAnswersCallback, &wrongAnswersCount);
+	return wrongAnswersCount;
+}
+
+
+// Define the callback function outside the class or as static within the class
+int gamesPlayedCallback(void* data, int argc, char** argv, char** azColName)
+{
+	int* totalGamesPlayed = static_cast<int*>(data);
+	*totalGamesPlayed = std::stoi(argv[0]); // Assuming number_of_games is the first column
+	return 0;
 }
 
 /*
@@ -360,8 +377,10 @@ int SqliteDatabase::getNumOfTotalAnswers(std::string username)
 */
 int SqliteDatabase::getNumOfPlayerGames(std::string username)
 {
-	// divide the number of answers in all games by the number of questions
-	return getNumOfTotalAnswers(username) / NUM_OF_QUESTIONS;
+	int gamesNum = 0;
+	std::string getPlayedGamesQuery = "SELECT games_played FROM users WHERE username = '" + username + "'";
+	executeQuery(getPlayedGamesQuery, gamesPlayedCallback, &gamesNum);
+	return gamesNum;
 }
 
 /*
@@ -389,7 +408,7 @@ int scoreCallback(void* data, int argc, char** argv, char** azColName)
 * Input: username - the player name
 * Output: score
 */
-int SqliteDatabase::getPlayerScore(std::string username)
+int SqliteDatabase::getPlayerTotalScore(std::string username)
 {
 	int totalPlayerScore = 0;
 	std::string query = "SELECT * FROM statistics WHERE username = '" + username + "'; ";
@@ -436,6 +455,13 @@ std::vector<std::string> SqliteDatabase::getHighScores()
 	executeQuery(query, usersScoresCallback, &usersScores);
 
 	return getHighScoresTable(combineUserScores(usersScores));
+}
+
+
+int SqliteDatabase::addStatistic(std::string username, std::string time, std::string isCorrectAnswer, std::string score)
+{
+	std::string addStatsQuery = "INSERT INTO statistics (username, time, is_correct_answer, score) VALUES ('" + username + "','" + time + "','" + isCorrectAnswer + "','" + score + "');";
+	return executeQuery(addStatsQuery, nullptr, nullptr);
 }
 
 int SqliteDatabase::addNewGame(std::string username)
@@ -502,8 +528,3 @@ std::vector<std::string> SqliteDatabase::getHighScoresTable(std::multimap<int, s
 	return topUsers;
 }
 
-int SqliteDatabase::addStatistic(std::string username, std::string time, std::string isCorrectAnswer, std::string score)
-{
-	std::string addStatsQuery = "INSERT INTO statistics (username, time, is_correct_answer, score) VALUES ('" + username + "','" + time + "','" + isCorrectAnswer + "','" + score + "');";
-	return executeQuery(addStatsQuery, nullptr, nullptr);
-}

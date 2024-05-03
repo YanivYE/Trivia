@@ -14,19 +14,21 @@ public:
 
 	bool open() override; // open db
 	bool close() override; // close db
+
+	// users
 	int doesUserExist(std::string username) override; // check if user exists in db
 	int doesPasswordMatch(std::string username, std::string password) override; // check if password matches username pass in db
 	int addNewUser(std::string username, std::string password, std::string mail) override; // add new user to db
 
 	// Statistics
-	int addStatistic(std::string username, std::string time, std::string isCorrectAnswer, std::string score) override;
 	QuestionsList* getQuestions(int amount) override;
-	float getPlayerAverageAnswerTime(std::string username) override;
+	int getPlayerAverageAnswerTime(std::string username) override;
 	int getNumOfCorrectAnswers(std::string username) override;
-	int getNumOfTotalAnswers(std::string username) override;
+	int getNumOfWrongAnswers(std::string username) override;
 	int getNumOfPlayerGames(std::string username) override;
-	int getPlayerScore(std::string username) override;
+	int getPlayerTotalScore(std::string username) override;
 	std::vector<std::string> getHighScores() override;
+	int addStatistic(std::string username, std::string time, std::string isCorrectAnswer, std::string score) override;
 	int addNewGame(std::string username) override;
 
 private:

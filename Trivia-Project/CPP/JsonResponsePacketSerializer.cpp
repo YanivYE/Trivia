@@ -169,7 +169,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(GetHighScoreResponse resp
 */
 Buffer JsonResponsePacketSerializer::serializeResponse(GetPersonalStatsResponse response)
 {
-    return serializeResponseStats(response._status, response._statistics, "UserStatistics", GetPersonalStats);
+    return serializeResponseStats(response._status, response._statistics, "UserStats", GetPersonalStats);
 }
 
 Buffer JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse response)
@@ -290,6 +290,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse respons
 */
 Buffer JsonResponsePacketSerializer::serializeResponseStats(int status, std::vector<std::string> statistics, std::string typeOfStats, int code)
 {
+    int i = 0;
     Buffer buffer;
     Message message;
     json data;
@@ -298,11 +299,11 @@ Buffer JsonResponsePacketSerializer::serializeResponseStats(int status, std::vec
     data["status"] = status;
 
     // add all the stats
-    for (int i = 0; i < statistics.size(); i++)
+    for (i = 0; i < statistics.size() - 1; i++)
     {
         stats += statistics[i] + ", ";
     }
-
+    stats += statistics[i];
     // get stats without last char
     data[typeOfStats] = stats.substr(0, stats.size() - 1);
 

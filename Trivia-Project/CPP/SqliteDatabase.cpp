@@ -413,47 +413,6 @@ int SqliteDatabase::getPlayerTotalScore(std::string username)
 	return totalPlayerScore;
 }
 
-/*
-* Function gets the scores of all users 
-* Input: data - additional passed data
-* argc - number of collums
-* argv - array of strings that contains the values of the columns in the current row of the query result
-* azColName - array of strings that contains the names of the columns in the current row of the query result
-* Output: code 0
-*/
-int usersScoresCallback(void* data, int argc, char** argv, char** azColName)
-{
-	std::string username = "";
-	int score = 0;
-	std::multimap<int, std::string>* scores = static_cast<std::multimap<int, std::string>*>(data);
-	for (int i = 0; i < argc; i++) {
-		if (std::string(azColName[i]) == "username") {
-			username = argv[i];
-		}
-		else if (std::string(azColName[i]) == "score") {
-			score = std::atoi(argv[i]);
-		}	
-	}
-	// insert a score of user to map
-	(*scores).insert(std::make_pair(score, username));
-
-	return 0;
-}
-
-/*
-* Function gets a the top players scores
-* Output: high scores table
-*/
-std::vector<std::string> SqliteDatabase::getHighScores()
-{
-	// set a multimap of scores and their users
-	std::multimap<int, std::string> usersScores;
-	std::string query = "SELECT * FROM statistics";
-	executeQuery(query, usersScoresCallback, &usersScores);
-
-	return getHighScoresTable(combineUserScores(usersScores));
-}
-
 
 int SqliteDatabase::addStatistic(std::string username, std::string time, std::string isCorrectAnswer, std::string score)
 {
@@ -467,61 +426,38 @@ int SqliteDatabase::addNewGame(std::string username)
 	return executeQuery(addNewGameQuery, nullptr, nullptr);
 }
 
-std::multimap<int, std::string> SqliteDatabase::combineUserScores(const std::multimap<int, std::string>& scoresMap)
-{
-	std::multimap<std::string, int> combinedScoresMap;
 
-	// Combine scores for each username
-	for (const auto& pair : scoresMap) {
-		const std::string& username = pair.second;
-		int score = pair.first;
-
-		// Find the range of scores for the current username
-		auto range = combinedScoresMap.equal_range(username);
-
-		// Check if the username already exists in the combined scores map
-		bool found = false;
-		for (auto it = range.first; it != range.second; ++it) {
-			if (it->first == username) {
-				// Add the score to the existing entry for the username
-				it->second += score;
-				found = true;
-				break;
-			}
-		}
-
-		// If the username was not found, add a new entry to the combined scores map
-		if (!found) {
-			combinedScoresMap.insert(std::make_pair(username, score));
-		}
+/*
+* Function gets the scores of all users
+* Input: data - additional passed data
+* argc - number of collums
+* argv - array of strings that contains the values of the columns in the current row of the query result
+* azColName - array of strings that contains the names of the columns in the current row of the query result
+* Output: code 0
+*/
+int usersScoresCallback(void* data, int argc, char** argv, char** colNames) {
+	std::multimap<int, std::string>* leaders = static_cast<std::multimap<int, std::string>*>(data);
+	if (argc == 2) {
+		std::string username = argv[0];
+		int totalScore = std::stoi(argv[1]);
+		leaders->insert(std::make_pair(totalScore, username)); // Note the order of insertion
 	}
-
-	// Create a new multimap with combined scores as keys and usernames as values
-	std::multimap<int, std::string> combinedMap;
-	for (const auto& pair : combinedScoresMap) {
-		combinedMap.insert(std::make_pair(pair.second, pair.first));
-	}
-
-	return combinedMap;
+	return 0;
 }
 
 /*
-* Function gets a the top players scores, in a vector of user score string
+* Function gets a the top players scores
 * Output: high scores table
 */
-std::vector<std::string> SqliteDatabase::getHighScoresTable(std::multimap<int, std::string> scores)
+std::multimap<int ,std::string> SqliteDatabase::getLeaderboard()
 {
-	std::vector<std::string> topUsers;
-	std::multimap<int, std::string>::iterator it;
-	for (it = scores.begin(); it != scores.end(); ++it) 
-	{
-		std::string userHighScore = it->second + ": " + std::to_string(it->first);
-		// add players from the top of the multimap
-		topUsers.push_back(userHighScore);
-		if (topUsers.size() == 3) 
-			// when reached the size of 3, break and stop inserting to vector
-			break;
-	}
-	return topUsers;
+	std::multimap<int, std::string> leaders; // Note the change to multimap with score as key
+	std::string query = "SELECT username, SUM(score) AS total_score "
+		"FROM statistics "
+		"GROUP BY username "
+		"ORDER BY total_score DESC "
+		"LIMIT 3";
+	executeQuery(query, usersScoresCallback, &leaders);
+	return leaders;
 }
 

@@ -51,7 +51,7 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 		return getPersonalStats(info);
 		break;
 	case GetLeaderboardStats:
-		return getHighScore(info);
+		return getLeaderboard(info);
 		break;
 	case Logout:
 		return signout(info);
@@ -266,12 +266,7 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 	return result;
 }
 
-/*
-* Function gets a info to deserialize and returns a request result of get get high score
-* Input: info - the info to desializer to request result
-* Output: a get high score request result
-*/
-RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
+RequestResult MenuRequestHandler::getLeaderboard(RequestInfo info)
 {
 	RequestResult result;
 	JsonRequestPacketDeserializer deserializer;
@@ -283,7 +278,8 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 		// get high score
 		GetHighScoreResponse getHighScoreResponse;
 
-		getHighScoreResponse._statistics = this->m_handlerFactory->getStatisticsManager().getHighScore();
+		getHighScoreResponse._leaders = this->m_handlerFactory->getStatisticsManager().getLeaderboard();
+		getHighScoreResponse._status = returnCode;
 
 		if (returnCode == Success)
 		{

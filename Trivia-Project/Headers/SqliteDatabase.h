@@ -27,7 +27,7 @@ public:
 	int getNumOfWrongAnswers(std::string username) override;
 	int getNumOfPlayerGames(std::string username) override;
 	int getPlayerTotalScore(std::string username) override;
-	std::vector<std::string> getHighScores() override;
+	std::multimap<int, std::string> getLeaderboard() override;
 	int addStatistic(std::string username, std::string time, std::string isCorrectAnswer, std::string score) override;
 	int addNewGame(std::string username) override;
 
@@ -49,6 +49,4 @@ private:
 	void createQuestionsTable(); // create question tables
 	void insertQuestions(); // insert queestions
 	void createStatisticsTable(); // create stats table
-	std::vector<std::string> getHighScoresTable(std::multimap<int, std::string> scores); // get high score table
-	std::multimap<int, std::string> combineUserScores(const std::multimap<int, std::string>& scoresMap);
 };

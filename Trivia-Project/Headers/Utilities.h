@@ -68,7 +68,7 @@ struct GetPlayersInRoomResponse
 struct GetHighScoreResponse
 {
 	unsigned int _status;
-	std::vector<std::string> _statistics;
+	std::multimap<int, std::string> _leaders;
 }typedef GetHighScoreResponse;
 
 struct GetPersonalStatsResponse

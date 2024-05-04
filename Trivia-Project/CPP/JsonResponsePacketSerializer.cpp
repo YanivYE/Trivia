@@ -159,9 +159,35 @@ Buffer JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse respon
 */
 Buffer JsonResponsePacketSerializer::serializeResponse(GetHighScoreResponse response)
 {
-    // return serializeResponseStats(response._status, response._statistics, "HighScores", GetPersonalStats);
-    return Buffer();
+    Buffer buffer;
+    Message message;
+    json data;
+    std::string stats;
+
+    data["status"] = response._status;
+
+    // Add all the stats from multimap
+    for (auto it = response._leaders.begin(); it != response._leaders.end(); ++it)
+    {
+        stats += it->second + ":" + std::to_string(it->first) + ","; // Assuming the username is the second element in the multimap
+    }
+    // Remove the last comma
+    if (!stats.empty())
+    {
+        stats.pop_back();
+    }
+
+    data["leaders"] = stats;
+
+    message._code = GetLeaderboardStats;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
 }
+
 
 /*
 * Function gets a get personal stats response and returns a buffer of the serialized response

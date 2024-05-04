@@ -15,9 +15,9 @@ StatisticsManager::StatisticsManager(IDataBase* db)
 * Input: none
 * Output: high scores
 */
-std::vector<std::string> StatisticsManager::getHighScore()
+std::multimap<int, std::string> StatisticsManager::getLeaderboard()
 {
-	return m_database->getHighScores();
+	return m_database->getLeaderboard();
 }
 
 /*

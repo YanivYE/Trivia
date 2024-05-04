@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -42,45 +43,70 @@ namespace TriviaGUI
             };
 
             Utillities.sendMessage(socket, Utillities.serialize(leaderBoardMsg, LEADER_BOARD_CODE));
-            string leaderBoard = Utillities.recieveMessage(socket);
-            List<string> board = CreateVectorFromString(leaderBoard);
-            if (!(board.Count() == 0))
-            {
-                first.Text = CreateVectorFromString(leaderBoard)[0];
-                second.Text = CreateVectorFromString(leaderBoard)[1];
-                third.Text = CreateVectorFromString(leaderBoard)[2];
-            }
+            string leaderBoardString = Utillities.recieveMessage(socket);
+            Dictionary<string, int> leaderBoard = CreateDictionaryFromString(leaderBoardString);
+            DisplayLeaderboard(leaderBoard);
 
         }
 
-        public static List<string> CreateVectorFromString(string inputString)
+        public static Dictionary<string, int> CreateDictionaryFromString(string leaderBoardString)
         {
-            // Split the input string by commas
-            string[] parts = inputString.Split(',');
+            Dictionary<string, int> board = new Dictionary<string, int>();
 
-            // Extract the user and numbers from the split parts
-            List<string> vector = new List<string>();
-            if (parts.Contains("\"HighScores\":\"\","))
+            int index = leaderBoardString.IndexOf('{');
+            leaderBoardString = leaderBoardString.Substring(index);
+
+            // Remove any trailing characters after the closing curly brace '}'
+            int endIndex = leaderBoardString.LastIndexOf('}');
+            leaderBoardString = leaderBoardString.Substring(0, endIndex + 1);
+
+            // Parse the JSON string into a JObject
+            JObject leaderBoardJson = JObject.Parse(leaderBoardString);
+
+            // Extract the leaders dictionary from the JObject
+            string leadersString = leaderBoardJson["leaders"].ToString();
+
+            // Remove any unnecessary characters
+            leadersString = leadersString.Replace("{", "").Replace("}", "").Replace("\"", "");
+
+            // Split the leaders string by ',' to get individual entries
+            string[] leaderEntries = leadersString.Split(',');
+
+            // Loop through the leader entries and populate the dictionary
+            foreach (string entry in leaderEntries)
             {
-                for (int i = 0; i <= 2; i++)
+                string[] parts = entry.Split(':');
+                if (parts.Length == 2)
                 {
-                    string[] keyValue = parts[i].Split(':');
-                    if (keyValue.Length == 2)
-                    {
-                        string user = keyValue[0].Trim();
-                        string number = keyValue[1].Trim();
-                        string item = $"{user}: {number}";
-                        vector.Add(item);
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Failed to extract user and number at index {i}");
-                        return null;
-                    }
+                    string username = parts[0];
+                    int score = int.Parse(parts[1]);
+                    board.Add(username, score);
                 }
-
             }
-            return vector;
+
+            return board;
+        }
+
+
+        void DisplayLeaderboard(Dictionary<string, int> board)
+        {
+            System.Windows.Forms.Label[] userLabels = { user1, user2, user3 };
+            System.Windows.Forms.Label[] scoreLabels = { score1, score2, score3 };
+            // Extract usernames and scores
+            List<string> usernames = board.Keys.ToList();
+            List<int> scores = board.Values.ToList();
+
+            // Sort by score in descending order
+            var sortedScores = scores.OrderByDescending(x => x).ToList();
+
+            // Display top 3
+            for (int i = 0; i < Math.Min(sortedScores.Count, 3); i++)
+            {
+                string username = usernames[scores.IndexOf(sortedScores[i])];
+                int score = sortedScores[i];
+                userLabels[i].Text = username;
+                scoreLabels[i].Text = score.ToString();
+            }
         }
     }
 }

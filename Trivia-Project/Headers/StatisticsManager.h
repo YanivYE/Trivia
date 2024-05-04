@@ -11,7 +11,7 @@ public:
 	StatisticsManager(IDataBase* db);
 
 	// get high score
-	std::vector<std::string> getHighScore();
+	std::multimap<int, std::string> getLeaderboard();
 	std::vector<std::string> getUserStatistics(std::string username); // get user stats
 private:
 	IDataBase* m_database; // db

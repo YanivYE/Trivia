@@ -33,7 +33,7 @@ public:
 	virtual int getNumOfWrongAnswers(std::string username) = 0;
 	virtual int getNumOfPlayerGames(std::string username) = 0;
 	virtual int getPlayerTotalScore(std::string username) = 0;
-	virtual std::vector<std::string> getHighScores() = 0;
+	virtual std::multimap<int, std::string> getLeaderboard() = 0;
 	virtual int addNewGame(std::string username) = 0;
 
 	sqlite3* db; // db

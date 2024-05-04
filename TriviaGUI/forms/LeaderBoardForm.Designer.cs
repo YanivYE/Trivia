@@ -37,6 +37,12 @@
             second = new Label();
             third = new Label();
             BackArrow = new Button();
+            user1 = new Label();
+            user2 = new Label();
+            user3 = new Label();
+            score1 = new Label();
+            score3 = new Label();
+            score2 = new Label();
             ((System.ComponentModel.ISupportInitialize)medal3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)medal1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)medal2).BeginInit();
@@ -138,6 +144,78 @@
             BackArrow.UseVisualStyleBackColor = false;
             BackArrow.Click += BackArrow_Click;
             // 
+            // user1
+            // 
+            user1.AutoSize = true;
+            user1.BackColor = Color.LightSeaGreen;
+            user1.Font = new Font("Ravie", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
+            user1.ForeColor = Color.Black;
+            user1.Location = new Point(266, 138);
+            user1.Name = "user1";
+            user1.Size = new Size(237, 38);
+            user1.TabIndex = 10;
+            user1.Text = "                    ";
+            // 
+            // user2
+            // 
+            user2.AutoSize = true;
+            user2.BackColor = Color.LightSeaGreen;
+            user2.Font = new Font("Ravie", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
+            user2.ForeColor = Color.Black;
+            user2.Location = new Point(266, 236);
+            user2.Name = "user2";
+            user2.Size = new Size(237, 38);
+            user2.TabIndex = 11;
+            user2.Text = "                    ";
+            // 
+            // user3
+            // 
+            user3.AutoSize = true;
+            user3.BackColor = Color.LightSeaGreen;
+            user3.Font = new Font("Ravie", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
+            user3.ForeColor = Color.Black;
+            user3.Location = new Point(266, 336);
+            user3.Name = "user3";
+            user3.Size = new Size(237, 38);
+            user3.TabIndex = 12;
+            user3.Text = "                    ";
+            // 
+            // score1
+            // 
+            score1.AutoSize = true;
+            score1.BackColor = Color.LightSeaGreen;
+            score1.Font = new Font("Ravie", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
+            score1.ForeColor = Color.Black;
+            score1.Location = new Point(544, 138);
+            score1.Name = "score1";
+            score1.Size = new Size(237, 38);
+            score1.TabIndex = 13;
+            score1.Text = "                    ";
+            // 
+            // score3
+            // 
+            score3.AutoSize = true;
+            score3.BackColor = Color.LightSeaGreen;
+            score3.Font = new Font("Ravie", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
+            score3.ForeColor = Color.Black;
+            score3.Location = new Point(544, 336);
+            score3.Name = "score3";
+            score3.Size = new Size(237, 38);
+            score3.TabIndex = 14;
+            score3.Text = "                    ";
+            // 
+            // score2
+            // 
+            score2.AutoSize = true;
+            score2.BackColor = Color.LightSeaGreen;
+            score2.Font = new Font("Ravie", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
+            score2.ForeColor = Color.Black;
+            score2.Location = new Point(544, 236);
+            score2.Name = "score2";
+            score2.Size = new Size(237, 38);
+            score2.TabIndex = 15;
+            score2.Text = "                    ";
+            // 
             // LeaderBoardForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -145,6 +223,12 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(811, 450);
+            Controls.Add(score2);
+            Controls.Add(score3);
+            Controls.Add(score1);
+            Controls.Add(user3);
+            Controls.Add(user2);
+            Controls.Add(user1);
             Controls.Add(BackArrow);
             Controls.Add(medal3);
             Controls.Add(medal2);
@@ -176,5 +260,11 @@
         private Label second;
         private Label third;
         private Button BackArrow;
+        private Label user1;
+        private Label user2;
+        private Label user3;
+        private Label score1;
+        private Label score3;
+        private Label score2;
     }
 }

@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TriviaGUI.messages;
+using static System.Windows.Forms.AxHost;
 
 namespace TriviaGUI
 {
@@ -50,7 +51,26 @@ namespace TriviaGUI
             string jsonString = userStats.Substring(startIndex);
 
             // Deserialize the JSON string to an object
-            UserStatistics userStatistics = JsonConvert.DeserializeObject<UserStatistics>(jsonString);
+            UserStatistics userStatistics = new UserStatistics();
+
+            try
+            {
+                // Deserialize the JSON string into a Question object
+                var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonString);
+
+                if (jsonObject != null)
+                {
+                    userStatistics.status = Convert.ToInt32(jsonObject["status"]); 
+                    // Split the players string and add non-empty players to the players list
+                    string statsString = (string)jsonObject["UserStats"];
+                    userStatistics.UserStats = statsString.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                }
+            }
+            catch (Exception ex) // Catch the exception to handle any errors during parsing
+            {
+                Console.WriteLine("Error parsing JSON: " + ex.Message);
+            }
 
             gamesPlayedBox.Text = userStatistics.UserStats[0].ToString();
             rightAnswersBox.Text = userStatistics.UserStats[1].ToString();
@@ -61,7 +81,7 @@ namespace TriviaGUI
 
     class UserStatistics
     {
-        public List<int> UserStats { get; set; }
+        public List<string> UserStats { get; set; }
         public int status { get; set; }
     }
 }

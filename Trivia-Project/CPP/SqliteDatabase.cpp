@@ -280,7 +280,7 @@ int totalUserAnswersCallBack(void* data, int argc, char** argv, char** azColName
 	return 0;
 }
 
-int SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
+float SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
 {
 	float totalTime = 0, amount = 0;
 	std::string query = "SELECT time FROM statistics WHERE username = '" + username + "'";
@@ -289,14 +289,11 @@ int SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
 
 	// Calculate average time, handling division by zero
 	if (amount > 0) {
-		float averageTime = totalTime / amount;
-		// Convert average time to milliseconds and round to the nearest integer
-		int averageTimeMillis = static_cast<int>(round(averageTime * 1000));
-		return averageTimeMillis;
+		return totalTime / amount;
 	}
 	else {
 		// Return some default value or handle the division by zero case appropriately
-		return 0; // For example, returning 0 if no answers are found
+		return 0.0f; // For example, returning 0 if no answers are found
 	}
 }
 

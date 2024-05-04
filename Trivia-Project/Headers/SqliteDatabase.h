@@ -22,7 +22,7 @@ public:
 
 	// Statistics
 	QuestionsList* getQuestions(int amount) override;
-	int getPlayerAverageAnswerTime(std::string username) override;
+	float getPlayerAverageAnswerTime(std::string username) override;
 	int getNumOfCorrectAnswers(std::string username) override;
 	int getNumOfWrongAnswers(std::string username) override;
 	int getNumOfPlayerGames(std::string username) override;

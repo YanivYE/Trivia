@@ -159,7 +159,8 @@ Buffer JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse respon
 */
 Buffer JsonResponsePacketSerializer::serializeResponse(GetHighScoreResponse response)
 {
-    return serializeResponseStats(response._status, response._statistics, "HighScores", GetPersonalStats);
+    // return serializeResponseStats(response._status, response._statistics, "HighScores", GetPersonalStats);
+    return Buffer();
 }
 
 /*
@@ -169,7 +170,29 @@ Buffer JsonResponsePacketSerializer::serializeResponse(GetHighScoreResponse resp
 */
 Buffer JsonResponsePacketSerializer::serializeResponse(GetPersonalStatsResponse response)
 {
-    return serializeResponseStats(response._status, response._statistics, "UserStats", GetPersonalStats);
+    int i = 0;
+    Buffer buffer;
+    Message message;
+    json data;
+    std::string stats;
+
+    data["status"] = response._status;
+
+    // add all the stats
+    for (i = 0; i < response._statistics.size(); i++)
+    {
+        stats += response._statistics[i] + ",";
+    }
+    // get stats without last char
+    data["UserStats"] = stats.substr(0, stats.size() - 1);
+
+    message._code = GetPersonalStats;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
 }
 
 Buffer JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse response)
@@ -278,42 +301,6 @@ Buffer JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse respo
 Buffer JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse response)
 {
     return serializeReponseStatus(LeaveGame, response._status);
-}
-
-/*
-* Function gets a status, stats, type of stats, and code of a message and returns a buffer of the serialized response
-* Input: status - the status code
-*        statistics - vector of string of stats
-*        typeOfStats - type of stats
-*        code - the code of the message
-* Output: a buffer of the serialized response
-*/
-Buffer JsonResponsePacketSerializer::serializeResponseStats(int status, std::vector<std::string> statistics, std::string typeOfStats, int code)
-{
-    int i = 0;
-    Buffer buffer;
-    Message message;
-    json data;
-    std::string stats;
-
-    data["status"] = status;
-
-    // add all the stats
-    for (i = 0; i < statistics.size() - 1; i++)
-    {
-        stats += statistics[i] + ", ";
-    }
-    stats += statistics[i];
-    // get stats without last char
-    data[typeOfStats] = stats.substr(0, stats.size() - 1);
-
-    message._code = code;
-    message._data = data;
-    message._dataLength = data.dump().length(); // convert message to bytes
-
-    buffer._bytes = convertMessageToBuffer(message);
-
-    return buffer;
 }
 
 /*

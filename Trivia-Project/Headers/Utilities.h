@@ -20,7 +20,7 @@ enum messageCode { Login = 0b00000001, SignUp = 0b00000010, Logout = 0b00000011,
 	SubmitAnswer = 0b00001111, GetQuestion = 0b00010000, GetLeaderboardStats = 0b00010000, LeaveGame = 0b00010001
 };
 enum errorCode {userNotExist = 1, userNameExist, userAlreadyLogedIn, invalidUserName};
-enum roomStatusCodes {inGame = 1, waitingToStart};
+enum roomStatusCodes {inGame = 1, waitingToStart, notActive};
 enum checkAnswer {wrong, correct};
 
 struct LoginResponse
@@ -134,6 +134,7 @@ struct GetRoomStateResponse
 {
 	unsigned int _status;
 	bool _hasGameBegun;
+	bool _isActive;
 	std::vector<std::string> _players;
 	unsigned int _questionCount;
 	unsigned int _answerTimeout;

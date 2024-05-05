@@ -47,6 +47,10 @@ void RoomManager::deleteRoom(int ID)
 */
 unsigned int RoomManager::getRoomState(int ID)
 {
+	if (!this->m_rooms[ID]->getRoomData().isActive)
+	{
+		return notActive;
+	}
 	if (this->m_rooms[ID]->gameStarted())
 	{
 		return inGame;

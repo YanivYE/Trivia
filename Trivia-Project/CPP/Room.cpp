@@ -90,6 +90,11 @@ int Room::removeUser(LoggedUser user)
 	}
 }
 
+void Room::closeRoom()
+{
+	this->m_metadata->isActive = false;
+}
+
 /*
 * Funciton returns the room data
 * Input: none

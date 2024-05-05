@@ -28,6 +28,7 @@ public:
 
 	int addUser(LoggedUser user); // add user to room
 	int removeUser(LoggedUser user); // remove user from room
+	void closeRoom();
 
 	void setId(int id);
 

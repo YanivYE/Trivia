@@ -26,6 +26,7 @@ namespace TriviaGUI
 
         const int START_GAME_CODE = 0b00001011;
         const int ROOM_STATE_CODE = 0b00001100;
+        const int CLOSE_ROOM_CODE = 0b00001010;
 
         public roomForm(string admin, ServerHandler server, createRoomMessage info) // for admin
         {
@@ -75,7 +76,7 @@ namespace TriviaGUI
                 Utillities.sendMessage(socket, Utillities.serialize(roomStateMsg, ROOM_STATE_CODE));
                 string msg = Utillities.recieveMessage(socket);
 
-                if (!msg.Contains(":2}") && !msg.Contains(":1}"))
+                if (!msg.Contains(":2}") && !msg.Contains(":1}") && !msg.Contains(":3}"))
                 {
                     MessageBox.Show("Couldn't refresh room list. please restart client.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
@@ -87,6 +88,11 @@ namespace TriviaGUI
                     {
                         UpdateRoomState(state);
                         UpdatePlayersList(state.players);
+                        if(!state.isActive)
+                        {
+                            stop = true;
+                            leaveGame();
+                        }
                         if (state.hasGameBegun)
                         {
                             stop = true;
@@ -113,6 +119,18 @@ namespace TriviaGUI
             game.Show();
         }
 
+        void leaveGame()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(leaveGame));
+                return;
+            }
+            lobbyForm lobby = new lobbyForm(this.user, server);
+            this.Hide();
+            lobby.Show();
+        }
+
 
         // Call this method from the UI thread to start the game
 
@@ -134,6 +152,7 @@ namespace TriviaGUI
                     state.answerTimeOut = Convert.ToInt32(jsonObject["answerTimeOut"]);
                     state.status = Convert.ToInt32(jsonObject["status"]);
                     state.hasGameBegun = Convert.ToBoolean(jsonObject["hasGameBegun"]);
+                    state.isActive = Convert.ToBoolean(jsonObject["isActive"]);
                     state.AnswerCount = Convert.ToInt32(jsonObject["AnswerCount"]);
                     state.maxPlayers = Convert.ToInt32(jsonObject["maxPlayers"]);
 
@@ -247,7 +266,33 @@ namespace TriviaGUI
 
         private void closeRoom_Click(object sender, EventArgs e)
         {
+            if (this.isAdmin)
+            {
+                Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
 
+                stop = true;
+
+                var closeRoomMessage = new closeRoomMessage
+                {
+                    code = CLOSE_ROOM_CODE
+                };
+
+                Utillities.sendMessage(socket, Utillities.serialize(closeRoomMessage, CLOSE_ROOM_CODE));
+
+                string msg = Utillities.recieveMessage(socket);
+
+                if (!msg.Contains(":13"))
+                {
+                    MessageBox.Show("Coldn't close room! Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    stop = false;
+                }
+                else
+                {
+                    lobbyForm lobby = new lobbyForm(this.user, server);
+                    this.Hide();
+                    lobby.Show();
+                }
+            }
         }
     }
 
@@ -256,6 +301,7 @@ namespace TriviaGUI
         public int AnswerCount { get; set; }
         public int answerTimeOut { get; set; }
         public bool hasGameBegun { get; set; }
+        public bool isActive { get; set; }
         public int maxPlayers { get; set; }
 
         public List<string> players { get; set; }

@@ -247,6 +247,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse resp
 
     data["status"] = response._status;
     data["hasGameBegun"] = response._hasGameBegun;
+    data["isActive"] = response._isActive;
     data["players"] = players.substr(0, players.size() - 1);
     data["AnswerCount"] = response._questionCount;
     data["answerTimeOut"] = response._answerTimeout;

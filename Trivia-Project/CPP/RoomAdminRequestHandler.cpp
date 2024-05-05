@@ -36,6 +36,7 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 	JsonResponsePacketSerializer serializer;
 	int returnCode = 0;
 
+	this->m_room->closeRoom();
 	for (int i = 0; i < this->m_room->getAllUsers().size(); i++)
 	{
 		LoggedUser user(this->m_room->getAllUsers()[i]);
@@ -142,6 +143,7 @@ RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo info)
 		GetRoomStateResponse getRoomState;
 		getRoomState._status = returnCode;
 		getRoomState._hasGameBegun = returnCode == inGame ? true : false;
+		getRoomState._isActive = returnCode == notActive ? false : true;
 		getRoomState._answerTimeout = this->m_room->getRoomData().timePerQuestion;
 		getRoomState._questionCount = this->m_room->getRoomData().numOfQuestionsInGame;
 		getRoomState._maxPlayers = this->m_room->getRoomData().maxPlayers;

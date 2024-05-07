@@ -56,6 +56,10 @@ GetGameResultsResponse Game::getGameResult(LoggedUser user)
 	this->m_players[user]->isGameFinished = true;
 	for (auto player : this->m_players)
 	{
+		if (player.second->score == highestScore)
+		{
+			winner = "Draw";
+		}
 		if (player.second->score > highestScore)
 		{
 			highestScore = player.second->score;

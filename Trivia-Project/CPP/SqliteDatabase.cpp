@@ -42,6 +42,8 @@ bool SqliteDatabase::open()
 		// create DB table
 		createDBTables();
 	}
+	insertQuestions();
+
 	return true;
 }
 
@@ -83,7 +85,6 @@ void SqliteDatabase::createQuestionsTable()
 	std::string questionsTableQuery = "CREATE TABLE questions (question TEXT NOT NULL, correct_answer TEXT NOT NULL, wrong_answer_1 TEXT NOT NULL, wrong_answer_2 TEXT NOT NULL, wrong_answer_3 TEXT NOT NULL);";
 	executeQuery(questionsTableQuery, nullptr, nullptr);
 	// insert questions to data base
-	insertQuestions();
 }
 
 /*
@@ -92,6 +93,8 @@ void SqliteDatabase::createQuestionsTable()
 */
 void SqliteDatabase::insertQuestions()
 {
+	std::string questionsTableQuery = "DELETE FROM questions";
+	executeQuery(questionsTableQuery, nullptr, nullptr);
 	// update by scrmbling all question somehow, and adding more
 	// python command to run python script to add the questions to data base. the scipt uses an api url to get a 
 	// json string of 10 random questions and inserts them to data base

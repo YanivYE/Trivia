@@ -13,6 +13,9 @@ namespace TriviaGUI.messages
         public string ID { get; set; }
 
         [DataMember(Order = 2)]
-        public string time { get; set; }
+        public string pressTime { get; set; }
+
+        [DataMember(Order = 3)]
+        public string timeLeft { get; set; }
     }
 }

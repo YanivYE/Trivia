@@ -20,7 +20,7 @@ QuestionNode* Game::getQuestionForUser(LoggedUser user)
 	return currentQuestion;
 }
 
-SubmitAnswerResponse Game::submitAnswer(LoggedUser user, int answerId, int answerPressTime)
+SubmitAnswerResponse Game::submitAnswer(LoggedUser user, int answerId, int answerLeftTime)
 {
 	SubmitAnswerResponse submitAnswerResponse;
 	int answerScore = 0;
@@ -28,7 +28,7 @@ SubmitAnswerResponse Game::submitAnswer(LoggedUser user, int answerId, int answe
 	QuestionNode* currQuestion = this->m_players[user]->currentQuestion;
 	if (currQuestion->data.getCorrectAnswerId() == answerId)
 	{
-		answerScore = 100 * answerPressTime;
+		answerScore = 100 * answerLeftTime;
 		isCorrectAnswer = true;
 	}
 	this->m_players[user]->score += answerScore;

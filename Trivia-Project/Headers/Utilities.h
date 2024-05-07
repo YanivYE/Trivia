@@ -176,4 +176,5 @@ struct SubmitAnswerRequest
 {
 	unsigned int _answerId;
 	unsigned int _answerPressTime;
+	unsigned int _timeLeft;
 } typedef SubmitAnswerRequest;

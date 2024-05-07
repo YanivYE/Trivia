@@ -36,8 +36,18 @@ int RoomManager::createRoom(LoggedUser user, RoomData& roomData)
 */
 void RoomManager::deleteRoom(int ID)
 {
-	m_rooms[ID]->stopGame();
-	m_rooms.erase(ID);
+	for (auto it = m_rooms.begin(); it != m_rooms.end(); )
+	{
+		if (it->second->getId() == ID)
+		{
+			it->second->stopGame();
+			it = m_rooms.erase(it); // Erase and move iterator to the next valid position
+		}
+		else
+		{
+			++it; // Move to the next element
+		}
+	}
 }
 
 /*

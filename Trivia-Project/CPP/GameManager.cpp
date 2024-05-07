@@ -25,11 +25,15 @@ std::map<LoggedUser, GameData*> GameManager::getPlayers(Room* room, QuestionsLis
 
 void GameManager::deleteGame(int gameId)
 {
-    for (auto game = this->m_games.begin(); game != this->m_games.end(); ++game)
+    for (auto game = this->m_games.begin(); game != this->m_games.end(); )
     {
         if ((*game)->getGameId() == gameId)
         {
-           game = this->m_games.erase(game);
+            game = this->m_games.erase(game);
+        }
+        else
+        {
+            ++game;
         }
     }
 }

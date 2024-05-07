@@ -30,7 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(gameQuestionForm));
-            Exit = new Button();
             timer1 = new System.Windows.Forms.Timer(components);
             logo = new PictureBox();
             questionLabel = new Label();
@@ -47,20 +46,6 @@
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)timerPic).BeginInit();
             SuspendLayout();
-            // 
-            // Exit
-            // 
-            Exit.BackColor = Color.Transparent;
-            Exit.BackgroundImage = (Image)resources.GetObject("Exit.BackgroundImage");
-            Exit.BackgroundImageLayout = ImageLayout.Stretch;
-            Exit.FlatStyle = FlatStyle.Flat;
-            Exit.ForeColor = SystemColors.ControlText;
-            Exit.Location = new Point(12, 376);
-            Exit.Name = "Exit";
-            Exit.Size = new Size(44, 44);
-            Exit.TabIndex = 3;
-            Exit.UseVisualStyleBackColor = false;
-            Exit.Click += Exit_Click;
             // 
             // timer1
             // 
@@ -213,7 +198,6 @@
             Controls.Add(option2);
             Controls.Add(questionLabel);
             Controls.Add(logo);
-            Controls.Add(Exit);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
@@ -228,7 +212,6 @@
         }
 
         #endregion
-        private Button Exit;
         private System.Windows.Forms.Timer timer1;
         private PictureBox logo;
         private Label questionLabel;

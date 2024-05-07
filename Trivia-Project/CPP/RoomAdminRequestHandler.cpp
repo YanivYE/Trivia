@@ -35,11 +35,13 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 	RequestResult result;
 	JsonResponsePacketSerializer serializer;
 	int returnCode = 0;
+	std::vector<std::string> users = this->m_room->getAllUsers();
 
 	this->m_room->closeRoom();
-	for (int i = 0; i < this->m_room->getAllUsers().size(); i++)
+	this->m_roomManager->deleteRoom(this->m_room->getId());
+	for (std::string username : users)
 	{
-		LoggedUser user(this->m_room->getAllUsers()[i]);
+		LoggedUser user(username);
 
 		try
 		{

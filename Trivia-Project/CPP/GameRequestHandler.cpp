@@ -95,7 +95,7 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 
     try
     {
-        SubmitAnswerResponse submitAnswerResponse = this->m_game->submitAnswer(this->m_user, submitAnswerRequest._answerId, submitAnswerRequest._answerPressTime);
+        SubmitAnswerResponse submitAnswerResponse = this->m_game->submitAnswer(this->m_user, submitAnswerRequest._answerId, submitAnswerRequest._timeLeft);
 
         this->m_gameManager->getDataBase()->addStatistic(this->m_user.getUsername(), std::to_string(submitAnswerRequest._answerPressTime), std::to_string(submitAnswerResponse._isCorretAnswer), std::to_string(submitAnswerResponse._answerScore));
 
@@ -127,6 +127,8 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
         getGameResults = this->m_game->getGameResult(this->m_user);
         if (getGameResults._status == GetGameResult)
         {
+            this->m_handleFactory->getRoomManager().deleteRoom(this->m_game->getGameId());
+            this->m_gameManager->deleteGame(this->m_game->getGameId());
             result.newHandler = this->m_handleFactory->createMenuRequestHandlers(this->m_user);
 
             result.response = serializer.serializeResponse(getGameResults);

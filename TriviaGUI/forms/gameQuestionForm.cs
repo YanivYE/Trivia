@@ -15,6 +15,7 @@ namespace TriviaGUI
         const int GAME_RESULT_CODE = 0b00001110;
         string questionsNum = "";
         int questionsIndex = 0;
+        int questionTime;
         string answerTimeHolder;
         string user;
         bool lastQuestion = false;
@@ -25,7 +26,7 @@ namespace TriviaGUI
         Button[] buttonsArray;
         Dictionary<Button, int> buttons;
         Button pressedButton = null;
-        int answerPressTime;
+        int answerTimeLeft;
 
 
 
@@ -34,6 +35,7 @@ namespace TriviaGUI
             InitializeComponent();
             this.server = server;
             this.socket = server.GetSocket();
+            questionTime = int.Parse(answerTime);
             answerTimeHolder = answerTime;
             countdownSeconds = int.Parse(answerTime);
             timer.Interval = 1000; // 1 second
@@ -160,7 +162,7 @@ namespace TriviaGUI
         private void optionCLick(int id)
         {
             disableAllButtons();
-            answerPressTime = countdownSeconds;
+            answerTimeLeft = countdownSeconds;
             pressedButton = buttonsArray[id - 1];
         }
 
@@ -171,7 +173,8 @@ namespace TriviaGUI
                 var submitAnswerMsg = new submitAnswer
                 {
                     ID = buttons[pressedButton].ToString(),
-                    time = answerPressTime.ToString()
+                    pressTime = (questionTime - answerTimeLeft).ToString(),
+                    timeLeft = answerTimeLeft.ToString()
                 };
 
                 Utillities.sendMessage(socket, Utillities.serialize(submitAnswerMsg, SUBMIT_ANSWER_CODE));

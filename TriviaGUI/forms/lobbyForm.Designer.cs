@@ -45,9 +45,8 @@
             username.Font = new Font("Showcard Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point);
             username.Location = new Point(419, 39);
             username.Name = "username";
-            username.Size = new Size(59, 26);
+            username.Size = new Size(0, 26);
             username.TabIndex = 47;
-            username.Text = "test";
             username.Click += username_Click;
             // 
             // welcome

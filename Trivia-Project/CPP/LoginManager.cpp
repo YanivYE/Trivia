@@ -1,4 +1,4 @@
-#include "LoginManager.h"
+#include "../Headers/LoginManager.h"
 
 /*
 * Function gets an username, password, mail and signs up 
@@ -8,15 +8,21 @@
 int LoginManager::signup(std::string username, std::string password, std::string mail)
 {
 	if (!isValidUsername(username))
+		// username not valid
 	{
 		return invalidUserName;
 	}
 
 	if (!this->m_database->doesUserExist(username))
+		// user doesnt exists
 	{
-		return this->m_database->addNewUser(username, password, mail);
+		if (this->m_database->addNewUser(username, password, mail))
+		{
+			return SignUp;
+		}
 	}
 
+	// user already exists
 	return userNameExist;
 }
 
@@ -28,6 +34,7 @@ int LoginManager::signup(std::string username, std::string password, std::string
 int LoginManager::login(std::string username, std::string password)
 {
 	if (!isValidUsername(username))
+		// username not valid
 	{
 		return invalidUserName;
 	}
@@ -37,14 +44,18 @@ int LoginManager::login(std::string username, std::string password)
 		// check if username is already logged in
 		if (!(std::find(this->m_loggedUsers.begin(), this->m_loggedUsers.end(), LoggedUser(username)) != this->m_loggedUsers.end()))
 		{
+			// connect user
 			this->m_loggedUsers.push_back(LoggedUser(username));
 
-			return Success;
+			return Login;
 		}
 
+		// user already loged in
 		return userAlreadyLogedIn;
 	}
-	return userNotExist;
+
+	// user doesnt exists
+	return Fail;
 }
 
 /*
@@ -61,10 +72,10 @@ int LoginManager::logout(std::string username)
 		if ((*user).getUsername() == username)
 		{
 			this->m_loggedUsers.erase(user);
-			return true;
+			return Logout;
 		}
 	}
-	return false;
+	return Fail;
 }
 
 /*

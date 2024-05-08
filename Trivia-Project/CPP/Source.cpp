@@ -4,22 +4,27 @@
 #include <exception>
 #include <thread>
 #include "../Headers/Server.h"
+#include "../Headers/FileHelper.h"
 #include "../Headers/WSAInitializer.h"
 #include <map>
 #include <string>
 
-#define PORT 8200
 #define EXIT "EXIT"
 
 int main()
 {
+	FileHelper file("config.txt");
 	WSAInitializer wsaInit;
 	Server& myServer = Server::getInstance();;
 	std::string input;
 
 	try
 	{
-		myServer.run(PORT);
+		// run server
+		myServer.run(stoi(file.GetPort()));
+
+		// get input and check if exit
+		while (std::getline(std::cin, input) && input != EXIT);
 	}
 	catch (std::exception& e)
 	{
@@ -29,9 +34,6 @@ int main()
 	{
 		std::cout << "Unkown error occured" << std::endl;
 	}
-
-	// get input and check if exit
-	while (std::getline(std::cin, input) && input != EXIT);
 
 	// release resources
 

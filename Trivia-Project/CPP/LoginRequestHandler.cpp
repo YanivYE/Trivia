@@ -40,10 +40,12 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 
 	if (info.requestId == Login)
 	{
+		// set login request result
 		requestResult = this->login(info);
 	}
 	else
 	{
+		// set signup request result
 		requestResult = this->signup(info);
 	}
 
@@ -74,6 +76,7 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
 		ErrorResponse errResponse;
 		errResponse._data = "Error! Couldn't parse login request";
 
+		// serialize error response
 		result.response = serializer.serializeResponse(errResponse);
 		return result;
 	}
@@ -81,11 +84,12 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
 	try
 	{
 		// try to login
-		returnCode = this->m_handlerFactory->getLoginManager().login(loginRequest.username, loginRequest.password);
+		returnCode = this->m_handlerFactory->getLoginManager().login(loginRequest._username, loginRequest._password);
 
-		if (returnCode == Success)
+		if (returnCode == Login)
 		{
-			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers();
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(loginRequest._username));
+			this->m_handlerFactory->setUser(LoggedUser(loginRequest._username));
 		}
 		else
 		{
@@ -144,11 +148,11 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
 	try
 	{
 		// try to sign up
-		returnCode = this->m_handlerFactory->getLoginManager().signup(signupRequest.username, signupRequest.password, signupRequest.email);
+		returnCode = this->m_handlerFactory->getLoginManager().signup(signupRequest._username, signupRequest._password, signupRequest._email);
 		
-		if (returnCode == Success)
+		if (returnCode == SignUp)
 		{
-			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers();
+			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(signupRequest._username));
 		}
 		else
 		{

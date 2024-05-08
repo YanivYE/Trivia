@@ -1,5 +1,6 @@
 #include "..\Headers\JsonResponsePacketSerializer.h"
 
+
 /*
 * Function gets a login response and returns a buffer of the serialized response
 * Input: response - the login reponse
@@ -7,18 +8,7 @@
 */
 Buffer JsonResponsePacketSerializer::serializeResponse(LoginResponse response)
 {
-    Buffer buffer;
-    Message message;
-    json data;
-
-    data["status"] = response._status;
-    message._code = Login;
-    message._data = data;
-    message._dataLength = data.dump().length(); 
-
-    buffer._bytes = convertMessageToBuffer(message); // convert message to bytes
-
-    return buffer;
+    return serializeReponseStatus(Login, response._status);
 }
  
 /*
@@ -28,18 +18,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(LoginResponse response)
 */
 Buffer JsonResponsePacketSerializer::serializeResponse(SignUpResponse response)
 {
-    Buffer buffer;
-    Message message;
-    json data;
-
-    data["status"] = response._status;
-    message._code = SignUp;
-    message._data = data;
-    message._dataLength = data.dump().length(); // convert message to bytes
-
-    buffer._bytes = convertMessageToBuffer(message);
-
-    return buffer;
+    return serializeReponseStatus(SignUp, response._status);
 }
 
 /*
@@ -54,12 +33,321 @@ Buffer JsonResponsePacketSerializer::serializeResponse(ErrorResponse response)
     json data;
     
     data["message"] = response._data;
-    data.size();
-    message._code = Error;
+    message._code = Fail;
     message._data = data;
     message._dataLength = data.dump().length(); // convert message to bytes
 
     buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
+}
+
+/*
+* Function gets a logout response and returns a buffer of the serialized response
+* Input: response - the logout reponse
+* Output: a buffer of the serialized response
+*/
+Buffer JsonResponsePacketSerializer::serializeResponse(LogoutResponse response)
+{
+    return serializeReponseStatus(Logout, response._status);
+}
+
+/*
+* Function gets a get rooms response and returns a buffer of the serialized response
+* Input: response - the get rooms reponse
+* Output: a buffer of the serialized response
+*/
+Buffer JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse response)
+{
+    Buffer buffer;
+    Message message;
+    json data;
+    std::string rooms;
+    
+    data["status"] = response._status;
+
+    // add all the room names
+    for (int i = 0; i < response._rooms.size(); i++)
+    {
+        rooms += response._rooms[i].name + ", ";
+    }
+
+    data["Rooms"] = rooms.substr(0, rooms.size() - 1);
+
+    message._code = GetRooms;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
+}
+
+/*
+* Function gets a get players in room response and returns a buffer of the serialized response
+* Input: response - the get players in room reponse
+* Output: a buffer of the serialized response
+*/
+Buffer JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse response)
+{
+    Buffer buffer;
+    Message message;
+    json data;
+    std::string players;
+
+    // add all the player names
+    for (int i = 0; i < response._players.size(); i++)
+    {
+        players += response._players[i] + ", ";
+    }
+
+    data["PlayersInRoom"] = players.substr(0, players.size() - 1);
+
+    message._code = GetPlayersInRoom;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
+}
+
+/*
+* Function gets a join room response and returns a buffer of the serialized response
+* Input: response - the join room reponse
+* Output: a buffer of the serialized response
+*/
+Buffer JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response)
+{
+    Buffer buffer;
+    Message message;
+    json data;
+
+    std::string players;
+
+
+
+    data["status"] = response._status;
+    data["name"] = response._name;
+
+
+    message._code = JoinRoom;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
+
+    return serializeReponseStatus(JoinRoom, response._status);
+}
+
+/*
+* Function gets a create room response and returns a buffer of the serialized response
+* Input: response - the create room reponse
+* Output: a buffer of the serialized response
+*/
+Buffer JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse response)
+{
+    return serializeReponseStatus(CreateRoom, response._status);
+}
+
+/*
+* Function gets a get high score response and returns a buffer of the serialized response
+* Input: response - the get high score reponse
+* Output: a buffer of the serialized response
+*/
+Buffer JsonResponsePacketSerializer::serializeResponse(GetHighScoreResponse response)
+{
+    Buffer buffer;
+    Message message;
+    json data;
+    std::string stats;
+
+    data["status"] = response._status;
+
+    // Add all the stats from multimap
+    for (auto it = response._leaders.begin(); it != response._leaders.end(); ++it)
+    {
+        stats += it->second + ":" + std::to_string(it->first) + ","; // Assuming the username is the second element in the multimap
+    }
+    // Remove the last comma
+    if (!stats.empty())
+    {
+        stats.pop_back();
+    }
+
+    data["leaders"] = stats;
+
+    message._code = GetLeaderboardStats;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
+}
+
+
+/*
+* Function gets a get personal stats response and returns a buffer of the serialized response
+* Input: response - the get personal stats reponse
+* Output: a buffer of the serialized response
+*/
+Buffer JsonResponsePacketSerializer::serializeResponse(GetPersonalStatsResponse response)
+{
+    int i = 0;
+    Buffer buffer;
+    Message message;
+    json data;
+    std::string stats;
+
+    data["status"] = response._status;
+
+    // add all the stats
+    for (i = 0; i < response._statistics.size(); i++)
+    {
+        stats += response._statistics[i] + ",";
+    }
+    // get stats without last char
+    data["UserStats"] = stats.substr(0, stats.size() - 1);
+
+    message._code = GetPersonalStats;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse response)
+{
+    return serializeReponseStatus(CloseRoom, response._status);
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(StartGameResponse response)
+{
+    return serializeReponseStatus(StartGame, response._status);
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse response)
+{
+    Buffer buffer;
+    Message message;
+    json data;
+
+    std::string players;
+
+    // add all the player names
+    for (int i = 0; i < response._players.size(); i++)
+    {
+        players += response._players[i] + ", ";
+    }
+
+    data["status"] = response._status;
+    data["hasGameBegun"] = response._hasGameBegun;
+    data["isActive"] = response._isActive;
+    data["players"] = players.substr(0, players.size() - 1);
+    data["AnswerCount"] = response._questionCount;
+    data["answerTimeOut"] = response._answerTimeout;
+    data["maxPlayers"] = response._maxPlayers;
+
+
+    message._code = GetRoomState;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse response)
+{
+    return serializeReponseStatus(LeaveRoom, response._status);
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(GetGameResultsResponse response)
+{
+    Buffer buffer;
+    Message message;
+    json data;
+    data["status"] = response._status;
+    data["winner"] = response._winner;
+    data["score"] = response._score;
+
+    message._code = GetGameResult;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse response)
+{
+    Buffer buffer;
+    Message message;
+    json data;
+
+    data["status"] = response._status;
+    data["isCorrect"] = response._isCorretAnswer;
+    data["score"] = response._answerScore;
+
+    message._code = SubmitAnswer;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse response)
+{
+    Buffer buffer;
+    Message message;
+    json data;
+
+    data["status"] = response._status;
+    data["question"] = response._question;
+    data["Answers"] = response._answers;
+
+
+    message._code = GetQuestion;
+    message._data = data;
+    message._dataLength = data.dump().length(); // convert message to bytes
+
+    buffer._bytes = convertMessageToBuffer(message);
+
+    return buffer;
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse response)
+{
+    return serializeReponseStatus(LeaveGame, response._status);
+}
+
+/*
+* Function gets a code, status and serializes a status with a message code to a buffer
+* Input: code - the code of the message
+*        status - the status of the json
+* Output: a buffer of the serialized response
+*/
+Buffer JsonResponsePacketSerializer::serializeReponseStatus(int code, int status)
+{
+    Buffer buffer;
+    Message message;
+    json data;
+
+    data["status"] = status;
+    message._code = code;
+    message._data = data;
+    message._dataLength = data.dump().length();
+
+    buffer._bytes = convertMessageToBuffer(message); // convert message to bytes
 
     return buffer;
 }
@@ -165,7 +453,7 @@ std::vector<unsigned char> JsonResponsePacketSerializer::binaryStringToBits(cons
 */
 std::vector<unsigned char> JsonResponsePacketSerializer::convertMessageToBuffer(Message message)
 {
-    std::vector<unsigned char> code = binaryStringToBits(padBinaryString(convertIntToBinaryString(message._code), 1));
+    std::vector<unsigned char> code = binaryStringToBits(std::bitset<8>(message._code).to_string());
     std::vector<unsigned char> dataLength = binaryStringToBits(padBinaryString(convertIntToBinaryString(message._dataLength), 4));
     std::vector<unsigned char> data = binaryStringToBits(padBinaryString(convertJsonToBinaryString(message._data), message._dataLength));
 

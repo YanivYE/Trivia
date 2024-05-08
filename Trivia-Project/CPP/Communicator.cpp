@@ -51,6 +51,7 @@ void Communicator::bindAndListen(int port)
 */
 void Communicator::handleNewClient(SOCKET m_clientSocket)
 {
+	// create new login request handler
 	LoginRequestHandler* loginRequestHandler = new LoginRequestHandler(this->m_handlerFactory);
 	RequestInfo info;
 	int requestSize = 0;
@@ -58,28 +59,29 @@ void Communicator::handleNewClient(SOCKET m_clientSocket)
 
 	// add client to map of clients
 	this->m_clients.insert(std::pair<SOCKET, IRequestHandler*>(m_clientSocket, loginRequestHandler));
-	
-	// get info from client
-	info = getInfo(m_clientSocket);
 
-	if (loginRequestHandler->isRequestRelevant(info))
+	try
 	{
-		// get request result
-		RequestResult result = loginRequestHandler->handleRequest(info);
+		while (true)
+		{
+			// get info from client
+			info = getInfo(m_clientSocket);
 
-		// get buffer string
-		string bufferString(result.response._bytes.begin(), result.response._bytes.end());
-		
-		// send buffer string
-		send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
+			RequestResult result = m_clients[m_clientSocket]->handleRequest(info);
+
+			m_clients[m_clientSocket] = result.newHandler;
+
+			// get buffer string
+			string bufferString(result.response._bytes.begin(), result.response._bytes.end());
+
+			// send buffer string
+			send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
+		}
 	}
-	else
+	catch (...)
 	{
-		ErrorResponse errorResponse;
-
-		errorResponse._data = "Error!";
-
-		sendErrorResponse(m_clientSocket, errorResponse);
+		std::cout << "Unknown error! User probbly disconnected mid commands.\n";
+		this->m_handlerFactory->getLoginManager().logout(m_user.getUsername());
 	}
 }
 
@@ -95,10 +97,21 @@ RequestInfo Communicator::getInfo(SOCKET m_clientSocket)
 	Buffer buffer;
 
 	// get request id from user
-	info.requestId = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH, 0)));
+	//info.requestId = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH, 0)));
+	info.requestId = stoi(read(m_clientSocket, BYTE_BIT_LENGTH, 0));
 
-	// check message size
-	int requestSize = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0)));
+	int requestSize = 0;
+
+	try
+	{
+		// check message size
+		requestSize = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0)));
+	}
+	catch(...)
+	{
+		requestSize = 0;
+	}
+
 
 	// get message
 	request = read(m_clientSocket, BYTE_BIT_LENGTH * requestSize, 0);
@@ -112,99 +125,6 @@ RequestInfo Communicator::getInfo(SOCKET m_clientSocket)
 }
 
 /*
-* Function gets a client socket and handles login request
-* Input: m_clientSocket - client socket
-* Output: none
-*/
-void Communicator::handleLoginRequest(SOCKET m_clientSocket)
-{
-	std::string request;
-	int loginRequestSize = 0;
-	Buffer buffer;
-
-	// check message size
-	loginRequestSize = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0)));
-
-	// get message
-	request = read(m_clientSocket, BYTE_BIT_LENGTH * loginRequestSize, 0);
-		
-	// convert message to bits
-	buffer._bytes = std::vector<unsigned char>(request.begin(), request.end());
-
-	LoginRequest loginRequest = deseralizer.deserializeLoginRequest(buffer);
-
-	std::cout << "USERNAME: " << loginRequest.username << std::endl;
-	std::cout << "PASSWORD: " << loginRequest.password << std::endl;
-
-	sendLoginResponse(m_clientSocket);
-}
-
-/*
-* Function gets a client socket and sends login response
-* Input: m_clientSocket - client socket
-* Output: none
-*/
-void Communicator::sendLoginResponse(SOCKET m_clientSocket)
-{
-	LoginResponse loginResponse;
-	loginResponse._status = Success;
-	Buffer buffer;
-
-	buffer = seralizer.serializeResponse(loginResponse);
-	std::string bufferString(buffer._bytes.begin(), buffer._bytes.end()); // convert buffer bits to string
-
-	// send login response
-	send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
-}
-
-/*
-* Function gets a client socket and handles sign up request
-* Input: m_clientSocket - client socket
-* Output: none
-*/
-void Communicator::handleSignUpRequest(SOCKET m_clientSocket)
-{
-	std::string request;
-	int signUpRequestSize = 0;
-	Buffer buffer;
-
-	// read size of message
-	signUpRequestSize = stoi(binaryToAsciiInt(read(m_clientSocket, BYTE_BIT_LENGTH * DATA_LENGTH, 0)));
-	
-	// read message
-	request = read(m_clientSocket, BYTE_BIT_LENGTH * signUpRequestSize, 0);
-		
-	// convert message to bits
-	buffer._bytes = std::vector<unsigned char>(request.begin(), request.end());
-
-	SignupRequest signUpRequest = deseralizer.deserializeSignupRequest(buffer);
-
-	std::cout << "USERNAME: " << signUpRequest.username << std::endl;
-	std::cout << "PASSWORD: " << signUpRequest.password << std::endl;
-	std::cout << "EMAIL: " << signUpRequest.email << std::endl;
-
-	sendSignUpResponse(m_clientSocket);
-}
-
-/*
-* Function gets a client socket and sends sign up response
-* Input: m_clientSocket - client socket
-* Output: none
-*/
-void Communicator::sendSignUpResponse(SOCKET m_clientSocket)
-{
-	SignUpResponse signUpResponse;
-	signUpResponse._status = Success;
-	Buffer buffer;
-
-	buffer = seralizer.serializeResponse(signUpResponse);
-	std::string bufferString(buffer._bytes.begin(), buffer._bytes.end()); // converts bits vector to buffer string
-
-	// send string of bits
-	send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
-}
-
-/*
 * Function gets a client socket and sends error response
 * Input: m_clientSocket - client socket
 * Output: none
@@ -215,6 +135,8 @@ void Communicator::sendErrorResponse(SOCKET m_clientSocket, ErrorResponse errorR
 
 	buffer = seralizer.serializeResponse(errorResponse);
 	std::string bufferString(buffer._bytes.begin(), buffer._bytes.end()); // converts bits vector to buffer string 
+
+	std::cout << "Sent message: " << bufferString << std::endl;
 
 	// send string of bits
 	send(m_clientSocket, bufferString.c_str(), bufferString.length(), 0);
@@ -294,9 +216,14 @@ void Communicator::acceptClient()
 	std::cout << "Client accepted. Server and client can speak" << std::endl;
 
 	// the function that handle the conversation with the client
-	std::thread handleThread(&Communicator::handleNewClient, this, client_socket);
+	std::thread clientThread(&Communicator::handleNewClient, this, client_socket);
 
-	handleThread.detach();
+	clientThread.detach();
+}
+
+void Communicator::setUser(LoggedUser user)
+{
+	this->m_user = user;
 }
 
 /*

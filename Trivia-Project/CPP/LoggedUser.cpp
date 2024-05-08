@@ -1,5 +1,10 @@
 #include "../Headers/LoggedUser.h"
 
+// empty ctor
+LoggedUser::LoggedUser()
+{
+}
+
 /*
 * Function is a ctor for logged user and gets a username to set as field
 * Input: username - the logged user
@@ -15,7 +20,7 @@ LoggedUser::LoggedUser(std::string username)
 * Input: none
 * Output: username
 */
-std::string LoggedUser::getUsername()
+std::string LoggedUser::getUsername() const
 {
 	return this->m_username;
 }
@@ -38,4 +43,9 @@ bool LoggedUser::operator==(const LoggedUser& other) const
 bool LoggedUser::operator!=(const LoggedUser& other) const
 {
 	return this->m_username != other.m_username;
+}
+
+bool LoggedUser::operator<(const LoggedUser& other) const
+{
+	return this->m_username < other.m_username;
 }

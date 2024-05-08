@@ -8,6 +8,7 @@
 // Forward declaration of IRequestHandler
 class IRequestHandler;
 
+// request info struct
 struct RequestInfo
 {
 	int requestId;
@@ -15,6 +16,7 @@ struct RequestInfo
 	Buffer buffer;
 };
 
+// request result struct
 struct RequestResult
 {
 	IRequestHandler* newHandler;
@@ -24,6 +26,6 @@ struct RequestResult
 class IRequestHandler
 {
 public:
-	virtual bool isRequestRelevant(RequestInfo info) = 0;
-	virtual RequestResult handleRequest(RequestInfo info) = 0;
+	virtual bool isRequestRelevant(RequestInfo info) = 0; // is request relevant
+	virtual RequestResult handleRequest(RequestInfo info) = 0; // handle request
 };

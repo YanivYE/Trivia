@@ -7,6 +7,7 @@
 class Server
 {
 public:
+	// get instance server
 	static Server& getInstance() {
 		static Server instance;
 		return instance;
@@ -20,10 +21,12 @@ private:
 		m_database = &(SqliteDatabase::getInstance());
 		m_handlerFactory = &(RequestHandlerFactory::getInstance(this->m_database));
 		m_communicator = &(Communicator::getInstance(this->m_handlerFactory));
+		this->m_handlerFactory->setCommunicator(m_communicator);
 	}
 
+	// dtor
 	~Server() {
-		delete m_database;
+		m_database->close();
 	}
 
 	Communicator* m_communicator; // communicator object

@@ -2,7 +2,7 @@ import sqlite3
 import requests
 import json
 
-API_URL = "https://opentdb.com/api.php?amount=10&difficulty=medium&type=multiple"  # Replace with your API URL
+API_URL = "https://opentdb.com/api.php?amount=30&difficulty=medium&type=multiple"  # Replace with your API URL
 
 
 def get_json_content():

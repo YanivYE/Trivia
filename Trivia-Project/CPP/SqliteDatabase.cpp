@@ -249,7 +249,7 @@ int QuestionsCallback(void* data, int argc, char** argv, char** azColName) {
 QuestionsList* SqliteDatabase::getQuestions(int amount)
 {
 	QuestionsList* questions = new QuestionsList();
-	std::string getQuestionsQuery = "SELECT * FROM questions LIMIT " + std::to_string(amount) + "; ";
+	std::string getQuestionsQuery = "SELECT * FROM questions ORDER BY RANDOM() LIMIT " + std::to_string(amount) + "; ";
 	// run the query with the questions callback function
 	executeQuery(getQuestionsQuery, QuestionsCallback, questions);
 	return questions;

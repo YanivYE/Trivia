@@ -64,6 +64,7 @@
             // nameBox
             // 
             nameBox.AutoSize = true;
+            nameBox.BackColor = Color.LightSeaGreen;
             nameBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
             nameBox.Location = new Point(222, 141);
             nameBox.Name = "nameBox";
@@ -74,6 +75,7 @@
             // scoreBox
             // 
             scoreBox.AutoSize = true;
+            scoreBox.BackColor = Color.LightSeaGreen;
             scoreBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
             scoreBox.Location = new Point(396, 141);
             scoreBox.Name = "scoreBox";

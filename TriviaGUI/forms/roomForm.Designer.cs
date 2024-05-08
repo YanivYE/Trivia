@@ -103,6 +103,7 @@
             // maxNumberBox
             // 
             maxNumberBox.AutoSize = true;
+            maxNumberBox.BackColor = Color.Transparent;
             maxNumberBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
             maxNumberBox.Location = new Point(133, 110);
             maxNumberBox.Name = "maxNumberBox";
@@ -113,6 +114,7 @@
             // questionsNumBox
             // 
             questionsNumBox.AutoSize = true;
+            questionsNumBox.BackColor = Color.Transparent;
             questionsNumBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
             questionsNumBox.Location = new Point(376, 110);
             questionsNumBox.Name = "questionsNumBox";
@@ -123,6 +125,7 @@
             // answerTimeoutBox
             // 
             answerTimeoutBox.AutoSize = true;
+            answerTimeoutBox.BackColor = Color.Transparent;
             answerTimeoutBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
             answerTimeoutBox.Location = new Point(605, 110);
             answerTimeoutBox.Name = "answerTimeoutBox";

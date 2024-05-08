@@ -88,7 +88,7 @@ namespace TriviaGUI
                     {
                         UpdateRoomState(state);
                         UpdatePlayersList(state.players);
-                        if(!state.isActive)
+                        if (!state.isActive)
                         {
                             stop = true;
                             leaveGame();
@@ -235,7 +235,7 @@ namespace TriviaGUI
 
         private void StartGame_Click(object sender, EventArgs e)
         {
-            if(this.isAdmin)
+            if (this.isAdmin)
             {
                 Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
 

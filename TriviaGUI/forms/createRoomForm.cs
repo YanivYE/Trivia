@@ -16,8 +16,6 @@ namespace TriviaGUI
     public partial class createRoomForm : Form
     {
         ServerHandler server;
-        const int CREATE_ROOM_CODE = 0b00000111;
-        createRoomMessage createRoomMsg;
         string user;
 
         public createRoomForm(ServerHandler server, string user)
@@ -68,9 +66,11 @@ namespace TriviaGUI
 
         private void CreateRoom_Click(object sender, EventArgs e)
         {
+            const int CREATE_ROOM_CODE = 0b00000111;
+
             Socket socket = server.GetSocket(); // Assuming you have the serverHandler instance
 
-            createRoomMsg = new createRoomMessage
+            createRoomMessage createRoomMsg = new createRoomMessage
             {
                 roomName = name.Text,
                 maxUsers = numPlayers.Text,

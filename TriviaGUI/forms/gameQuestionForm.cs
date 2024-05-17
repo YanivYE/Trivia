@@ -9,15 +9,13 @@ namespace TriviaGUI
     public partial class gameQuestionForm : Form
     {
         ServerHandler server;
+        string user;
+
         Socket socket;
-        const int GAME_QUESTION_CODE = 0b00010000;
-        const int SUBMIT_ANSWER_CODE = 0b00001111;
-        const int GAME_RESULT_CODE = 0b00001110;
         string questionsNum = "";
         int questionsIndex = 0;
         int questionTime;
         string answerTimeHolder;
-        string user;
         bool lastQuestion = false;
         int countdownSeconds;
         private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
@@ -73,6 +71,8 @@ namespace TriviaGUI
 
         private void gameQuestionForm_Load(object sender, EventArgs e)
         {
+            const int GAME_QUESTION_CODE = 0b00010000;
+
             timer.Start();
             this.buttonsArray = new Button[] { option1, option2, option3, option4 };
 
@@ -137,29 +137,16 @@ namespace TriviaGUI
             return parsedQuestion; // Return the fully populated Question object
         }
 
-
-
-        private void option1_Click(object sender, EventArgs e)
+        private void Option_Click(object sender, EventArgs e)
         {
-            optionCLick(1);
+            if (sender is Button button)
+            {
+                int id = Array.IndexOf(buttonsArray, button) + 1;
+                OptionClick(id);
+            }
         }
 
-        private void option2_Click(object sender, EventArgs e)
-        {
-            optionCLick(2);
-        }
-
-        private void option3_Click(object sender, EventArgs e)
-        {
-            optionCLick(3);
-        }
-
-        private void option4_Click(object sender, EventArgs e)
-        {
-            optionCLick(4);
-        }
-
-        private void optionCLick(int id)
+        private void OptionClick(int id)
         {
             disableAllButtons();
             answerTimeLeft = countdownSeconds;
@@ -168,6 +155,8 @@ namespace TriviaGUI
 
         void checkSubmitedAnswer()
         {
+            const int SUBMIT_ANSWER_CODE = 0b00001111;
+
             if (pressedButton != null)
             {
                 var submitAnswerMsg = new submitAnswer
@@ -261,6 +250,8 @@ namespace TriviaGUI
 
         private void GetGameResults()
         {
+            const int GAME_RESULT_CODE = 0b00001110;
+
             // add total score sending for comparison on server side
             var gameResultMsg = new gameResultsMessage
             {

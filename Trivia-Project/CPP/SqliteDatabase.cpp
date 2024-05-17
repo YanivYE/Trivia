@@ -98,8 +98,16 @@ void SqliteDatabase::insertQuestions()
 	// update by scrmbling all question somehow, and adding more
 	// python command to run python script to add the questions to data base. the scipt uses an api url to get a 
 	// json string of 10 random questions and inserts them to data base
-	std::system("python insertDBquestions.py");
-	// MIGHT NOT WORK, RUN THE SCRYPT MANUALY
+	int exitCode = std::system("python insertDBquestions.py");
+	if (exitCode != 0)
+	{
+		std::cerr << "Error: Python script failed to execute properly." << std::endl;
+		// Handle error or exit the program
+	}
+	else
+	{
+		std::cout << "Python script executed successfully." << std::endl;
+	}
 }
 
 /*

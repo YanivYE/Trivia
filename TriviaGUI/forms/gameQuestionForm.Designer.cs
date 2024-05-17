@@ -65,11 +65,11 @@
             // questionLabel
             // 
             questionLabel.AutoSize = true;
-            questionLabel.BackColor = Color.Transparent;
-            questionLabel.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            questionLabel.Location = new Point(168, 42);
+            questionLabel.BackColor = Color.White;
+            questionLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            questionLabel.Location = new Point(126, 42);
             questionLabel.Name = "questionLabel";
-            questionLabel.Size = new Size(445, 46);
+            questionLabel.Size = new Size(357, 40);
             questionLabel.TabIndex = 29;
             questionLabel.Text = "                                                                                   \r\n                                                                                       ";
             // 
@@ -89,7 +89,7 @@
             timeBox.AutoSize = true;
             timeBox.BackColor = Color.Transparent;
             timeBox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            timeBox.Location = new Point(705, 99);
+            timeBox.Location = new Point(718, 98);
             timeBox.Name = "timeBox";
             timeBox.Size = new Size(62, 31);
             timeBox.TabIndex = 34;

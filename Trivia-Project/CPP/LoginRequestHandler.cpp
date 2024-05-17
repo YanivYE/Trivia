@@ -90,6 +90,11 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
 		{
 			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(loginRequest._username));
 			this->m_handlerFactory->setUser(LoggedUser(loginRequest._username));
+
+			LoginResponse loginResponse;
+			loginResponse._status = returnCode;
+
+			result.response = serializer.serializeResponse(loginResponse);
 		}
 		else
 		{
@@ -100,11 +105,6 @@ RequestResult LoginRequestHandler::login(RequestInfo info)
 
 			result.response = serializer.serializeResponse(errResponse);
 		}
-
-		LoginResponse loginResponse;
-		loginResponse._status = returnCode;
-
-		result.response = serializer.serializeResponse(loginResponse);
 	}
 	catch (std::exception& e)
 	{
@@ -153,15 +153,18 @@ RequestResult LoginRequestHandler::signup(RequestInfo info)
 		if (returnCode == SignUp)
 		{
 			result.newHandler = this->m_handlerFactory->createMenuRequestHandlers(LoggedUser(signupRequest._username));
+			SignUpResponse signUpResponse;
+			signUpResponse._status = returnCode;
+			result.response = serializer.serializeResponse(signUpResponse);
 		}
 		else
 		{
 			result.newHandler = this->m_handlerFactory->createLoginRequestHandlers();
-		}
+			ErrorResponse errResponse;
+			errResponse._data = "Error! Couldn't sign up user to server";
 
-		SignUpResponse signUpResponse;
-		signUpResponse._status = returnCode;
-		result.response = serializer.serializeResponse(signUpResponse);
+			result.response = serializer.serializeResponse(errResponse);
+		}
 	}
 	catch (std::exception& e)
 	{

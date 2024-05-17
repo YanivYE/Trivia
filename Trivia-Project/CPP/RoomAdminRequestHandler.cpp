@@ -51,6 +51,11 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 			if (returnCode == LeaveRoom)
 			{
 				result.newHandler = this->m_handleFactory->createMenuRequestHandlers(user);
+
+				LeaveRoomResponse leaveRoom;
+				leaveRoom._status = returnCode;
+
+				result.response = serializer.serializeResponse(leaveRoom);
 			}
 			else
 			{
@@ -61,11 +66,6 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 
 				result.response = serializer.serializeResponse(errResponse);
 			}
-
-			LeaveRoomResponse leaveRoom;
-			leaveRoom._status = returnCode;
-
-			result.response = serializer.serializeResponse(leaveRoom);
 		}
 		catch (std::exception& e)
 		{
@@ -99,6 +99,11 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)
 			result.newHandler = this->m_handleFactory->createGameRequestHandler(this->m_user, game);
 			// add a game played in the DB
 			this->m_handleFactory->getGameManager().getDataBase()->addNewGame(this->m_user.getUsername());
+
+			StartGameResponse startGame;
+			startGame._status = returnCode;
+
+			result.response = serializer.serializeResponse(startGame);
 		}
 		else
 		{
@@ -109,11 +114,6 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)
 
 			result.response = serializer.serializeResponse(errResponse);
 		}
-
-		StartGameResponse startGame;
-		startGame._status = returnCode;
-
-		result.response = serializer.serializeResponse(startGame);
 	}
 	catch (std::exception& e)
 	{
@@ -146,10 +146,13 @@ RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo info)
 		getRoomState._status = returnCode;
 		getRoomState._hasGameBegun = returnCode == inGame ? true : false;
 		getRoomState._isActive = returnCode == notActive ? false : true;
-		getRoomState._answerTimeout = this->m_room->getRoomData().timePerQuestion;
-		getRoomState._questionCount = this->m_room->getRoomData().numOfQuestionsInGame;
-		getRoomState._maxPlayers = this->m_room->getRoomData().maxPlayers;
-		getRoomState._players = this->m_room->getAllUsers();
+		if (getRoomState._isActive)
+		{
+			getRoomState._answerTimeout = this->m_room->getRoomData().timePerQuestion;
+			getRoomState._questionCount = this->m_room->getRoomData().numOfQuestionsInGame;
+			getRoomState._maxPlayers = this->m_room->getRoomData().maxPlayers;
+			getRoomState._players = this->m_room->getAllUsers();
+		}
 
 		result.response = serializer.serializeResponse(getRoomState);
 	}

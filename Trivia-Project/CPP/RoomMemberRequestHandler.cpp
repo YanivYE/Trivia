@@ -45,6 +45,11 @@ RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo info)
 			if (returnCode == LeaveRoom)
 			{
 				result.newHandler = this->m_handleFactory->createMenuRequestHandlers(user);
+
+				LeaveRoomResponse leaveRoom;
+				leaveRoom._status = returnCode;
+
+				result.response = serializer.serializeResponse(leaveRoom);
 			}
 			else
 			{
@@ -55,11 +60,6 @@ RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo info)
 
 				result.response = serializer.serializeResponse(errResponse);
 			}
-
-			LeaveRoomResponse leaveRoom;
-			leaveRoom._status = returnCode;
-
-			result.response = serializer.serializeResponse(leaveRoom);
 		}
 		catch (std::exception& e)
 		{
@@ -90,10 +90,13 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo info)
 		getRoomState._status = returnCode;
 		getRoomState._hasGameBegun = returnCode == inGame ? true : false;
 		getRoomState._isActive = returnCode == notActive ? false : true;
-		getRoomState._answerTimeout = this->m_room->getRoomData().timePerQuestion;
-		getRoomState._questionCount = this->m_room->getRoomData().numOfQuestionsInGame;
-		getRoomState._maxPlayers = this->m_room->getRoomData().maxPlayers;
-		getRoomState._players = this->m_room->getAllUsers();
+		if (getRoomState._isActive)
+		{
+			getRoomState._answerTimeout = this->m_room->getRoomData().timePerQuestion;
+			getRoomState._questionCount = this->m_room->getRoomData().numOfQuestionsInGame;
+			getRoomState._maxPlayers = this->m_room->getRoomData().maxPlayers;
+			getRoomState._players = this->m_room->getAllUsers();
+		}
 
 		if (getRoomState._hasGameBegun)
 		{
